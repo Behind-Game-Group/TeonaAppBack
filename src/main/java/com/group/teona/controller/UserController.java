@@ -22,8 +22,10 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/register")
+
 	public ResponseEntity<String> signUp(@RequestBody User user, @RequestBody Set<Adress> adresses) {
 		userService.signUp(user, adresses);
+
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}
 

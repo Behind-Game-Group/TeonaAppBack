@@ -88,13 +88,13 @@ public class User implements UserDetails  {
 	private List<EnumLanguage> languages;
 	
 	
-	@Column(name = "verification_code", nullable = false)
+	@Column(name = "verification_code", nullable = true)
 	private String verificationCode;
 	
-	@Column(name = "code_expiration_time", nullable = false)
+	@Column(name = "code_expiration_time", nullable = true)
     private LocalDateTime codeExpirationTime;
 	
-	@Column(name = "is_verified", nullable = false)
+	@Column(name = "is_verified", nullable = true)
     private boolean isVerified = false;
 
 	@Override

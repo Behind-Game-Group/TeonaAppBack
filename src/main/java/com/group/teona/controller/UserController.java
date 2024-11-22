@@ -1,7 +1,5 @@
 package com.group.teona.controller;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group.teona.entities.Adress;
-import com.group.teona.entities.User;
+
+import com.group.teona.register.UserRegister;
 import com.group.teona.services.UserService;
 
 
@@ -22,8 +20,9 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/register")
-	public ResponseEntity<String> signUp(@RequestBody User user, @RequestBody Set<Adress> adresses) {
-		userService.signUp(user, adresses);
+	public ResponseEntity<String> signUp(@RequestBody UserRegister userRegister ) {
+		
+		userService.signUp(userRegister.getUser(), userRegister.getAdresses());
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}
 

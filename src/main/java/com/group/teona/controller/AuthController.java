@@ -1,10 +1,10 @@
-package com.group.teona.controler;
+package com.group.teona.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
-public class authController {
+public class AuthController {
 
 
     @GetMapping("test")

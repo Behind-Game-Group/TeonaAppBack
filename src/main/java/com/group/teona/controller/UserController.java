@@ -12,13 +12,13 @@ import com.group.teona.services.UserService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/user/signup")
+	@PostMapping("/register")
 	public ResponseEntity<String> signUp(@RequestBody User user) {
 		userService.signUp(user);
 		return ResponseEntity.ok("utilisateur enregistré avec succès");

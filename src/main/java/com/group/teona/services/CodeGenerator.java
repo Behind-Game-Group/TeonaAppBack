@@ -1,8 +1,10 @@
 package com.group.teona.services;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Service;
 
-@Servic
+@Service
 public class CodeGenerator {
 	  public static String generateVerificationCode() {
 	        Random random = new Random();

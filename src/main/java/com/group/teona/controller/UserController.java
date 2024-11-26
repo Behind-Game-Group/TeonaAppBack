@@ -32,6 +32,7 @@ public class UserController {
 	        // Delegate to the service layer
 	        userService.signUp(user, adresses);
 
+
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}
 

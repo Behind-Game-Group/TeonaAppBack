@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.LoginRequest;
+import com.group.teona.dto.WalletRequest;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.Wallet;
@@ -25,12 +26,15 @@ public class AuthController {
     @Autowired
 	private WalletService walletService;
 	
-	@PostMapping("add")
-	public ResponseEntity addWallet(@PathVariable Long userId, @RequestBody Wallet wallet, @RequestBody(required=false) Card card,
-									@RequestBody(required=false)  Pass pass) {
+    @PostMapping("add")
+	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest ) {
+		Wallet wallet = walletRequest.getWallet();
+		Card card = walletRequest.getCard();
+		Pass pass = walletRequest.getPass();
 		walletService.addWallet(userId, wallet, card, pass);
 		return ResponseEntity.ok("Wallet ajouté avec succès");
 	}
+
     
 
 }

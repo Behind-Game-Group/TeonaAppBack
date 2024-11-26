@@ -35,6 +35,6 @@ public class Wallet {
 	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
 	private Pass pass;
 	
-	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
-	Set<Card> cards;
+	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+	Card card;
 }

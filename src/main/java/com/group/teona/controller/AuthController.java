@@ -10,8 +10,6 @@ import com.group.teona.services.UserService;
 @RequestMapping("auth")
 public class AuthController {
 	
-	@Autowired
-	private UserService userService;
 
     @GetMapping("test")
     public ResponseEntity tested (){
@@ -20,13 +18,6 @@ public class AuthController {
         
     }
     
-    @PostMapping("login")
-	public ResponseEntity logIn (@RequestBody LoginRequest loginRequest) {
-    	userService.logIn(loginRequest);
-    	
-		return ResponseEntity.ok("Vous etes connecté !");
-
-    }
 
 }
 

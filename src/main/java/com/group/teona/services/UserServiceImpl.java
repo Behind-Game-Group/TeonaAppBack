@@ -7,6 +7,8 @@ import com.group.teona.enums.EnumRole;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,12 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
@@ -83,5 +88,6 @@ public class UserServiceImpl implements UserService {
     		return "Nom d'utilisateur ou mot de passe incorrect";
     				} 
     }
+
 
 }

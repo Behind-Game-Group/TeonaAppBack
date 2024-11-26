@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.teona.dto.LoginRequest;
 import com.group.teona.dto.SignUpRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
@@ -24,7 +25,6 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/register")
-
 	public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
 	        Set<Adress> adresses = new HashSet<>(request.getAdress());
@@ -34,5 +34,13 @@ public class UserController {
 
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}
+	
+	  @PostMapping("/login")
+		public ResponseEntity login (@RequestBody LoginRequest loginRequest) {
+	    	userService.logIn(loginRequest);
+	    	
+			return ResponseEntity.ok("Vous etes connecté !");
+
+	    }
 
 }

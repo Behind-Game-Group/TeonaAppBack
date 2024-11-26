@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
     private AdressRepository adressRepository;
     
     @Autowired
-    private PasswordEncoder passwordEncoder;
+     PasswordEncoder passwordEncoder;
     
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -55,10 +55,11 @@ public class UserServiceImpl implements UserService{
           user.setVerified(false);
           user.setPassword(passwordEncoder.encode(user.getPassword()));
           emailService.sendVerificationEmail(user.getEmail(), verificationCode);
-          user.setRole(EnumRole.User);
-    	  user.setPassword(passwordEncoder.encode(user.getPassword()));
-    	  
+
           user.setAdresses(new HashSet<>());
+        List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
+        user.setRole(role);
+    	   user.setAdresses(new HashSet<>());
           userRepository.save(user);
 
         Optional<User> newUser = userRepository.findByEmail(user.getEmail());
@@ -90,4 +91,12 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    public Optional<User> login(String email, String pass){
+        if (!userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email not found");
+        }
+        Optional<User> user=  userRepository.findByEmail(email);
+       if(passwordEncoder.matches(pass,user.get().getPassword())) return user;
+
+        return null;}
 }

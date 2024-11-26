@@ -74,6 +74,7 @@ public class User  implements UserDetails{
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
+		
 		@Column(name = "role", nullable = false)
 		@Enumerated(EnumType.STRING)
 		private List< EnumRole> role;

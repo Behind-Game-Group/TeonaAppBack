@@ -1,9 +1,7 @@
 package com.group.teona.controller;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
 
 import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
+		 if(request.getAdress() == null) {System.out.println("adresses nulles");}
 	        Set<Adress> adresses = new HashSet<>(request.getAdress());
 	        if (userService.emailExists(user.getEmail())) {
 	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");

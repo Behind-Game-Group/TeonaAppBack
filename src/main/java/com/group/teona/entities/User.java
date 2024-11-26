@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group.teona.enums.EnumGender;
 import com.group.teona.enums.EnumLanguage;
 import com.group.teona.enums.EnumRole;
@@ -67,6 +68,7 @@ public class User  implements UserDetails{
 		private String passPicture;
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		@JsonManagedReference 
 		Set<Adress> adresses;
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

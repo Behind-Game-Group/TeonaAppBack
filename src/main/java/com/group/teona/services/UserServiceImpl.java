@@ -10,10 +10,7 @@ import com.group.teona.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,7 +56,6 @@ public class UserServiceImpl implements UserService{
           user.setAdresses(new HashSet<>());
         List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
         user.setRole(role);
-    	   user.setAdresses(new HashSet<>());
           userRepository.save(user);
 
         Optional<User> newUser = userRepository.findByEmail(user.getEmail());

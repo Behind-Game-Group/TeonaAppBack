@@ -11,6 +11,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     public void sendVerificationEmail(String toEmail, String code) {
+
     	   try {
                SimpleMailMessage message = new SimpleMailMessage();
                message.setTo(toEmail);
@@ -22,5 +23,6 @@ public class EmailService {
                System.err.println("Failed to send email to " + toEmail);
                e.printStackTrace();
            }
+
     }
 }

@@ -1,14 +1,16 @@
 package com.group.teona.controller;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.SignUpRequest;
 import com.group.teona.entities.Adress;
@@ -22,6 +24,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private  JwtService jwtService;
+
 
 	@PostMapping("/register")
 
@@ -32,7 +37,25 @@ public class UserController {
 	        // Delegate to the service layer
 	        userService.signUp(user, adresses);
 
+
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
+	}
+	@GetMapping("/test")
+	@PreAuthorize("hasAuthority('User')")
+	public  ResponseEntity<String> testJwt(){
+		return ResponseEntity.ok("nice code");
+	}
+
+
+
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody Map<String,String> req) {
+		System.out.println(req);
+		Optional<User> user=userService.login(req.get("email"),req.get("pass"));
+		if (user.isPresent()){
+		String jwt = jwtService.generateToken(user.get());
+		return ResponseEntity.ok("vous vous êtes conecter avec succes + token "+jwt);}
+		return ResponseEntity.ofNullable("user or password is incorrect");
 	}
 
 }

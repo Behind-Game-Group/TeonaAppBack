@@ -16,4 +16,7 @@ public interface UserService {
 
 	String logIn (LoginRequest loginRequest);
 	public boolean emailExists(String email);
+	public User findByEmail(String email);
+	public void updateUser(User user);
+	
 }

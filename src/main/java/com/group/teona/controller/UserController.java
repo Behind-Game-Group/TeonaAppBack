@@ -1,8 +1,15 @@
 package com.group.teona.controller;
 
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import com.group.teona.security.JwtService;
@@ -15,9 +22,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.LoginRequest;
 import com.group.teona.dto.SignUpRequest;
+import com.group.teona.dto.VerifyRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.services.UserService;
+import com.group.teona.services.EmailService;
+
 
 
 @RestController
@@ -28,21 +38,70 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private  JwtService jwtService;
+	@Autowired
+	private  EmailService emailService;
 
 
 	@PostMapping("/register")
-	public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
+	public ResponseEntity<Map<String, String>> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
 	        Set<Adress> adresses = new HashSet<>(request.getAdress());
 	        if (userService.emailExists(user.getEmail())) {
-	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+	        	Map<String, String> response = new HashMap<>();
+	            response.put("status", "error");
+	            response.put("message", "Email already exists");
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
 	        }
-	        // Delegate to the service layer
+	        String verificationCode = String.format("%06d", new Random().nextInt(999999));
+	        user.setVerificationCode(verificationCode);
+	        user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(10));
+	        user.setVerified(false);
+
+	        // Save user to the database
 	        userService.signUp(user, adresses);
 
+	        // Send the verification code via email
+	        boolean emailSent = emailService.sendVerificationEmail(user.getEmail(), verificationCode);
+	        if (!emailSent) {
+	        	Map<String, String> response = new HashMap<>();
+	            response.put("status", "error");
+	            response.put("message", "Failed to send verification email. Please try again.");
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                    .body(response);
+	        }
 
-		return ResponseEntity.ok("utilisateur enregistré avec succès");
+	        return ResponseEntity.status(HttpStatus.FOUND)
+	                .header(HttpHeaders.LOCATION, "/verify")
+	                .build();
+
 	}
+	
+	@PostMapping("/verify")
+	public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest request) {
+	    // Retrieve user by email
+	    User user = userService.findByEmail(request.getEmail());
+	    if (user == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+	    }
+
+	    // Check if the code is correct and not expired
+	    if (!user.getVerificationCode().equals(request.getCode())) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
+	    }
+
+	    if (user.getCodeExpirationTime().isBefore(LocalDateTime.now())) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verification code has expired.");
+	    }
+
+	    // Update user's verification status
+	    user.setVerified(true);
+	    user.setVerificationCode(null);
+	    user.setCodeExpirationTime(null);
+	    userService.updateUser(user);
+
+	    return ResponseEntity.ok("Votre compte a été vérifié avec succès.");
+	}
+	
 
 	@GetMapping("/test")
 	@PreAuthorize("hasAuthority('User')")

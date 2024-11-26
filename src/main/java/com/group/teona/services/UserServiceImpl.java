@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService{
 	          user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(15)); 
 	          user.setVerified(false);
 	          user.setPassword(passwordEncoder.encode(user.getPassword()));
-	          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
-
+	       
 	          user.setAdresses(new HashSet<>());
+	          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 	        List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
 	        user.setRole(role);
 	    	   user.setAdresses(new HashSet<>());
@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService{
 	            adresse.setUser(newUser.get());
 	            adressRepository.save(adresse);
 	        }
+	     
 
 	       return  user;}
 	    
@@ -107,4 +108,15 @@ public class UserServiceImpl implements UserService{
 	    public boolean emailExists(String email) {
 	        return userRepository.existsByEmail(email);
 	    }
+
+		@Override
+		public void updateUser(User user) {
+			userRepository.save(user);
+			
+		}
+		
+		public User findByEmail(String email) {
+		    return userRepository.findByEmail(email)
+		            .orElseThrow(() -> new RuntimeException("User not found"));
+		}
 }

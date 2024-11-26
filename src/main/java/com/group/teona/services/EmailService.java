@@ -10,7 +10,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendVerificationEmail(String toEmail, String code) {
+    public boolean sendVerificationEmail(String toEmail, String code) {
 
     	   try {
                SimpleMailMessage message = new SimpleMailMessage();
@@ -19,9 +19,11 @@ public class EmailService {
                message.setText("Use the following verification code to complete your registration: " + code);
                mailSender.send(message);
                System.out.println("Verification email sent successfully to " + toEmail);
+               return true;
            } catch (Exception e) {
                System.err.println("Failed to send email to " + toEmail);
                e.printStackTrace();
+               return false;
            }
 
     }

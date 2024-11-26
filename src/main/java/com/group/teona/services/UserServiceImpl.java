@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService{
 	          user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(15)); 
 	          user.setVerified(false);
 	          user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 	          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 
 
@@ -69,12 +70,14 @@ public class UserServiceImpl implements UserService{
           userRepository.save(user);
 
 
+
 	        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
 	        
 	        for (Adress adresse:adresses){
 	            adresse.setUser(newUser.get());
 	            adressRepository.save(adresse);
 	        }
+	     
 
 	       return  user;}
 	    
@@ -112,4 +115,15 @@ public class UserServiceImpl implements UserService{
 	    public boolean emailExists(String email) {
 	        return userRepository.existsByEmail(email);
 	    }
+
+		@Override
+		public void updateUser(User user) {
+			userRepository.save(user);
+			
+		}
+		
+		public User findByEmail(String email) {
+		    return userRepository.findByEmail(email)
+		            .orElseThrow(() -> new RuntimeException("User not found"));
+		}
 }

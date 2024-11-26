@@ -37,11 +37,17 @@ public class UserServiceImpl implements UserService {
           user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(15)); 
           user.setVerified(false);
           user.setPassword(passwordEncoder.encode(user.getPassword()));
+       	user.setRole(EnumRole.User);
+       	for (Adress adress : adresses) {
+            adress.setUser(user);
+        }
+        user.setAdresses(adresses);
+        
+        User savedUser = userRepository.save(user);
           emailService.sendVerificationEmail(user.getEmail(), verificationCode);
-    	user.setRole(EnumRole.User);
-    	user.setPassword(passwordEncoder.encode(user.getPassword()));
-    	user.setAdresses(adresses);
-    	return userRepository.save(user);
+   
+   
+    	return savedUser;
 	}
 
 }

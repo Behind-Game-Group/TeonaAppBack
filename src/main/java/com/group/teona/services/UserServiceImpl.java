@@ -10,10 +10,7 @@ import com.group.teona.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService{
           user.setAdresses(new HashSet<>());
         List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
         user.setRole(role);
-    	   user.setAdresses(new HashSet<>());
+
           userRepository.save(user);
 
         Optional<User> newUser = userRepository.findByEmail(user.getEmail());
@@ -91,12 +88,12 @@ public class UserServiceImpl implements UserService{
     }
 
 
-    public Optional<User> login(String email, String pass){
+    public Optional login(String email, String pass){
         if (!userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email not found");
         }
         Optional<User> user=  userRepository.findByEmail(email);
        if(passwordEncoder.matches(pass,user.get().getPassword())) return user;
 
-        return null;}
+        return Optional.empty();}
 }

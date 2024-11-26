@@ -49,9 +49,14 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
           emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 
+
    
    
     	return savedUser;
 	}
 
-}
+
+
+
+ 
+    

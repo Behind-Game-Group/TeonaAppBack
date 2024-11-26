@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.group.teona.dto.LoginRequest;
 import com.group.teona.dto.SignUpRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
@@ -29,7 +30,6 @@ public class UserController {
 
 
 	@PostMapping("/register")
-
 	public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
 	        Set<Adress> adresses = new HashSet<>(request.getAdress());
@@ -40,6 +40,7 @@ public class UserController {
 
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}
+
 	@GetMapping("/test")
 	@PreAuthorize("hasAuthority('User')")
 	public  ResponseEntity<String> testJwt(){
@@ -57,5 +58,6 @@ public class UserController {
 		return ResponseEntity.ok("vous vous êtes conecter avec succes + token "+jwt);}
 		return ResponseEntity.ofNullable("user or password is incorrect");
 	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.group.teona.controller;
 
 
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+
+
+
 
 import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +49,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, String>> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
+		 if(request.getAdress() == null) {System.out.println("adresses nulles");}
 	        Set<Adress> adresses = new HashSet<>(request.getAdress());
 	        if (userService.emailExists(user.getEmail())) {
 	        	Map<String, String> response = new HashMap<>();
@@ -131,13 +136,7 @@ public class UserController {
 		    } catch (Exception e) {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		    }
-//		System.out.println(req);
-//		Optional<User> user=userService.login(req.get("email"),req.get("pass"));
-//		if (user.isPresent()){
-//		String jwt = jwtService.generateToken(user.get());
-//		return ResponseEntity.ok("vous vous êtes conecter avec succes + token "+jwt);}
-//		return ResponseEntity.ofNullable("user or password is incorrect");
-	}
+
 
 
 }

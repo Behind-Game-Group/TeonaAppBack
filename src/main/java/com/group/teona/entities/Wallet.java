@@ -1,11 +1,15 @@
 package com.group.teona.entities;
 
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +31,10 @@ public class Wallet {
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+	
+	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+	private Pass pass;
+	
+	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+	Set<Card> cards;
 }

@@ -1,5 +1,6 @@
 package com.group.teona.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -36,5 +37,5 @@ public class Wallet {
 	private Pass pass;
 	
 	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
-	Set<Card> cards;
+	Set<Card> cards = new HashSet<>();
 }

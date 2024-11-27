@@ -1,9 +1,5 @@
 package com.group.teona.entities;
 
-import java.util.Date;
-
-import com.group.teona.enums.EnumSubscription;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

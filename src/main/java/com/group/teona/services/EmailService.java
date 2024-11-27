@@ -13,7 +13,6 @@ public class EmailService {
     public void sendVerificationEmail(String toEmail, String code) {
         SimpleMailMessage message = new SimpleMailMessage();
        try {
-           System.out.println(toEmail+" T:T "+code);
            message.setTo(toEmail);
            message.setSubject("Your Verification Code");
            message.setText("Use the following verification code to complete your registration: " + code);

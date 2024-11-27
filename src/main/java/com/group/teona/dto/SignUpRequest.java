@@ -8,7 +8,7 @@ import com.group.teona.entities.User;
 
 public class SignUpRequest {
 	 private User user;
-	    private Set<Adress> adress;
+	 private Set<Adress> adress;
 
 	    public User getUser() {
 	        return user;

@@ -4,6 +4,7 @@ package com.group.teona.entities;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.group.teona.enums.EnumGender;
 import com.group.teona.enums.EnumLanguage;
 
@@ -45,6 +46,7 @@ public class Adress {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
+	@JsonBackReference
 	private User user;
 
 }

@@ -1,5 +1,6 @@
 package com.group.teona.services;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,16 +39,19 @@ public class WalletServiceImpl implements WalletService  {
 			User userFind = user.get();
 			
 			wallet.setUser(userFind);
-			walletRepository.save(wallet);
 		
 					if(card != null) {
 						card.setWallet(wallet);
 						cardRepository.save(card);
+						
+						wallet.getCards().add(card);
 					}
 					
 					if(pass != null) {
 						pass.setWallet(wallet);
 						passRepository.save(pass);
+						
+						wallet.setPass(pass);
 					}
 					
 					walletRepository.save(wallet);					

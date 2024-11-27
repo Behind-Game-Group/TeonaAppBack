@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class Card {
 	@Column(name = "isActive", nullable = false)
     private boolean isActive;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "wallet_id", nullable = false)
 	private Wallet wallet;
 

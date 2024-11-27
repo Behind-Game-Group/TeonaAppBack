@@ -1,7 +1,11 @@
 package com.group.teona.repositories;
 
-import com.group.teona.entities.Adress;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AdressRepository extends JpaRepository<Adress,Integer> {
+import com.group.teona.entities.Adress;
+
+public interface AdressRepository extends JpaRepository<Adress, Long> {
+
+
 }

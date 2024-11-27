@@ -1,21 +1,20 @@
 package com.group.teona.controller;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
-import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+
+
+import com.group.teona.register.UserRegister;
+
 import com.group.teona.dto.LoginRequest;
 import com.group.teona.dto.SignUpRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
+
 import com.group.teona.services.UserService;
 
 
@@ -30,13 +29,10 @@ public class UserController {
 
 
 	@PostMapping("/register")
-	public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
-		 User user = request.getUser();
-	        Set<Adress> adresses = new HashSet<>(request.getAdress());
 
-	        // Delegate to the service layer
-	        userService.signUp(user, adresses);
-
+	public ResponseEntity<String> signUp(@RequestBody UserRegister userRegister ) {
+		
+		userService.signUp(userRegister.getUser(), userRegister.getAdresses());
 
 		return ResponseEntity.ok("utilisateur enregistré avec succès");
 	}

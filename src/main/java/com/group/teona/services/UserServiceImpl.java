@@ -38,62 +38,26 @@ public class UserServiceImpl implements UserService{
      PasswordEncoder passwordEncoder;
     
     @Autowired
-    private AuthenticationManager authenticationManager;
+
+    AdressRepository adressRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @Override
-    public User signUp (User user, Set<Adress> adresses) {
-    	  if (userRepository.existsByEmail(user.getEmail())) {
-              throw new IllegalArgumentException("Email is already exist.");
-          }
-    	  
-    	  String verificationCode = CodeGenerator.generateVerificationCode();
-          user.setVerificationCode(verificationCode);
-          user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(15)); 
-          user.setVerified(false);
-          user.setPassword(passwordEncoder.encode(user.getPassword()));
-          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
-
-          user.setAdresses(new HashSet<>());
-        List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
-        user.setRole(role);
-
-          userRepository.save(user);
-
-        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
-        
-        for (Adress adresse:adresses){
-            adresse.setUser(newUser.get());
-            adressRepository.save(adresse);
-        }
-
-       return  user;}
-    
-    @Override
-	public String logIn (LoginRequest loginRequest) {
-    	String email = loginRequest.getEmail();
-    	String password = loginRequest.getPassword();
+    public String signUp (User user, Set<Adress> adresses) {
+    	user.setRole(EnumRole.User);
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
     	
-    	try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            System.out.println(authentication);
-    		return "User connecté";
-    		// UsernamePasswordAuthenticationToken implémente une interface authentication 
-    		// On lui donne des données à encapsuler (email et password) qu'elle va transmettre à authenticationManager
-    				}
-    		
-    	catch (Exception e) {
-    		System.out.println(e);
-    		return "Nom d'utilisateur ou mot de passe incorrect";
-    				} 
-    }
-
-
-    public Optional login(String email, String pass){
-        if (!userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email not found");
-        }
-        Optional<User> user=  userRepository.findByEmail(email);
-       if(passwordEncoder.matches(pass,user.get().getPassword())) return user;
+    	user.setAdresses(adresses);
+    	for (Adress adress : adresses) 
+    	{ adress.setUser(user); }
+    	
+    	userRepository.save(user);
+    	adressRepository.saveAll(adresses);
+    	
+    	return "User enregistré";
+	}
 
         return Optional.empty();}
 }

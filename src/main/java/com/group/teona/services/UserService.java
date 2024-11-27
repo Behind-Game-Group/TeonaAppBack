@@ -10,7 +10,6 @@ import com.group.teona.entities.User;
 public interface UserService {
 
 
-	public Optional<User> login(String email, String pass);
 	
 	User signUp (User user, Set<Adress> adresses) ;
 

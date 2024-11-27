@@ -6,23 +6,12 @@ import java.util.Set;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 
+import lombok.Data;
+
+@Data
 public class SignUpRequest {
 	 private User user;
 	 private Set<Adress> adress;
 
-	    public User getUser() {
-	        return user;
-	    }
-
-	    public void setUser(User user) {
-	        this.user = user;
-	    }
-
-	    public Set<Adress> getAdress() {
-	        return adress;
-	    }
-
-	    public void setAdress(Set<Adress> adress) {
-	        this.adress = adress;
-	    }
+	   
 }

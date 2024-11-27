@@ -18,8 +18,6 @@ import java.util.Set;
 
 import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -62,10 +60,10 @@ public class UserController {
 	        user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(10));
 	        user.setVerified(false);
 
-	        // Save user to the database
+	    
 	        userService.signUp(user, adresses);
 
-	        // Send the verification code via email
+	   
 	        boolean emailSent = emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 	        if (!emailSent) {
 	        	Map<String, String> response = new HashMap<>();
@@ -83,13 +81,13 @@ public class UserController {
 	
 	@PostMapping("/verify")
 	public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest request) {
-	    // Retrieve user by email
+	   
 	    User user = userService.findByEmail(request.getEmail());
 	    if (user == null) {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
 	    }
 
-	    // Check if the code is correct and not expired
+	   
 	    if (!user.getVerificationCode().equals(request.getCode())) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
 	    }
@@ -98,7 +96,7 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verification code has expired.");
 	    }
 
-	    // Update user's verification status
+	
 	    user.setVerified(true);
 	    user.setVerificationCode(null);
 	    user.setCodeExpirationTime(null);
@@ -139,4 +137,5 @@ public class UserController {
 
 
 
+}
 }

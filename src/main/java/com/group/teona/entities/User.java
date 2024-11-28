@@ -38,7 +38,7 @@ public class User  implements UserDetails{
 	    private Long id;
 	    
 	    @Column(name = "name", length = 25, nullable = false)
-		private String name;
+		private String lastname;
 	    
 	    @Column(name = "firstname", length = 25, nullable = false)
 	   	private String firstname;

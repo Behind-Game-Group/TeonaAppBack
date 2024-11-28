@@ -2,11 +2,9 @@ package com.group.teona.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.WalletRequest;
 import com.group.teona.entities.Card;
@@ -22,8 +20,10 @@ public class WalletController {
 	private WalletService walletService;
 	
 	
-	@PostMapping("add")
-	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest ) {
+	@PostMapping("add/{userId}")
+	@PreAuthorize("hasAuthority('User')")
+	public ResponseEntity addWallet(@PathVariable Long userId, @RequestBody WalletRequest walletRequest, Authentication authentication ) {
+		System.out.println(walletRequest.toString());
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();

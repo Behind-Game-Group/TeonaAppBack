@@ -32,14 +32,14 @@ public class WalletServiceImpl implements WalletService  {
 
 	@Override
 	public Wallet addWallet(Long userId, Wallet wallet, Card card, Pass pass) {
-		
 		Optional<User> user = userRepository.findById(userId);
+
 		if(user.isPresent()) {
-			
+
 			User userFind = user.get();
 			
 			wallet.setUser(userFind);
-		
+			walletRepository.save(wallet);
 					if(card != null) {
 						card.setWallet(wallet);
 						cardRepository.save(card);
@@ -54,7 +54,7 @@ public class WalletServiceImpl implements WalletService  {
 						wallet.setPass(pass);
 					}
 					
-					walletRepository.save(wallet);					
+
 					return wallet;
 		}
 		throw new RuntimeException("Utilisateur non trouvé");

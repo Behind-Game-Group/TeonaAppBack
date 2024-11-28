@@ -44,6 +44,9 @@ public class UserController {
 	private  EmailService emailService;
 
 
+
+
+
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, String>> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();

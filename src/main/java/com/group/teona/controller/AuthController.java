@@ -1,6 +1,7 @@
 package com.group.teona.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.LoginRequest;
@@ -17,8 +18,8 @@ public class AuthController {
 	
 
     @GetMapping("test")
-    public ResponseEntity tested (){
-        return ResponseEntity.ok("it a test");
+    public ResponseEntity tested (Authentication authentication){//il faut avoir un token pour que sa fonctionne
+        return ResponseEntity.ok("it a test : "+authentication.getName());
    
         
     }
@@ -26,8 +27,8 @@ public class AuthController {
     @Autowired
 	private WalletService walletService;
 	
-    @PostMapping("add")
-	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest ) {
+    @PostMapping("add/{userId}")
+	public ResponseEntity addWallet(@PathVariable Long userId, @RequestBody WalletRequest walletRequest ) {
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();

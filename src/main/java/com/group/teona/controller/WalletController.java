@@ -24,6 +24,8 @@ public class WalletController {
 	
 	@PostMapping("add")
 	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest ) {
+		System.out.println("coucou controller");
+
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.group.teona.entities.Wallet;
 
 @Repository
-public interface WalletRepository extends JpaRepository<Wallet,Integer> {
+public interface WalletRepository extends JpaRepository<Wallet,Long> {
 }

@@ -37,7 +37,7 @@ public class Pass {
 	@Temporal(TemporalType.DATE)
 	private Date dateSubscription;
     
-    @Column(name = "isActive", nullable = false)
+    @Column(name = "isActive", nullable = true)
     private boolean isActive;
     
     @OneToOne

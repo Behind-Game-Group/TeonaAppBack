@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.group.teona.entities.Pass;
 
 @Repository
-public interface PassRepository extends JpaRepository<Pass,Integer> {
+public interface PassRepository extends JpaRepository<Pass,Long> {
 }

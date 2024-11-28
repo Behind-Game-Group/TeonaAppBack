@@ -8,5 +8,9 @@ public interface WalletService {
 	
 	Wallet addWallet(Long userId, Wallet wallet, Card card, Pass pass);
 
+	Card addNewCard(Long userId, Card card);
+
+	String useCard(Long cardId);
+
 
 }

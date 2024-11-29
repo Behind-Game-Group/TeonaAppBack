@@ -28,11 +28,7 @@ public class Pass {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	/*
-    @Column(name = "subscription_type", nullable = true)
-	@Enumerated(EnumType.STRING)
-    private EnumSub subscriptionType;
-    */
+	
     
     @Column(name = "subscription_time", nullable = false)
 	@Enumerated(EnumType.STRING)

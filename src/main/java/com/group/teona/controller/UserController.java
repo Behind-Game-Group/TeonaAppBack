@@ -27,6 +27,7 @@ import com.group.teona.dto.SignUpRequest;
 import com.group.teona.dto.VerifyRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
+import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.UserService;
 import com.group.teona.services.EmailService;
 
@@ -44,7 +45,8 @@ public class UserController {
 	private  EmailService emailService;
 
 
-
+	@Autowired
+	private UserRepository userRepository;
 
 
 	@PostMapping("/register")
@@ -137,8 +139,7 @@ public class UserController {
 		    } catch (Exception e) {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		    }
-
-
-
 	}
+		    
+	
 }

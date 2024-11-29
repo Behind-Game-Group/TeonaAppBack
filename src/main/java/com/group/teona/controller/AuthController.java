@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.group.teona.dto.GetUserRequest;
 import com.group.teona.dto.WalletRequest;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
@@ -33,7 +34,7 @@ public class AuthController {
 	private UserRepository userRepository;
 
     @PostMapping("add")
-	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest, Authentication authentication ) {
+	public ResponseEntity addWallet( @RequestBody WalletRequest walletRequest, Authentication authentication ) {
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();
@@ -64,12 +65,20 @@ public class AuthController {
     	return ResponseEntity.ok("Pass créé avec succès");
     }
     
-    /*
-    @PutMapping("useCard")
-    public String useCard(Long cardId) {	
-    	return walletService.useCard(cardId);
-    }
-    */
+    @GetMapping("getUser")
+	public GetUserRequest getUserById (@RequestParam Long userId) {
+		
+		Optional<User> user = userRepository.findById(userId);
+		User userFind = user.get();
+		if (user.isPresent()) {
+			GetUserRequest userRequest = new GetUserRequest() ;
+			userRequest.setId(userFind.getId());
+			userRequest.setRole(userFind.getRole());
+			return userRequest;
+		}
+		
+		 throw new RuntimeException("Invalid user");
+	}
     
     }
     

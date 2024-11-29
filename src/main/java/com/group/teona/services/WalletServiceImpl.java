@@ -42,10 +42,14 @@ public class WalletServiceImpl implements WalletService  {
 						card.setActive(true);
 						cardRepository.save(card);
 						
-						wallet.getCards().add(card);
+					//	wallet.getCards().add(card);
 					}
 					
 					if(pass != null) {
+						pass.setWallet(wallet);
+						pass.setActive(true);
+						pass.setDateSubscription(LocalDate.now());
+									
 						// Si le pass est annuel
 						if(pass.getSubscriptionTime().equals(EnumSub.YearlyPass)) {
 										pass.setValideDuration(365.0);
@@ -66,12 +70,8 @@ public class WalletServiceImpl implements WalletService  {
 										pass.setValideDuration(1.0);
 						}
 						
-						pass.setDateSubscription(LocalDate.now());
-						pass.setWallet(wallet);
-						pass.setActive(true);
 						passRepository.save(pass);
 												
-						wallet.setPass(pass);
 					}
 					
 

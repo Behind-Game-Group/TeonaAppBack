@@ -29,7 +29,7 @@ public class Card {
     private boolean isActive;
 	
 	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = true)
+	@JoinColumn(name = "wallet_id", nullable = false)
 	private Wallet wallet;
 	
 

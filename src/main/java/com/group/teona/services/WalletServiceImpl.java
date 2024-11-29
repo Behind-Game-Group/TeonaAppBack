@@ -1,7 +1,6 @@
 package com.group.teona.services;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,15 +31,12 @@ public class WalletServiceImpl implements WalletService  {
     PassRepository passRepository;
 
 	@Override
-	public Wallet addWallet(Long userId, Wallet wallet, Card card, Pass pass) {
-		Optional<User> user = userRepository.findById(userId);
+	public Wallet addWallet(Wallet wallet, Card card, Pass pass, User user) {
+		
 
-		if(user.isPresent()) {
-
-			User userFind = user.get();
-
-			wallet.setUser(userFind);
+			wallet.setUser(user);
 			walletRepository.save(wallet);
+			
 					if(card != null) {
 						card.setWallet(wallet);
 						card.setActive(true);
@@ -80,42 +76,28 @@ public class WalletServiceImpl implements WalletService  {
 					
 
 					return wallet;
-		}
-		throw new RuntimeException("Utilisateur non trouvé");
+	
 	}
 	
 	@Override 
-	public Card addNewCard (Long userId, Card card) {
-		
-		Optional<User> user = userRepository.findById(userId);
-		if(user.isPresent()) {
-			
-			User userFind = user.get();
-			Wallet walletUser = userFind.getWallet();
+	public Card addNewCard (Card card, User user) {
+			Wallet walletUser = user.getWallet();
 			card.setWallet(walletUser);
 			card.setActive(true);
 			
-			return cardRepository.save(card);
-		}
-		throw new RuntimeException("Utilisateur non trouvé");
+		
+		return cardRepository.save(card);
 		
 	}
 	
 	@Override 
-	public Pass addNewPass (Long userId, Pass pass) {
+	public Pass addNewPass (Pass pass,  User user) {
 		
-		Optional<User> user = userRepository.findById(userId);
-
-		if(user.isPresent()) {
-			
-			User userFind = user.get();
-			Wallet walletUser = userFind.getWallet();
+			Wallet walletUser = user.getWallet();
 			pass.setWallet(walletUser);
 			pass.setActive(true);
 			pass.setDateSubscription(LocalDate.now());
-			
-			//pass.setSubscriptionType(EnumSubscription.Mounthly_Pass);
-			
+						
 			// Si le pass est annuel
 			if(pass.getSubscriptionTime().equals(EnumSub.YearlyPass)) {
 							pass.setValideDuration(365.0);
@@ -137,8 +119,7 @@ public class WalletServiceImpl implements WalletService  {
 			}
 			
 			return passRepository.save(pass);
-		}
-		throw new RuntimeException("Utilisateur non trouvé");
+		
 		
 	}
 	

@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService{
 	          user.setVerified(false);
 	          user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-	          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
+	       //   emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 
 
           user.setAdresses(new HashSet<>());

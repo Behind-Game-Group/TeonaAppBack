@@ -11,6 +11,7 @@ import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.CardRepository;
+import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
 import com.group.teona.services.UserService;
 import com.group.teona.services.WalletService;
@@ -21,8 +22,8 @@ public class AuthController {
 	
 
     @GetMapping("test")
-    public ResponseEntity tested (){
-        return ResponseEntity.ok("it a test");
+    public ResponseEntity tested (Authentication authentication){//il faut avoir un token pour que sa fonctionne
+        return ResponseEntity.ok("it a test : ");
    
         
     }
@@ -31,14 +32,10 @@ public class AuthController {
 	private WalletService walletService;
 	 
     @Autowired
-    private WalletRepository walletRepository;
-    
-    
-    @PostMapping("add")
-    // @PreAuthorize("hasAuthority('User')")
-	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest, Authentication authentication ) {
-		System.out.println("coucou");
+	private UserRepository userRepository;
 
+    @PostMapping("add")
+	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest ) {
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();
@@ -48,17 +45,32 @@ public class AuthController {
 	}
     
     @PostMapping("addCard")
-    public ResponseEntity addCard(@RequestParam Long userId, @RequestBody Card card) {
+    public ResponseEntity addCard(@RequestParam Long userId, @RequestBody Card card, Authentication authentication) {
+    	
+    	System.out.println(userRepository.findByEmail(authentication.getName()));
+  
     	walletService.addNewCard(userId, card);
 
     	return ResponseEntity.ok("Carte ajoutée avec succès");
     }
     
-    @PostMapping("addTest")
-    public ResponseEntity addWalletTest (@RequestBody Wallet wallet) {
-    	 walletRepository.save(wallet);
-    	 return  ResponseEntity.ok(wallet);
-    }
+    @PostMapping("addPass")
+    public ResponseEntity addPass(@RequestParam Long userId, @RequestBody Pass pass) {
+    	walletService.addNewPass(userId, pass);
 
-}
+    	return ResponseEntity.ok("Pass créé avec succès");
+    }
+    
+    /*
+    @PutMapping("useCard")
+    public String useCard(Long cardId) {	
+    	return walletService.useCard(cardId);
+    }
+    */
+    
+    }
+    
+ 
+
+
 

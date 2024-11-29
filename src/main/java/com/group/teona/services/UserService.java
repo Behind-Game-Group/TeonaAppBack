@@ -12,7 +12,7 @@ public interface UserService {
 
 	public Optional<User> login(String email, String pass);
 	
-	User signUp (User user, Set<Adress> adresses) ;
+	User signUp (User user) ;
 
 	String logIn (LoginRequest loginRequest);
 	public boolean emailExists(String email);

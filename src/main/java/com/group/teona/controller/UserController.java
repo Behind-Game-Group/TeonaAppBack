@@ -45,23 +45,31 @@ public class UserController {
 
 
 	@PostMapping("/register")
+	 @CrossOrigin(origins = "http://localhost:8081")
 	public ResponseEntity<Map<String, String>> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
-		 if(request.getAdress() == null) {System.out.println("adresses nulles");}
-	        Set<Adress> adresses = new HashSet<>(request.getAdress());
-	        if (userService.emailExists(user.getEmail())) {
-	        	Map<String, String> response = new HashMap<>();
-	            response.put("status", "error");
-	            response.put("message", "Email already exists");
-	            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-	        }
+//		 if(request.getAdress() == null) {System.out.println("adresses nulles");}
+//	        Set<Adress> adresses = new HashSet<>(request.getAdress());
+//	        if (userService.emailExists(user.getEmail())) {
+//	        	Map<String, String> response = new HashMap<>();
+//	            response.put("status", "error");
+//	            response.put("message", "Email already exists");
+//	            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+//	        }
+		   if (request == null || request.getUser() == null) {
+		        Map<String, String> response = new HashMap<>();
+		        response.put("status", "error");
+		        response.put("message", "User data is missing.");
+		        return ResponseEntity.badRequest().body(response);
+		    }
+		   
 	        String verificationCode = String.format("%06d", new Random().nextInt(999999));
 	        user.setVerificationCode(verificationCode);
 	        user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(10));
 	        user.setVerified(false);
 
 	    
-	        userService.signUp(user, adresses);
+	        userService.signUp(user);
 
 	   
 	        boolean emailSent = emailService.sendVerificationEmail(user.getEmail(), verificationCode);

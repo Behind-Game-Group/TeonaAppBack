@@ -14,14 +14,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
-
-
-
+import java.util.UUID;
 
 import com.group.teona.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.LoginRequest;
@@ -45,6 +44,9 @@ public class UserController {
 	private  JwtService jwtService;
 	@Autowired
 	private  EmailService emailService;
+	
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
 	@PostMapping("/register")
@@ -121,8 +123,8 @@ public class UserController {
 		  String email = req.getEmail();
 		    String password = req.getPassword();
 		
-		    System.out.println("Email: " + req.getEmail());
-		    System.out.println("Password: " + req.getPass());
+//		    System.out.println("Email: " + req.getEmail());
+//		    System.out.println("Password: " + req.getPass());
 		    if (email == null || password == null) {
 		        return ResponseEntity.badRequest().body("Email and password must not be null");
 		    }
@@ -143,6 +145,59 @@ public class UserController {
 
 
 
+	}
+	
+	@PostMapping("/forgot-password")
+	public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+	    String email = request.get("email");
+
+	    if (email == null || email.isEmpty()) {
+	        return ResponseEntity.badRequest().body("Email is required.");
+	    }
+
+	    try {
+	        User user = userService.findByEmail(email);
+	        String resetToken = UUID.randomUUID().toString();
+	        user.setResetToken(resetToken);
+	        user.setTokenExpirationTime(LocalDateTime.now().plusMinutes(30)); 
+	        userService.updateUser(user);
+
+	        // Send email with reset token
+	        emailService.sendPasswordResetEmail(user.getEmail(), resetToken);
+
+	        return ResponseEntity.ok("Password reset email sent successfully.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while processing the request.");
+	    }
+	}
+	
+	@PostMapping("/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+	    String resetToken = request.get("token");
+	    String newPassword = request.get("newPassword");
+
+	    if (resetToken == null || resetToken.isEmpty() || newPassword == null || newPassword.isEmpty()) {
+	        return ResponseEntity.badRequest().body("Token and new password are required.");
+	    }
+
+	    try {
+	        User user = userService.findByResetToken(resetToken);
+
+	        // Check if token is valid
+	        if (user.getTokenExpirationTime() == null || user.getTokenExpirationTime().isBefore(LocalDateTime.now())) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reset token has expired.");
+	        }
+
+	        // Update the password
+	        user.setPassword(passwordEncoder.encode(newPassword));
+	        user.setResetToken(null); 
+	        user.setTokenExpirationTime(null); 
+	        userService.updateUser(user);
+
+	        return ResponseEntity.ok("Password has been reset successfully.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while resetting the password.");
+	    }
 	}
 }
 

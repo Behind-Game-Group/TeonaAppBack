@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.group.teona.security.JwtRequestFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -27,7 +29,11 @@ public class securityConfig {
     AuthenticationProvider authenticationProvider;
 
     @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    JwtRequestFilter jwtAuthenticationFilter;
+    
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
@@ -37,7 +43,7 @@ public class securityConfig {
 
                 .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/api/user/register").permitAll()
-            .requestMatchers("/api/user/register").permitAll()
+            .requestMatchers("/api/user/login").permitAll()
             .requestMatchers("/api/user/register").permitAll()
             .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
@@ -46,12 +52,12 @@ public class securityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-        //.sessionManagement(session -> session
-          //  .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+       .sessionManagement(session -> session
+         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          ;
 
-    // Add the JWT request filter before the username/password authentication filter
-//    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//     Add the JWT request filter before the username/password authentication filter
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
     }

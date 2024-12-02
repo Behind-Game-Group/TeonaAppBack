@@ -51,14 +51,7 @@ public class UserController {
 	 @CrossOrigin(origins = "http://localhost:8081")
 	public ResponseEntity<Map<String, String>> signUp(@RequestBody SignUpRequest request) {
 		 User user = request.getUser();
-//		 if(request.getAdress() == null) {System.out.println("adresses nulles");}
-//	        Set<Adress> adresses = new HashSet<>(request.getAdress());
-//	        if (userService.emailExists(user.getEmail())) {
-//	        	Map<String, String> response = new HashMap<>();
-//	            response.put("status", "error");
-//	            response.put("message", "Email already exists");
-//	            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-//	        }
+
 		   if (request == null || request.getUser() == null) {
 		        Map<String, String> response = new HashMap<>();
 		        response.put("status", "error");
@@ -85,9 +78,7 @@ public class UserController {
 	                    .body(response);
 	        }
 
-//	        return ResponseEntity.status(HttpStatus.FOUND)
-//	                .header(HttpHeaders.LOCATION, "/api/user/verify")
-//	                .build();
+
 	        Map<String, String> response = new HashMap<>();
 	        response.put("status", "success");
 	        response.put("message", "User registered successfully. Please verify your email.");
@@ -100,11 +91,9 @@ public class UserController {
 	public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest request) {
 	   
 	    User user = userService.findByEmail(request.getEmail());
-	    if (user == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-	    }
 
 	   
+
 	    if (!user.getVerificationCode().equals(request.getCode())) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
 	    }
@@ -113,12 +102,8 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verification code has expired.");
 	    }
 
-	
 	    user.setVerified(true);
-	    user.setVerificationCode(null);
-	    user.setCodeExpirationTime(null);
 	    userService.updateUser(user);
-
 	    return ResponseEntity.ok("Votre compte a été vérifié avec succès.");
 	}
 	
@@ -132,23 +117,27 @@ public class UserController {
 
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Map<String,String> req) {
-		  String email = req.get("email");
-		    String pass = req.get("pass");
-		    if (email == null || pass == null) {
+	public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+		  String email = req.getEmail();
+		    String password = req.getPassword();
+		
+		    System.out.println("Email: " + req.getEmail());
+		    System.out.println("Password: " + req.getPass());
+		    if (email == null || password == null) {
 		        return ResponseEntity.badRequest().body("Email and password must not be null");
 		    }
 
 		    try {
 		        // Attempt login
-		        Optional<User> user = userService.login(email, pass);
+		        Optional<User> user = userService.login(email, password);
 		        if (user.isPresent()) {
 		            String jwt = jwtService.generateToken(user.get());
 		            return ResponseEntity.ok("Login successful. Token: " + jwt);
 		        } else {
-		            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
 		        }
-		    } catch (Exception e) {
+		    } 
+		    catch (Exception e) {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		    }
 

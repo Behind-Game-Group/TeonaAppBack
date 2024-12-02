@@ -86,8 +86,14 @@ public class User  implements UserDetails{
 		@Column(name = "code_expiration_time", nullable = true)
 	    private LocalDateTime codeExpirationTime;
 		
-		@Column(name = "is_verified", nullable = true)
-	    private boolean isVerified = false;
+		@Column(name = "verified", nullable = true)
+	    private boolean verified = false;
+		
+		@Column(name = "teonaPassenger", nullable = true)
+	    private boolean teonaPassenger = false;
+		
+		@Column(name = "teonaGroup", nullable = true)
+	    private boolean teonaGroup = false;
 		
 	    @Override
 	    public Collection<? extends GrantedAuthority> getAuthorities() {

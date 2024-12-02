@@ -7,8 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
 import com.group.teona.enums.EnumRole;
 
 import jakarta.persistence.CascadeType;
@@ -37,18 +35,17 @@ public class User  implements UserDetails{
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    private Long id;
 	    
-	    @Column(name = "name", length = 25, nullable = false)
-		private String lastname;
+	    @Column(name = "lastName", length = 25, nullable = false)
+		private String lastName;
 	    
-	    @Column(name = "firstname", length = 25, nullable = false)
-	   	private String firstname;
+	    @Column(name = "firstName", length = 25, nullable = false)
+	   	private String firstName;
 	    
-	    @Column(name = "gender", nullable = false)
-		@Enumerated(EnumType.STRING)
-	    private EnumGender gender;
+	    @Column(name = "gender", nullable = false)	
+	    private String gender;
 	    
-	    @Column(name = "residenceCountry", nullable = false)
-	    private String residenceCountry;
+	    @Column(name = "country", nullable = false)
+	    private String country;
 	    
 		@Column(name = "date_of_birth")
 		@Temporal(TemporalType.DATE)
@@ -74,16 +71,13 @@ public class User  implements UserDetails{
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
-		
-		@Column(name = "role", nullable = false)
-		@Enumerated(EnumType.STRING)
-		private List< EnumRole> role;
-		
-		
 		@Lob
-		@Column(name = "language") 
-		@Enumerated(EnumType.STRING)	    
-		private List<EnumLanguage> languages;
+	    @Column(name = "role", nullable = false)
+	    @Enumerated(EnumType.STRING)
+	    private List<EnumRole> role;
+	
+		@Column(name = "language", nullable = true, length = 255)     
+		private String language;
 		
 		
 		@Column(name = "verification_code", nullable = true)
@@ -94,17 +88,19 @@ public class User  implements UserDetails{
 		
 		@Column(name = "is_verified", nullable = true)
 	    private boolean isVerified = false;
+		
+	    @Override
+	    public Collection<? extends GrantedAuthority> getAuthorities() {
+	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-		@Override
-		public Collection<? extends GrantedAuthority> getAuthorities() {
-			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-			for (EnumRole roleEnum : role){
-				GrantedAuthority authority = new SimpleGrantedAuthority(roleEnum.toString());
-				grantedAuthorities.add(authority);
-			}
-			return grantedAuthorities;
-		}
+	        for (EnumRole roleEnum : role) {
+	            grantedAuthorities.add(new SimpleGrantedAuthority(roleEnum.toString()));
+	        }
 
+	        return grantedAuthorities;
+	    }
+
+		  
 		@Override
 		public String getUsername() {
 			// TODO Auto-generated method stub

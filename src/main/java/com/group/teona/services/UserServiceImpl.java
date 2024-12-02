@@ -50,12 +50,11 @@ public class UserServiceImpl implements UserService{
 	    private AuthenticationManager authenticationManager;
 	    
 	    @Override
-	    public User signUp (User user, Set<Adress> adresses) {
-	    	  if (userRepository.existsByEmail(user.getEmail())) {
+	    public User signUp (User user) {
+	    	 String email = user.getEmail().trim().toLowerCase();
+	    	  if (userRepository.existsByEmail(email)) {
 	              throw new IllegalArgumentException("Email is already exist.");
-	          }
-	    	  
-	    	  String verificationCode = CodeGenerator.generateVerificationCode();
+	          } else {  	  String verificationCode = CodeGenerator.generateVerificationCode();
 	          user.setVerificationCode(verificationCode);
 	          user.setCodeExpirationTime(LocalDateTime.now().plusMinutes(15)); 
 	          user.setVerified(false);
@@ -64,22 +63,26 @@ public class UserServiceImpl implements UserService{
 	          emailService.sendVerificationEmail(user.getEmail(), verificationCode);
 
 
-          user.setAdresses(new HashSet<>());
-        List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
-        user.setRole(role);
+
+	          List<EnumRole> roles = new ArrayList<>();
+		        roles.add(EnumRole.USER); 
+		        user.setRole(roles);
+			   
           userRepository.save(user);
 
 
 
-	        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
+//	        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
 	        
-	        for (Adress adresse:adresses){
-	            adresse.setUser(newUser.get());
-	            adressRepository.save(adresse);
-	        }
-	     
 
-	       return  user;}
+
+	       return  user;
+	       
+	          }  	  
+	    	  
+	  
+	       
+	    }
 	    
 	    @Override
 		public String logIn (LoginRequest loginRequest) {

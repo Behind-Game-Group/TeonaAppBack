@@ -64,8 +64,10 @@ public class UserServiceImpl implements UserService{
 
 
 
-        List<EnumRole> role=new ArrayList<>();role.add(EnumRole.User);
-        user.setRole(role);
+	          List<EnumRole> roles = new ArrayList<>();
+		        roles.add(EnumRole.USER); 
+		        user.setRole(roles);
+			   
           userRepository.save(user);
 
 

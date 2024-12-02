@@ -7,8 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
 import com.group.teona.enums.EnumRole;
 
 import jakarta.persistence.CascadeType;
@@ -74,12 +72,11 @@ public class User  implements UserDetails{
 		private Wallet wallet;
 		
 		@Lob
-		@Column(name = "role", nullable = false)
-		@Enumerated(EnumType.STRING)
-		private List< EnumRole> role;		
-		
+	    @Column(name = "role", nullable = false)
+	    @Enumerated(EnumType.STRING)
+	    private List<EnumRole> role;
 	
-		@Column(name = "language")     
+		@Column(name = "language", nullable = true, length = 255)     
 		private String language;
 		
 		
@@ -91,17 +88,19 @@ public class User  implements UserDetails{
 		
 		@Column(name = "is_verified", nullable = true)
 	    private boolean isVerified = false;
+		
+	    @Override
+	    public Collection<? extends GrantedAuthority> getAuthorities() {
+	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-		@Override
-		public Collection<? extends GrantedAuthority> getAuthorities() {
-			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-			for (EnumRole roleEnum : role){
-				GrantedAuthority authority = new SimpleGrantedAuthority(roleEnum.toString());
-				grantedAuthorities.add(authority);
-			}
-			return grantedAuthorities;
-		}
+	        for (EnumRole roleEnum : role) {
+	            grantedAuthorities.add(new SimpleGrantedAuthority(roleEnum.toString()));
+	        }
 
+	        return grantedAuthorities;
+	    }
+
+		  
 		@Override
 		public String getUsername() {
 			// TODO Auto-generated method stub

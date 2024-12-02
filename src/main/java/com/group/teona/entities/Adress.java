@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

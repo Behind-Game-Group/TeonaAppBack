@@ -40,8 +40,7 @@ public class UserServiceImpl implements UserService{
 	    @Autowired
 	    private EmailService emailService;
 
-	    @Autowired
-	    private AdressRepository adressRepository;
+	   
 	    
 	    @Autowired
 	     PasswordEncoder passwordEncoder;
@@ -69,12 +68,6 @@ public class UserServiceImpl implements UserService{
 		        user.setRole(roles);
 			   
           userRepository.save(user);
-
-
-
-//	        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
-	        
-
 
 	       return  user;
 	       
@@ -128,5 +121,11 @@ public class UserServiceImpl implements UserService{
 		public User findByEmail(String email) {
 		    return userRepository.findByEmail(email)
 		            .orElseThrow(() -> new RuntimeException("User not found"));
+		}
+
+	
+		public User findByResetToken(String resetToken) {
+		    return userRepository.findByResetToken(resetToken)
+		            .orElseThrow(() -> new RuntimeException("Invalid reset token."));
 		}
 }

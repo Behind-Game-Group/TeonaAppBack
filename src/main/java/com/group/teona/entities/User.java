@@ -95,6 +95,12 @@ public class User  implements UserDetails{
 		@Column(name = "teonaGroup", nullable = true)
 	    private boolean teonaGroup = false;
 		
+		@Column(name = "reset_token")
+		private String resetToken;
+
+		@Column(name = "token_expiration_time")
+		private LocalDateTime tokenExpirationTime;
+		
 	    @Override
 	    public Collection<? extends GrantedAuthority> getAuthorities() {
 	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

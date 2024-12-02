@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 import com.group.teona.dto.LoginRequest;
 import com.group.teona.dto.SignUpRequest;
 import com.group.teona.dto.VerifyRequest;
+import com.group.teona.dto.forgotPasswordRequest;
+import com.group.teona.dto.resetPasswordRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.enums.EnumRole;
@@ -148,8 +150,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/forgot-password")
-	public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
-	    String email = request.get("email");
+	public ResponseEntity<?> forgotPassword(@RequestBody forgotPasswordRequest request) {
+		
+	    String email = request.getEmail();
 
 	    if (email == null || email.isEmpty()) {
 	        return ResponseEntity.badRequest().body("Email is required.");
@@ -172,9 +175,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/reset-password")
-	public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
-	    String resetToken = request.get("token");
-	    String newPassword = request.get("newPassword");
+	public ResponseEntity<?> resetPassword(@RequestBody resetPasswordRequest request) {
+	    String resetToken = request.getToken();
+	    String newPassword = request.getNewPassword();
 
 	    if (resetToken == null || resetToken.isEmpty() || newPassword == null || newPassword.isEmpty()) {
 	        return ResponseEntity.badRequest().body("Token and new password are required.");
@@ -183,7 +186,7 @@ public class UserController {
 	    try {
 	        User user = userService.findByResetToken(resetToken);
 
-	        // Check if token is valid
+	    
 	        if (user.getTokenExpirationTime() == null || user.getTokenExpirationTime().isBefore(LocalDateTime.now())) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reset token has expired.");
 	        }

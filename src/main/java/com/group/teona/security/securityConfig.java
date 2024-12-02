@@ -44,7 +44,8 @@ public class securityConfig {
                 .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/api/user/register").permitAll()
             .requestMatchers("/api/user/login").permitAll()
-            .requestMatchers("/api/user/register").permitAll()
+            .requestMatchers("/api/user/forgot-password").permitAll()
+            .requestMatchers("/api/user/reset-password").permitAll()
             .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             

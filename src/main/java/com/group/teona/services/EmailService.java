@@ -30,7 +30,7 @@ public class EmailService {
     
     public boolean sendPasswordResetEmail(String toEmail, String resetToken) {
         try {
-            String resetLink = "http://localhost:8081/api/user/reset-password?token=" + resetToken;
+            String resetLink = "http://localhost:8081/hub/ResetPassword?token=" + resetToken;
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(toEmail);
             message.setSubject("Password Reset Request");

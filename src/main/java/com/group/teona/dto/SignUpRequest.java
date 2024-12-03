@@ -11,7 +11,15 @@ import lombok.Data;
 @Data
 public class SignUpRequest {
 	 private User user;
-	 private Set<Adress> adress;
+
+	  public User getUser() {
+	        return user;
+	    }
+
+	    public void setUser(User user) {
+	        this.user = user;
+	    }
+
 
 	   
 }

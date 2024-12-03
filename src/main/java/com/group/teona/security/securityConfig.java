@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.group.teona.security.JwtRequestFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -27,7 +29,11 @@ public class securityConfig {
     AuthenticationProvider authenticationProvider;
 
     @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
+    JwtRequestFilter jwtAuthenticationFilter;
+    
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
@@ -38,18 +44,21 @@ public class securityConfig {
                 .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/api/user/register").permitAll()
             .requestMatchers("/api/user/login").permitAll()
+            .requestMatchers("/api/user/forgot-password").permitAll()
+            .requestMatchers("/api/user/reset-password").permitAll()
+            .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             
         )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-        //.sessionManagement(session -> session
-          //  .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+       .sessionManagement(session -> session
+         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          ;
 
-    // Add the JWT request filter before the username/password authentication filter
-//    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
     }
@@ -65,6 +74,7 @@ public class securityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

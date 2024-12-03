@@ -21,8 +21,8 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-	@Column(name = "amount", nullable = false)
-	private double amount;
+	@Column(name = "topUp", nullable = false)
+	private double topUp;
 	
 	
 	@Column(name = "isActive", nullable = false)

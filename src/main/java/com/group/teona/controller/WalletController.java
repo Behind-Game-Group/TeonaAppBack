@@ -17,7 +17,7 @@ import com.group.teona.services.WalletService;
 
 @RestController
 @RequestMapping("auth")
-public class AuthController {
+public class WalletController {
 	
 
     @GetMapping("test")

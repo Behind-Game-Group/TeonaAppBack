@@ -1,6 +1,7 @@
 package com.group.teona.services;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,17 +81,6 @@ public class WalletServiceImpl implements WalletService  {
 	}
 	
 	@Override 
-	public Card addNewCard (Card card, User user) {
-			Wallet walletUser = user.getWallet();
-			card.setWallet(walletUser);
-			card.setActive(true);
-			
-		
-		return cardRepository.save(card);
-		
-	}
-	
-	@Override 
 	public Pass addNewPass (Pass pass,  User user) {
 		
 			Wallet walletUser = user.getWallet();
@@ -122,6 +112,34 @@ public class WalletServiceImpl implements WalletService  {
 		
 		
 	}
+	
+	@Override 
+	public Card addNewCard (User user) {
+		
+			Wallet walletUser = user.getWallet();
+			
+		
+			Card card = new Card();
+			card.setTopUp(0);
+			card.setWallet(walletUser);
+			card.setActive(false);
+			
+		
+			return cardRepository.save(card);
+		
+	}
+	
+	@Override
+	public Card add5TopUp (Long cardId) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		cardFind.setTopUp(5);
+		cardFind.setActive(true);
+		
+		return cardFind;
+	}
+	
 	
 	/*
 	@Override

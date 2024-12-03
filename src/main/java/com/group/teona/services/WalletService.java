@@ -14,7 +14,9 @@ public interface WalletService {
 	Pass addNewPass(Pass pass,  User user);
 	
 	// Permet de créer une card
-	Card addNewCard( Card card, User user);
+	Card addNewCard(User user);
+
+	Card add5TopUp(Long cardId);
 
 
 }

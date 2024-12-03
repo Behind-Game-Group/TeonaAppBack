@@ -1,12 +1,12 @@
 package com.group.teona.entities;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,8 +23,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Adress {
+public class Adress implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -46,7 +51,6 @@ public class Adress {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	@JsonBackReference
 	private User user;
 
 }

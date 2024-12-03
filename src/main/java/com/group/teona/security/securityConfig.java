@@ -57,7 +57,7 @@ public class securityConfig {
          .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          ;
 
-//     Add the JWT request filter before the username/password authentication filter
+
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

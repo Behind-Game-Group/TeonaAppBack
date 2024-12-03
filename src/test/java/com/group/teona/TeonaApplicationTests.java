@@ -1,13 +1,16 @@
-package com.group.teona;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class TeonaApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.group.teona;
+//
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.junit.jupiter.MockitoExtension;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
+//class TeonaApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

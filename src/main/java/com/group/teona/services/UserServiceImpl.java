@@ -80,24 +80,6 @@ public class UserServiceImpl implements UserService{
 	     
 
 	       return  user;}
-	    
-	    @Override
-		public String logIn (LoginRequest loginRequest) {
-	    	String email = loginRequest.getEmail();
-	    	String password = loginRequest.getPassword();
-	    	
-	    	try {
-	            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-	            System.out.println(authentication);
-	    	
-	    				}
-	    		
-	    	catch (Exception e) {
-	    		System.out.println(e);
-	    		return "Nom d'utilisateur ou mot de passe incorrect";
-	    				}
-			return password; 
-	    }
 
 
 	    public Optional<User> login(String email, String pass){

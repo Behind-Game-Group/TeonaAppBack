@@ -125,8 +125,7 @@ public class UserController {
 		  String email = req.getEmail();
 		    String password = req.getPassword();
 		
-//		    System.out.println("Email: " + req.getEmail());
-//		    System.out.println("Password: " + req.getPass());
+
 		    if (email == null || password == null) {
 		        return ResponseEntity.badRequest().body("Email and password must not be null");
 		    }

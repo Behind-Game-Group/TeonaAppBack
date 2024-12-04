@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User  implements UserDetails{
 	  @Id
-	    @GeneratedValue(strategy = GenerationType.AUTO)
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    
 	    @Column(name = "lastName", length = 25, nullable = false)

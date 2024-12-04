@@ -24,11 +24,13 @@ public class Card {
 	@Column(name = "amount", nullable = false)
 	private double amount;
 	
+	
 	@Column(name = "isActive", nullable = false)
     private boolean isActive;
 	
 	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = false)
+	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
+	
 
 }

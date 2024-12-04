@@ -30,7 +30,8 @@ public class WalletServiceImpl implements WalletService  {
 	
 	@Autowired
     PassRepository passRepository;
-
+	
+	/*
 	@Override
 	public Wallet addWallet(Wallet wallet, Card card, Pass pass, User user) {
 		
@@ -79,6 +80,16 @@ public class WalletServiceImpl implements WalletService  {
 					return wallet;
 	
 	}
+	*/
+	
+	
+	@Override
+	public Wallet addWallet(Wallet wallet, User user) {
+		
+
+			wallet.setUser(user);
+			return walletRepository.save(wallet); 
+			}
 	
 	@Override 
 	public Pass addNewPass (Pass pass,  User user) {
@@ -129,59 +140,20 @@ public class WalletServiceImpl implements WalletService  {
 		
 	}
 	
-	@Override
-	public Card add5TopUp (Long cardId) {
-		Optional<Card> card = cardRepository.findById(cardId);
-		Card cardFind = card.get();
-		
-		cardFind.setTopUp(5);
-		cardFind.setActive(true);
-		
-		return cardFind;
-	}
 	
 	@Override
-	public Card add10TopUp (Long cardId) {
+	public Card addTopUp (Long cardId, Integer topUp) {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
 		
-		cardFind.setTopUp(10);
-		cardFind.setActive(true);
-		
-		return cardFind;
-	}
-	
-	@Override
-	public Card add15TopUp (Long cardId) {
-		Optional<Card> card = cardRepository.findById(cardId);
-		Card cardFind = card.get();
-		
-		cardFind.setTopUp(15);
-		cardFind.setActive(true);
-		
-		return cardFind;
-	}
-	
-	@Override
-	public Card add20TopUp (Long cardId) {
-		Optional<Card> card = cardRepository.findById(cardId);
-		Card cardFind = card.get();
-		
-		cardFind.setTopUp(20);
-		cardFind.setActive(true);
-		
-		return cardFind;
-	}
-	
-	@Override
-	public Card addPersoTopUp (Long cardId, Long topUp) {
-		Optional<Card> card = cardRepository.findById(cardId);
-		Card cardFind = card.get();
-		
+		if(topUp > 0) {
 		cardFind.setTopUp(topUp);
 		cardFind.setActive(true);
 		
 		return cardFind;
+		}
+		
+        throw new IllegalArgumentException("Veuillez entrer un chiffre valide");
 	}
 	
 	

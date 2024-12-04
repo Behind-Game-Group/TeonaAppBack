@@ -34,15 +34,13 @@ public class WalletController {
 	private UserRepository userRepository;
 
     @PostMapping("add")
-	public ResponseEntity addWallet( @RequestBody WalletRequest walletRequest, Authentication authentication ) {
-		Wallet wallet = walletRequest.getWallet();
-		Card card = walletRequest.getCard();
-		Pass pass = walletRequest.getPass();
+	public ResponseEntity addWallet( @RequestBody Wallet wallet, Authentication authentication ) {
+		
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
-		walletService.addWallet(wallet, card, pass, userFind.get() );
+		walletService.addWallet(wallet, userFind.get() );
 
-		return ResponseEntity.ok("Wallet ajouté avec succès");
+		return ResponseEntity.ok("Wallet ajouté avec succès" + userFind.get().getFirstName());
 	}
     
     @PostMapping("addCard")
@@ -64,7 +62,7 @@ public class WalletController {
 
     	return ResponseEntity.ok("Pass créé avec succès");
     }
-    
+    /*
     @GetMapping("getUser")
 	public GetUserRequest getUserById (@RequestParam Long userId) {
 		
@@ -79,6 +77,52 @@ public class WalletController {
 		
 		 throw new RuntimeException("Invalid user");
 	}
+    */
+    
+    @PutMapping("topUp")
+    public ResponseEntity addPersoTopUp ( @RequestParam Long cardId, @RequestParam Integer topUp, Authentication authentication) {
+    	
+    	walletService.addTopUp(cardId, topUp);
+    	
+    	return ResponseEntity.ok(topUp + "topUp ajoutés");
+
+    }
+    
+    @PutMapping("topUp5")
+    public ResponseEntity add5TopUp ( @RequestParam Long cardId, Authentication authentication) {
+    	
+    	walletService.addTopUp(cardId, 5);
+    	
+    	return ResponseEntity.ok("5 topUp ajoutés");
+
+    }
+    
+    @PutMapping("topUp10")
+    public ResponseEntity add10TopUp ( @RequestParam Long cardId, Authentication authentication) {
+    	
+    	walletService.addTopUp(cardId, 10);
+    	
+    	return ResponseEntity.ok("10 topUp ajoutés");
+
+    }
+    
+    @PutMapping("topUp10")
+    public ResponseEntity add15TopUp ( @RequestParam Long cardId, Authentication authentication) {
+    	
+    	walletService.addTopUp(cardId, 15);
+    	
+    	return ResponseEntity.ok("15 topUp ajoutés");
+    }
+    	
+    	 @PutMapping("topUp20")
+    	    public ResponseEntity add20TopUp ( @RequestParam Long cardId, Authentication authentication) {
+    	    	
+    	    	walletService.addTopUp(cardId, 20);
+    	    	
+    	    	return ResponseEntity.ok("20 topUp ajoutés");
+
+    }
+    
     
     }
     

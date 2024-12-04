@@ -30,7 +30,7 @@ import com.group.teona.dto.forgotPasswordRequest;
 import com.group.teona.dto.resetPasswordRequest;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
-import com.group.teona.enums.EnumRole;
+import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.UserService;
 import com.group.teona.services.EmailService;
 
@@ -49,6 +49,10 @@ public class UserController {
 	
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
+	@Autowired
+	private UserRepository userRepository;
 
 
 	@PostMapping("/register")
@@ -124,7 +128,6 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 		  String email = req.getEmail();
 		    String password = req.getPassword();
-		
 
 		    if (email == null || password == null) {
 		        return ResponseEntity.badRequest().body("Email and password must not be null");
@@ -143,10 +146,8 @@ public class UserController {
 		    catch (Exception e) {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		    }
-
-
-
 	}
+
 	
 	@PostMapping("/forgot-password")
 	public ResponseEntity<?> forgotPassword(@RequestBody forgotPasswordRequest request) {
@@ -202,4 +203,5 @@ public class UserController {
 	    }
 	}
 }
+
 

@@ -140,7 +140,7 @@ String json = toJson(lo);
 
 
 
-        when(cardRepository.findById(2)).thenReturn(Optional.of(new Card()));
+        when(cardRepository.findById((long) 2)).thenReturn(Optional.of(new Card()));
 
     }
 }

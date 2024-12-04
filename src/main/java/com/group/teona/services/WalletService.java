@@ -21,5 +21,9 @@ public interface WalletService {
 
 
 
+	Card addNewCard(Long userId, Card card);
+
+	String useCard(Long cardId);
+
 
 }

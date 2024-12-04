@@ -25,11 +25,12 @@ public class Card {
 	private Integer topUp;
 	
 	
+	
 	@Column(name = "isActive", nullable = false)
     private boolean isActive;
 	
 	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = false)
+	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
 	
 

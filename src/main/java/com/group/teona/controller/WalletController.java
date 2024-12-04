@@ -29,6 +29,7 @@ public class WalletController {
     
     @Autowired
 	private WalletService walletService;
+
 	 
     @Autowired
 	private UserRepository userRepository;

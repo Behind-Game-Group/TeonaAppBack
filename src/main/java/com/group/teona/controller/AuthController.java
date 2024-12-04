@@ -22,6 +22,13 @@ public class AuthController {
    
         
     }
+	@PostMapping("test")
+	public ResponseEntity tested2 (@RequestBody LoginRequest loginRequest){
+		loginRequest.setEmail(loginRequest.getEmail()+2);
+		return ResponseEntity.ok(loginRequest);
+
+
+	}
     
     @Autowired
 	private WalletService walletService;

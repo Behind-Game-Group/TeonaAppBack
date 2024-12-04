@@ -18,5 +18,16 @@ public interface WalletService {
 
 	Card add5TopUp(Long cardId);
 
+	Card add10TopUp(Long cardId);
+	
+	Card add15TopUp(Long cardId);
+	
+	Card add20TopUp(Long cardId);
+	
+	Card addPersoTopUp (Long cardId, Long topUp);
+
+
+
+
 
 }

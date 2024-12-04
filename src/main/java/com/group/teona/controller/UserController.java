@@ -128,7 +128,7 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 		  String email = req.getEmail();
 		    String password = req.getPassword();
-		
+
 		    if (email == null || password == null) {
 		        return ResponseEntity.badRequest().body("Email and password must not be null");
 		    }

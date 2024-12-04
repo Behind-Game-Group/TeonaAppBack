@@ -46,11 +46,11 @@ public class WalletController {
 	}
     
     @PostMapping("addCard")
-    public ResponseEntity addCard(@RequestBody Card card, Authentication authentication) {
+    public ResponseEntity addCard( Authentication authentication) {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
     	
-    	walletService.addNewCard(card, userFind.get() );
+    	walletService.addNewCard(userFind.get() );
 
     	return ResponseEntity.ok("Carte ajoutée avec succès");
     }

@@ -140,6 +140,50 @@ public class WalletServiceImpl implements WalletService  {
 		return cardFind;
 	}
 	
+	@Override
+	public Card add10TopUp (Long cardId) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		cardFind.setTopUp(10);
+		cardFind.setActive(true);
+		
+		return cardFind;
+	}
+	
+	@Override
+	public Card add15TopUp (Long cardId) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		cardFind.setTopUp(15);
+		cardFind.setActive(true);
+		
+		return cardFind;
+	}
+	
+	@Override
+	public Card add20TopUp (Long cardId) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		cardFind.setTopUp(20);
+		cardFind.setActive(true);
+		
+		return cardFind;
+	}
+	
+	@Override
+	public Card addPersoTopUp (Long cardId, Long topUp) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		cardFind.setTopUp(topUp);
+		cardFind.setActive(true);
+		
+		return cardFind;
+	}
+	
 	
 	/*
 	@Override

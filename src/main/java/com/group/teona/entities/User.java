@@ -65,18 +65,18 @@ public class User  implements UserDetails{
 		private String passPicture;
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-		@JsonManagedReference 
-		Set<Adress> adresses;
+		private Set<Adress> adresses = new HashSet<>();
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
 		@Lob
-	    @Column(name = "role", nullable = false)
-	    @Enumerated(EnumType.STRING)
-	    private List<EnumRole> role;
+		@Column(name = "role", nullable = false)
+		@Enumerated(EnumType.STRING)
+		private List< EnumRole> role;
+		
 	
-		@Column(name = "language", nullable = true, length = 255)     
+		@Column(name = "language", nullable = true)     
 		private String language;
 		
 		

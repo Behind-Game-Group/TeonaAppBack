@@ -1,6 +1,8 @@
 package com.group.teona.services;
 
+
 import java.time.LocalDate;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +37,20 @@ public class WalletServiceImpl implements WalletService  {
 	public Wallet addWallet(Wallet wallet, Card card, Pass pass, User user) {
 		
 
-			wallet.setUser(user);
-			walletRepository.save(wallet);
+		Optional<User> user = userRepository.findById(userId);
+		if(user.isPresent()) {
 			
+			User userFind = user.get();
+
+			wallet.setUser(userFind);
+		
 					if(card != null) {
 						card.setWallet(wallet);
-						card.setActive(true);
+						
+						if(card.getAmount() > 0) {
+							card.setActive(true);
+						}
+
 						cardRepository.save(card);
 						
 					//	wallet.getCards().add(card);
@@ -56,6 +66,7 @@ public class WalletServiceImpl implements WalletService  {
 										pass.setValideDuration(365.0);
 						}
 						
+
 						// Si le pass est mensuel
 						if(pass.getSubscriptionTime().equals(EnumSub.MounthlyPass)) {
 										pass.setValideDuration(30.0);
@@ -73,6 +84,7 @@ public class WalletServiceImpl implements WalletService  {
 						
 						passRepository.save(pass);
 												
+
 					}
 					
 
@@ -204,6 +216,40 @@ public class WalletServiceImpl implements WalletService  {
 		
 	}
 	*/
+
+	
+	@Override 
+	public Card addNewCard (Long userId, Card card) {
+		
+		Optional<User> user = userRepository.findById(userId);
+		if(user.isPresent()) {
+			
+			User userFind = user.get();
+			Wallet walletUser = userFind.getWallet();
+			// walletUser.getCards().add(card);
+			card.setWallet(walletUser);
+			
+			return cardRepository.save(card);
+		}
+		throw new RuntimeException("Utilisateur non trouvé");
+		
+	}
+	
+	
+	@Override
+	public String useCard(Long cardId) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		if (card.isPresent()) {
+			Card cardFind = card.get();
+					if(cardFind.getAmount() > 0) {
+						cardFind.setAmount(cardFind.getAmount() - 1);
+						return "Trajet validé, solde restant : " + cardFind.getAmount();
+					}
+					throw new RuntimeException("Solde épuisé, veuillez acheter une nouvelle carte");
+		}
+		throw new RuntimeException("Carte inexistante");
+		
+	}
 
 	
 

@@ -29,12 +29,16 @@ public class WalletController {
     
     @Autowired
 	private WalletService walletService;
+
 	 
     @Autowired
 	private UserRepository userRepository;
 
     @PostMapping("add")
 	public ResponseEntity addWallet( @RequestBody WalletRequest walletRequest, Authentication authentication ) {
+
+	
+
 		Wallet wallet = walletRequest.getWallet();
 		Card card = walletRequest.getCard();
 		Pass pass = walletRequest.getPass();

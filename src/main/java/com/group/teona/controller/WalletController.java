@@ -49,17 +49,17 @@ public class WalletController {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
     	
-    	walletService.addNewCard(userFind.get() );
+    	walletService.addCard(userFind.get() );
 
     	return ResponseEntity.ok("Carte ajoutée avec succès");
     }
     
     @PostMapping("addPass")
-    public ResponseEntity addPass(@RequestBody Pass pass, Authentication authentication) {
+    public ResponseEntity addPass( Authentication authentication) {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
-    	walletService.addNewPass(pass, userFind.get());
+    	walletService.addPass(userFind.get());
 
     	return ResponseEntity.ok("Pass créé avec succès");
     }
@@ -85,7 +85,7 @@ public class WalletController {
     	
     	walletService.addTopUp(cardId, topUp);
     	
-    	return ResponseEntity.ok(topUp + "topUp ajoutés");
+    	return ResponseEntity.ok(topUp + " topUp ajoutés");
 
     }
     
@@ -107,7 +107,7 @@ public class WalletController {
 
     }
     
-    @PutMapping("topUp10")
+    @PutMapping("topUp15")
     public ResponseEntity add15TopUp ( @RequestParam Long cardId, Authentication authentication) {
     	
     	walletService.addTopUp(cardId, 15);

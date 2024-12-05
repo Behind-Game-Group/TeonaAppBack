@@ -103,45 +103,77 @@ public class WalletServiceImpl implements WalletService  {
 			return walletRepository.save(wallet); 
 			}
 	
+	
+	
 	@Override 
-	public Pass addNewPass (Pass pass,  User user) {
+	public Pass addPass (User user) {
 		
-			Wallet walletUser = user.getWallet();
+		Wallet walletUser = user.getWallet();
+		
+		if( walletUser != null) {
+			Pass pass = new Pass();
+			
 			pass.setWallet(walletUser);
-			pass.setActive(true);
-			pass.setDateSubscription(LocalDate.now());
-						
-			// Si le pass est annuel
-			if(pass.getSubscriptionTime().equals(EnumSub.YearlyPass)) {
-							pass.setValideDuration(365.0);
-			}
-			
-			// Si le pass est mensuel
-			if(pass.getSubscriptionTime().equals(EnumSub.MounthlyPass)) {
-							pass.setValideDuration(30.0);
-			}
-			
-			// Si le pass est hebdomadaire
-			if(pass.getSubscriptionTime().equals(EnumSub.WeeklyPass)) {
-							pass.setValideDuration(7.0);
-			}
-			
-			// Si le pass est journalier
-			if(pass.getSubscriptionTime().equals(EnumSub.DayPass)) {
-							pass.setValideDuration(1.0);
-			}
+			pass.setActive(false);
 			
 			return passRepository.save(pass);
+		}
 		
+        throw new IllegalArgumentException("Vous devrez possédez un wallet pour effectuer cette opération");
 		
 	}
 	
+	@Override
+	public Pass addTopUp (Long passId, EnumSub topUp) {
+		Optional<Pass> pass = passRepository.findById(passId);
+		Pass passFind = pass.get();
+		Wallet wallet = passFind.getWallet();
+		
+		if(topUp == EnumSub.DayPass) {
+				passFind.setDateSubscription(LocalDate.now());
+				passFind.setValideDuration(1.0);
+				passFind.setActive(true);
+			
+				return passFind;
+			}
+		
+		if(topUp == EnumSub.WeeklyPass) {
+			passFind.setDateSubscription(LocalDate.now());
+			passFind.setValideDuration(7.0);
+			passFind.setActive(true);
+		
+			return passFind;
+		}
+		
+		if(topUp == EnumSub.MounthlyPass) {
+			passFind.setDateSubscription(LocalDate.now());
+			passFind.setValideDuration(30.0);
+			passFind.setActive(true);
+		
+			return passFind;
+		}
+		
+		if(topUp == EnumSub.WeeklyPass) {
+			passFind.setDateSubscription(LocalDate.now());
+			passFind.setValideDuration(365.0);
+			passFind.setActive(true);
+		
+			return passFind;
+		}
+		
+		
+        throw new IllegalArgumentException("Veuillez entrer un chiffre valide");
+	}
+	
+	
+	
 	@Override 
-	public Card addNewCard (User user) {
+	public Card addCard (User user) {
+		
 		
 			Wallet walletUser = user.getWallet();
 			
-		
+		if( walletUser != null) {
 			Card card = new Card();
 			card.setTopUp(0);
 			card.setWallet(walletUser);
@@ -149,7 +181,10 @@ public class WalletServiceImpl implements WalletService  {
 			
 		
 			return cardRepository.save(card);
+		}
 		
+        throw new IllegalArgumentException("Vous devrez possédez un wallet pour effectuer cette opération");
+
 	}
 	
 	
@@ -157,12 +192,17 @@ public class WalletServiceImpl implements WalletService  {
 	public Card addTopUp (Long cardId, Integer topUp) {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
+		Wallet wallet = cardFind.getWallet();
 		
 		if(topUp > 0) {
-		cardFind.setTopUp(topUp);
-		cardFind.setActive(true);
-		
-		return cardFind;
+			if(topUp <= wallet.getCount() ) {
+				cardFind.setTopUp(topUp);
+				cardFind.setActive(true);
+			
+				return cardRepository.save(cardFind);
+			}
+			double missingAmount = topUp - wallet.getCount();
+			throw new IllegalArgumentException("Le montant sur votre wallet est insuffisant de " + missingAmount);
 		}
 		
         throw new IllegalArgumentException("Veuillez entrer un chiffre valide");
@@ -187,25 +227,9 @@ public class WalletServiceImpl implements WalletService  {
 		throw new RuntimeException("Carte inexistante");
 		
 	}
-	*/
+	
 
 	
-	@Override 
-	public Card addNewCard (Long userId, Card card) {
-		
-		Optional<User> user = userRepository.findById(userId);
-		if(user.isPresent()) {
-			
-			User userFind = user.get();
-			Wallet walletUser = userFind.getWallet();
-			// walletUser.getCards().add(card);
-			card.setWallet(walletUser);
-			
-			return cardRepository.save(card);
-		}
-		throw new RuntimeException("Utilisateur non trouvé");
-		
-	}
 	
 	
 	@Override
@@ -222,7 +246,7 @@ public class WalletServiceImpl implements WalletService  {
 		throw new RuntimeException("Carte inexistante");
 		
 	}
-
+*/
 	
 
 }

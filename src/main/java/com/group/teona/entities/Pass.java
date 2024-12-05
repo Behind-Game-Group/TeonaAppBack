@@ -30,7 +30,7 @@ public class Pass {
     private Long id;
 	
     
-    @Column(name = "subscription_time", nullable = false)
+    @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     

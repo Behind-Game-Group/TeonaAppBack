@@ -33,74 +33,29 @@ public class WalletServiceImpl implements WalletService  {
 	@Autowired
     PassRepository passRepository;
 	
-	/*
+	
+	
+	// Ajouter un wallet si on a un compte user
 	@Override
-	public Wallet addWallet(Wallet wallet, Card card, Pass pass, User user) {
+	public Wallet addWalletForUser(User user) {
 		
-
-		Optional<User> user = userRepository.findById(userId);
-		if(user.isPresent()) {
-			
-			User userFind = user.get();
-
-			wallet.setUser(userFind);
-		
-					if(card != null) {
-						card.setWallet(wallet);
-						
-						if(card.getAmount() > 0) {
-							card.setActive(true);
-						}
-
-						cardRepository.save(card);
-						
-					//	wallet.getCards().add(card);
-					}
-					
-					if(pass != null) {
-						pass.setWallet(wallet);
-						pass.setActive(true);
-						pass.setDateSubscription(LocalDate.now());
-									
-						// Si le pass est annuel
-						if(pass.getSubscriptionTime().equals(EnumSub.YearlyPass)) {
-										pass.setValideDuration(365.0);
-						}
-						
-
-						// Si le pass est mensuel
-						if(pass.getSubscriptionTime().equals(EnumSub.MounthlyPass)) {
-										pass.setValideDuration(30.0);
-						}
-						
-						// Si le pass est hebdomadaire
-						if(pass.getSubscriptionTime().equals(EnumSub.WeeklyPass)) {
-										pass.setValideDuration(7.0);
-						}
-						
-						// Si le pass est journalier
-						if(pass.getSubscriptionTime().equals(EnumSub.DayPass)) {
-										pass.setValideDuration(1.0);
-						}
-						
-						passRepository.save(pass);
-												
-
-					}
-					
-
-					return wallet;
-	
-	}
-	*/
-	
-	
-	@Override
-	public Wallet addWallet(Wallet wallet, User user) {
-		
-
+			Wallet wallet = new Wallet();
 			wallet.setUser(user);
+			wallet.setPhoneNumber(user.getPhoneNumber());
+			wallet.setCount(0);
 			return walletRepository.save(wallet); 
+			}
+	
+	
+	// Ajouter un wallet si on a pas de compte user
+	@Override
+	public Wallet addWallet(String phoneNumber) {	
+		
+		Wallet wallet = new Wallet();
+		wallet.setPhoneNumber(phoneNumber);
+		wallet.setCount(0);
+		System.out.println(wallet.getId());
+		return walletRepository.save(wallet); 
 			}
 	
 	
@@ -187,6 +142,26 @@ public class WalletServiceImpl implements WalletService  {
 
 	}
 	
+	@Override 
+	public Card addCard (Long walletId) {
+		
+		Optional<Wallet> wallet = walletRepository.findById(walletId);
+			
+		if( wallet != null) {
+			Card card = new Card();
+			card.setTopUp(0);
+			card.setWallet(wallet.get());
+			card.setActive(false);
+			
+		
+			return cardRepository.save(card);
+		}
+		
+        throw new IllegalArgumentException("Vous devrez possédez un wallet pour effectuer cette opération");
+
+	}
+	
+	
 	
 	@Override
 	public Card addTopUp (Long cardId, Integer topUp) {
@@ -202,7 +177,7 @@ public class WalletServiceImpl implements WalletService  {
 				return cardRepository.save(cardFind);
 			}
 			double missingAmount = topUp - wallet.getCount();
-			throw new IllegalArgumentException("Le montant sur votre wallet est insuffisant de " + missingAmount);
+			throw new IllegalArgumentException("Vous devez ajouter au moins  " + missingAmount + " sur votre wallet afin de faire cette opération");
 		}
 		
         throw new IllegalArgumentException("Veuillez entrer un chiffre valide");

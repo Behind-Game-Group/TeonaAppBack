@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.group.teona.dto.AddWalletRequest;
 import com.group.teona.dto.GetUserRequest;
 import com.group.teona.dto.WalletRequest;
 import com.group.teona.entities.Card;
@@ -34,34 +35,52 @@ public class WalletController {
     @Autowired
 	private UserRepository userRepository;
 
-    @PostMapping("add")
-	public ResponseEntity addWallet( @RequestBody Wallet wallet, Authentication authentication ) {
+    @PostMapping("addWallet")
+	public ResponseEntity addWallet( @RequestBody AddWalletRequest walletRequest ) {
+		
+
+		walletService.addWallet(walletRequest.getPhoneNumber());
+
+		return ResponseEntity.ok("Wallet ajouté avec succès");
+	}
+    
+    @PostMapping("addWalletAuth")
+	public ResponseEntity addWalletForUser( Authentication authentication ) {
 		
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
-		walletService.addWallet(wallet, userFind.get() );
+		walletService.addWalletForUser(userFind.get());
 
-		return ResponseEntity.ok("Wallet ajouté avec succès" + userFind.get().getFirstName());
+		return ResponseEntity.ok("Wallet ajouté avec succès " + userFind.get().getFirstName());
 	}
     
-    @PostMapping("addCard")
+    @PostMapping("addCardAuth")
     public ResponseEntity addCard( Authentication authentication) {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
     	
     	walletService.addCard(userFind.get() );
 
-    	return ResponseEntity.ok("Carte ajoutée avec succès");
+    	return ResponseEntity.ok("Carte ajoutée avec succès " + userFind.get().getFirstName());
     }
     
-    @PostMapping("addPass")
+    @PostMapping("addCard")
+    public ResponseEntity addCard(@RequestParam Long walletId) {
+    	walletService.addCard(walletId);
+    	
+    	return ResponseEntity.ok("Carte ajoutée avec succès");
+
+    }
+
+    
+    @PostMapping("addPassAuth")
     public ResponseEntity addPass( Authentication authentication) {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
     	walletService.addPass(userFind.get());
 
-    	return ResponseEntity.ok("Pass créé avec succès");
+    	return ResponseEntity.ok("Pass créé avec succès" + userFind.get().getFirstName());
     }
     /*
     @GetMapping("getUser")

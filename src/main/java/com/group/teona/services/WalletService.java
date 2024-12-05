@@ -8,15 +8,18 @@ import com.group.teona.enums.EnumSub;
 
 public interface WalletService {
 	
-	// Permet de créer un wallet et si on le souhaite une card ou un pass qui y est attaché
-	Wallet addWallet(Wallet wallet, User user);
+	Wallet addWalletForUser(User user);
+	Wallet addWallet(String phoneNumber);
 	
 	
 	Pass addPass(User user);
 	Pass addTopUp(Long passId, EnumSub topUp);
 	
 	Card addCard(User user);
+	Card addCard(Long walletId);
 	Card addTopUp(Long cardId, Integer topUp);
+
+
 
 
 

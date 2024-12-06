@@ -37,6 +37,12 @@ public class Adress implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name = "lastName", length = 25, nullable = false)
+	private String lastName;
+	    
+	@Column(name = "firstName", length = 25, nullable = false)
+	private String firstName;
+	    
 	@Column(name = "numero", length = 4, nullable = false)
 	private String numero;
 	
@@ -53,7 +59,7 @@ public class Adress implements Serializable {
 	private String country;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 	
 	@OneToMany( mappedBy = "adress")

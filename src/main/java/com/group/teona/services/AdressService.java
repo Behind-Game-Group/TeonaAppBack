@@ -7,6 +7,6 @@ import com.group.teona.entities.User;
 
 public interface AdressService {
 	
-	public Set<Adress> addAdresses (Set<Adress> adresses, User user);
-
+	Set<Adress> addAdresses (Set<Adress> adresses, User user);
+	
 }

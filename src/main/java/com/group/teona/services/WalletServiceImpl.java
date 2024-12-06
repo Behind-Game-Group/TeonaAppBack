@@ -14,6 +14,7 @@ import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.enums.EnumSub;
+import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.CardRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
@@ -34,7 +35,8 @@ public class WalletServiceImpl implements WalletService  {
 	@Autowired
     PassRepository passRepository;
 	
-	
+	@Autowired
+    AdressRepository adressRepository;
 	
 	// Ajouter un wallet si on a un compte user
 	@Override
@@ -149,6 +151,7 @@ public class WalletServiceImpl implements WalletService  {
 		Optional<Wallet> wallet = walletRepository.findById(walletId);
 			
 		if( wallet != null) {
+			adressRepository.save(adress);
 			Card card = new Card();
 			card.setTopUp(0);
 			card.setWallet(wallet.get());

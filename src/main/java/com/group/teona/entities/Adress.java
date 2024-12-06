@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,27 +31,37 @@ public class Adress implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(name = "numero", length = 4, nullable = false)
-	private String numero;
-	
-	@Column(name = "road", length = 75, nullable = false)
-	private String road;
-	
-	@Column(name = "postal_code", length = 5, nullable = false)
-	private String postalCode;
+	  @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
 
-	@Column(name = "city", length = 25, nullable = false)
-	private String city;
-	
-	@Column(name = "country", length = 25, nullable = false)
-	private String country;
+	    @Column(nullable = false)
+	    private String firstName;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	    @Column(nullable = false)
+	    private String lastName;
+
+	    @Column(nullable = false)
+	    private String streetName;
+
+	    private String streetNameOptional;
+
+	    @Column(nullable = false)
+	    private String postCode;
+
+	    @Column(nullable = false)
+	    private String city;
+
+	    @Column(nullable = false)
+	    private String phoneNumber;
+
+	    @Column(nullable = false)
+	    private String country;
+
+	    private String image;
+
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    @JoinColumn(name = "user_id", nullable = true) 
+	    private User user;
 
 }

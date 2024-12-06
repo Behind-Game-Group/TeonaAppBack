@@ -22,17 +22,19 @@ public class JwtService {
         return Keys.secretKeyFor(alg);
     }
 
-    public String generateToken (UserDetails userDetails){
-        return generateToken(userDetails, new HashMap<>());
+    public String generateToken (UserDetails userDetails, Long userId){
+    	 Map<String, Object> claims = new HashMap<>();
+         claims.put("userId", userId);
+         return generateToken(claims, userDetails.getUsername());
     }
 
-    public String generateToken (UserDetails userDetails, Map<String, String> extraClaims){
+    public String generateToken (Map<String, Object> extraClaims, String subject){
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 5))//todo set time for token
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 5))
                 .signWith(SECRET_KEY, alg)
                 .compact();
     }
@@ -46,7 +48,9 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -55,7 +59,14 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
 
     }
-
+    public boolean isTokenValid(String token) {
+        try {
+            String username = extractUsername(token);
+            return username != null && !isTokenExpired(token);
+        } catch (Exception e) {
+            return false; 
+        }
+    }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

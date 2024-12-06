@@ -137,8 +137,16 @@ public class UserController {
 		        // Attempt login
 		        Optional<User> user = userService.login(email, password);
 		        if (user.isPresent()) {
-		            String jwt = jwtService.generateToken(user.get());
-		            return ResponseEntity.ok("Login successful. Token: " + jwt);
+		        	   User loggedInUser = user.get();
+		               String jwt = jwtService.generateToken(loggedInUser, loggedInUser.getId());
+
+		               // Return both jwt and userId in a Map
+		               Map<String, Object> response = new HashMap<>();
+		               response.put("jwt", jwt);
+		               response.put("userId", loggedInUser.getId());
+
+		               return ResponseEntity.ok(response);
+		          
 		        } else {
 	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
 		        }

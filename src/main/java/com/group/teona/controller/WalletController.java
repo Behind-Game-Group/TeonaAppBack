@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.group.teona.dto.AddWalletRequest;
 import com.group.teona.dto.GetUserRequest;
 import com.group.teona.dto.WalletRequest;
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
@@ -65,8 +66,8 @@ public class WalletController {
     }
     
     @PostMapping("addCard")
-    public ResponseEntity addCard(@RequestParam Long walletId) {
-    	walletService.addCard(walletId);
+    public ResponseEntity addCard(@RequestParam Long walletId, @RequestBody Adress adress) {
+    	walletService.addCard(walletId, adress);
     	
     	return ResponseEntity.ok("Carte ajoutée avec succès");
 

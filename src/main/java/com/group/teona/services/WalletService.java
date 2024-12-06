@@ -1,5 +1,6 @@
 package com.group.teona.services;
 
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
@@ -16,7 +17,7 @@ public interface WalletService {
 	Pass addTopUp(Long passId, EnumSub topUp);
 	
 	Card addCard(User user);
-	Card addCard(Long walletId);
+	Card addCard(Long walletId, Adress adress);
 	Card addTopUp(Long cardId, Integer topUp);
 
 

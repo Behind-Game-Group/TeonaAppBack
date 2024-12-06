@@ -33,5 +33,9 @@ public class Card {
 	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
 	
+	@ManyToOne
+	@JoinColumn(name = "adress_id", nullable = false)
+	private Adress adress;
+	
 
 }

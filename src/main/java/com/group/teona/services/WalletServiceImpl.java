@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
@@ -133,8 +134,8 @@ public class WalletServiceImpl implements WalletService  {
 			card.setTopUp(0);
 			card.setWallet(walletUser);
 			card.setActive(false);
-			
-		
+			card.setAdress(user.getAdresses().iterator().next());
+					
 			return cardRepository.save(card);
 		}
 		
@@ -143,7 +144,7 @@ public class WalletServiceImpl implements WalletService  {
 	}
 	
 	@Override 
-	public Card addCard (Long walletId) {
+	public Card addCard (Long walletId, Adress adress) {
 		
 		Optional<Wallet> wallet = walletRepository.findById(walletId);
 			
@@ -152,7 +153,7 @@ public class WalletServiceImpl implements WalletService  {
 			card.setTopUp(0);
 			card.setWallet(wallet.get());
 			card.setActive(false);
-			
+			card.setAdress(adress);
 		
 			return cardRepository.save(card);
 		}

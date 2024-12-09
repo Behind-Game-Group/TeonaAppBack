@@ -9,6 +9,7 @@ import com.group.teona.enums.EnumSub;
 
 public interface WalletService {
 	
+
 	Wallet addWalletForUser(User user);
 	Wallet addWallet(String phoneNumber);
 	
@@ -25,6 +26,9 @@ public interface WalletService {
 
 
 
+/*
+ * 	Wallet addWallet(Long userId, Wallet wallet, Card card, Pass pass);
+ */
 
 
 }

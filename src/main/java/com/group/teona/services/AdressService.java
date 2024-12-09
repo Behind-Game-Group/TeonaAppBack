@@ -4,9 +4,13 @@ import java.util.Set;
 
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
+import com.group.teona.dto.FormTeonaPass;
 
 public interface AdressService {
 	
-	Set<Adress> addAdresses (Set<Adress> adresses, User user);
+	void saveFormWithUser(FormTeonaPass formRequest, User user);
 	
+	void saveFormWithoutUser(FormTeonaPass formRequest);
+	 
+	void saveFormForCard(FormTeonaPass formRequest, Long cardId);
 }

@@ -39,15 +39,13 @@ public class Adress implements Serializable {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
-	    @Column(nullable = false)
-	    private String firstName;
-
-	    @Column(nullable = false)
-	    private String lastName;
-
+	    @Column(nullable = false, length = 5)
+	    private String number;
+	  	
 	    @Column(nullable = false)
 	    private String streetName;
-
+	    
+	    @Column(nullable = true)
 	    private String streetNameOptional;
 
 	    @Column(nullable = false)
@@ -57,12 +55,7 @@ public class Adress implements Serializable {
 	    private String city;
 
 	    @Column(nullable = false)
-	    private String phoneNumber;
-
-	    @Column(nullable = false)
 	    private String country;
-
-	    private String image;
 
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", nullable = true) 

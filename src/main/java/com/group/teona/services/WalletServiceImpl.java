@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.dto.FormAdress;
+import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
@@ -62,15 +64,23 @@ public class WalletServiceImpl implements WalletService  {
 			}
 	
 	
-	
 	@Override 
-	public Pass addPass (User user) {
+	public Pass addPass (User user, FormTeonaPass formRequest) {
 		
 		Wallet walletUser = user.getWallet();
 		
 		if( walletUser != null) {
 			Pass pass = new Pass();
+			pass.setLastName(user.getLastName());
+			pass.setFirstName(user.getFirstName());
 			
+			pass.setStreetName(formRequest.getStreetName());
+			pass.setStreetNameOptional(formRequest.getStreetNameOptional());
+			pass.setPostCode(formRequest.getPostCode());
+			pass.setPhoneNumber(formRequest.getPhoneNumber());
+			pass.setCity(formRequest.getCity());
+			pass.setCountry(formRequest.getCountry());
+			pass.setImage(formRequest.getImage());
 			pass.setWallet(walletUser);
 			pass.setActive(false);
 			
@@ -145,25 +155,6 @@ public class WalletServiceImpl implements WalletService  {
 
 	}
 	
-	@Override 
-	public Card addCard (Long walletId, Adress adress) {
-		
-		Optional<Wallet> wallet = walletRepository.findById(walletId);
-			
-		if( wallet != null) {
-			adressRepository.save(adress);
-			Card card = new Card();
-			card.setTopUp(0);
-			card.setWallet(wallet.get());
-			card.setActive(false);
-			card.setAdress(adress);
-		
-			return cardRepository.save(card);
-		}
-		
-        throw new IllegalArgumentException("Vous devrez possédez un wallet pour effectuer cette opération");
-
-	}
 	
 	
 	

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.group.teona.controller;
 import java.util.Optional;
 
@@ -8,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.group.teona.dto.AddWalletRequest;
+import com.group.teona.dto.FormAdress;
+import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.dto.GetUserRequest;
 import com.group.teona.dto.WalletRequest;
 import com.group.teona.entities.Adress;
@@ -16,6 +17,7 @@ import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.UserRepository;
+import com.group.teona.services.AdressService;
 import com.group.teona.services.WalletService;
 
 @RestController
@@ -30,8 +32,10 @@ public class WalletController {
         
     }
     
+    
     @Autowired
 	private WalletService walletService;
+    
 
 	 
     @Autowired
@@ -66,21 +70,15 @@ public class WalletController {
     	return ResponseEntity.ok("Carte ajoutée avec succès " + userFind.get().getFirstName());
     }
     
-    @PostMapping("addCard")
-    public ResponseEntity addCard(@RequestParam Long walletId, @RequestBody Adress adress) {
-    	walletService.addCard(walletId, adress);
-    	
-    	return ResponseEntity.ok("Carte ajoutée avec succès");
-
-    }
+   
 
     
     @PostMapping("addPassAuth")
-    public ResponseEntity addPass( Authentication authentication) {
+    public ResponseEntity addPass( Authentication authentication, @RequestBody  FormTeonaPass formRequest) {
     	
     	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
-    	walletService.addPass(userFind.get());
+    	walletService.addPass(userFind.get(), formRequest);
 
     	return ResponseEntity.ok("Pass créé avec succès" + userFind.get().getFirstName());
     }
@@ -152,7 +150,6 @@ public class WalletController {
 
 
 
-=======
 //package com.group.teona.controller;
 //import java.util.Optional;
 //
@@ -245,4 +242,3 @@ public class WalletController {
 //
 //
 //
->>>>>>> 5d65d91373bbb934ce338244640d89465e6de69d

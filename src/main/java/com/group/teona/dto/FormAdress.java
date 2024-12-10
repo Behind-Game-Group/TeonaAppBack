@@ -5,15 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FormTeonaPass {
-
-	   	private String firstName;
-	    private String lastName;
+public class FormAdress {
+		
+    	private String number;
 	    private String streetName;
 	    private String streetNameOptional;
 	    private String postCode;
 	    private String city;
-	    private String phoneNumber;
 	    private String country;
-	    private String image;
+
 }

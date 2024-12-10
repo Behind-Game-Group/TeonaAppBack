@@ -13,6 +13,7 @@ import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.security.JwtService;
 import com.group.teona.services.AdressService;
+import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 
 @RestController
@@ -31,8 +32,8 @@ public class AdressController {
     
     @PostMapping("adress")
     @CrossOrigin(origins = "http://localhost:8081")
-    public ResponseEntity<?> saveForm(@RequestBody FormTeonaPass formRequest, 
-            @RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestParam (required = false) Long cardId ) {
+    public ResponseEntity<?> saveForm(@RequestBody FormAdress formRequest, 
+            @RequestHeader(value = "Authorization", required = false) String authorizationHeader ) {
         try {
         	
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
@@ -47,22 +48,16 @@ public class AdressController {
                     // Save the address with the associated user
                     adressService.saveFormWithUser(formRequest, user);
                     return ResponseEntity.status(HttpStatus.OK).body("Address saved with user association");
-                } else {
+                } 
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Authentication failed ");
+            }
+                	/*                }
                     // Invalid token but saving without a user
                     adressService.saveFormWithoutUser(formRequest);
                     return ResponseEntity.status(HttpStatus.OK).body("Address saved without user association");
                 }
                                 
-            } else {
-            	
-                if(cardId != null ) {
-                	adressService.saveFormForCard(formRequest, cardId);
-                }
-
-                // No token provided, save without user
-                adressService.saveFormWithoutUser(formRequest);
-                return ResponseEntity.status(HttpStatus.OK).body("Address saved without user association");
-            }
 //            if (formRequest.getUserId() != null) {
 //                Optional<User> userOptional = userRepository.findById(formRequest.getUserId());
 //                if (userOptional.isEmpty()) {
@@ -78,15 +73,29 @@ public class AdressController {
 //            }
 //
 //            return ResponseEntity.ok("Form saved successfully");
-        } catch (Exception e) {
+ * 
+ */
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body("An error occurred: " + e.getMessage());
         }
+		return null;
+    }
+    
+    @PostMapping("adressCard")
+    public ResponseEntity saveFormWithCard(@RequestParam Long walletId, @RequestBody FormAdress formRequest) {
+    	
+    	adressService.saveFormWithCard(walletId, formRequest);
+    	
+    	return ResponseEntity.ok("Carte ajoutée avec succès");
+
+    }
+        
     }
 
 
     
-    }
     
  
 

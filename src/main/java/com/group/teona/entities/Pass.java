@@ -43,7 +43,7 @@ public class Pass {
     @Column(name = "isActive", nullable = true)
     private boolean isActive;
     
-    //@OneToOne
+   // @OneToOne
 	//@JoinColumn(name = "wallet_id", nullable = false)
 	//private Wallet wallet;
 

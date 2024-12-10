@@ -21,16 +21,7 @@ import com.group.teona.dto.FormTeonaPass;
 public class AdressController {
 
     
-    @PostMapping("adressCard")
-    public ResponseEntity saveFormWithCard(@RequestParam Long walletId, @RequestBody FormAdress formRequest) {
-    	
-    	adressService.saveFormWithCard(walletId, formRequest);
-    	
-    	return ResponseEntity.ok("Carte ajoutée avec succès");
 
-    }
-        
-    }
 
 
 	@Autowired
@@ -69,5 +60,15 @@ public class AdressController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		}
 	}
+//    @PostMapping("adressCard")
+//    public ResponseEntity saveFormWithCard(@RequestParam Long walletId, @RequestBody FormAdress formRequest) {
+//    	
+//    	adressService.saveFormWithCard(walletId, formRequest);
+//    	
+//    	return ResponseEntity.ok("Carte ajoutée avec succès");
+//
+//    }
+        
+    
 
 }

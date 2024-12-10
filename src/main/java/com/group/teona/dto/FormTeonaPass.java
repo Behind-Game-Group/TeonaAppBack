@@ -1,5 +1,7 @@
 package com.group.teona.dto;
 
+import com.group.teona.enums.EnumSub;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +18,5 @@ public class FormTeonaPass {
 	    private String phoneNumber;
 	    private String country;
 	    private String image;
+	    private EnumSub subscriptionTime;
 }

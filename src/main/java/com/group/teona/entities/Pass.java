@@ -37,7 +37,8 @@ public class Pass {
 
 	    @Column(nullable = false)
 	    private String streetName;
-
+	    
+	    @Column(nullable = true)
 	    private String streetNameOptional;
 
 	    @Column(nullable = false)
@@ -60,7 +61,7 @@ public class Pass {
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     
-    @Column(name = "valide_duration", nullable = false)
+    @Column(name = "valide_duration", nullable = true)
     private double valideDuration;
     
     @Column(name = "date_subscription")

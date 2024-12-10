@@ -3,6 +3,7 @@ package com.group.teona.services;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.entities.Adress;
@@ -11,6 +12,7 @@ import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.PassRepository;
 
+@Service
 public class PassServiceImpl implements PassService {
 	
 	@Autowired
@@ -39,8 +41,12 @@ public class PassServiceImpl implements PassService {
 		teonaPass.setDateSubscription((LocalDate.now()));
 		teonaPass.setActive(true);
 		teonaPass.setWallet(walletUser);
+		
 		passRepository.save(teonaPass);
         }
+		
+        throw new IllegalArgumentException("Failed authentication");
+
 	}
 	
 

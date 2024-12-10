@@ -1,42 +1,74 @@
 package com.group.teona.controller;
+
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
+import com.group.teona.security.JwtService;
 import com.group.teona.services.AdressService;
+import com.group.teona.dto.FormAdress;
+import com.group.teona.dto.FormTeonaPass;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/api/add")
 public class AdressController {
+
     
-    @Autowired
+
+
+
+	@Autowired
 	private AdressService adressService;
-	 
-    @Autowired
-    UserRepository userRepository;
+
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	private JwtService jwtService;
+
+	@PostMapping("adress")
+	@CrossOrigin(origins = "http://localhost:8081")
+	public ResponseEntity<?> saveForm(@RequestBody FormTeonaPass formRequest,
+			@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+		try {
+			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+				String token = authorizationHeader.substring(7);
+
+				if (jwtService.isTokenValid(token)) {
+					String username = jwtService.extractUsername(token);
+					User user = userRepository.findByEmail(username)
+							.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+// Save the address with the associated user
+					adressService.saveFormWithUser(formRequest, user);
+					return ResponseEntity.ok("Address saved with user association");
+				}
+			}
+
+// If no token or invalid token, save without user
+			adressService.saveFormWithoutUser(formRequest);
+			return ResponseEntity.ok("Address saved without user association");
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+		}
+	}
+//    @PostMapping("adressCard")
+//    public ResponseEntity saveFormWithCard(@RequestParam Long walletId, @RequestBody FormAdress formRequest) {
+//    	
+//    	adressService.saveFormWithCard(walletId, formRequest);
+//    	
+//    	return ResponseEntity.ok("Carte ajoutée avec succès");
+//
+//    }
+        
     
-    
-    @PostMapping("addAdress")
-    public ResponseEntity addAdress(@RequestBody Set<Adress> adresses, Authentication authentication) {
-    	
-    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 
-    	adressService.addAdresses(adresses, userFind.get());
-
-    	return ResponseEntity.ok("Adresse(s) enregistrée(s)");
-    }
-    
-
-    
-    }
-    
- 
-
-
-
+}

@@ -19,7 +19,7 @@ public class PassServiceImpl implements PassService {
     PassRepository passRepository;
 
 	@Override
-	public void saveFormPass(FormTeonaPass formRequest, User user) {
+	public Pass saveFormPass(FormTeonaPass formRequest, User user) {
 		// TODO Auto-generated method stub
 		
 	
@@ -42,10 +42,10 @@ public class PassServiceImpl implements PassService {
 		teonaPass.setActive(true);
 		teonaPass.setWallet(walletUser);
 		
-		passRepository.save(teonaPass);
+		return passRepository.save(teonaPass);
         }
 		
-        throw new IllegalArgumentException("Failed authentication");
+        throw new IllegalArgumentException("Wallet needed");
 
 	}
 	

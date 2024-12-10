@@ -15,7 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.io.IOException;
 import javax.crypto.SecretKey;
 
 
@@ -24,11 +27,30 @@ import javax.crypto.SecretKey;
 public class JwtUtil {
 	
 	  final static private SignatureAlgorithm alg = SignatureAlgorithm.HS256;
-	    private final static SecretKey SECRET_KEY = generateSecretKey();
+	   private final static SecretKey SECRET_KEY = loadOrGenerateSecretKey();
 
-	    private static SecretKey generateSecretKey() {
-	        return Keys.secretKeyFor(alg);
+	    private static SecretKey loadOrGenerateSecretKey() {
+	        try {
+	            // Check if a key exists in a file
+	            Path path = Paths.get("secret.key");
+	            if (Files.exists(path)) {
+	                byte[] keyBytes = Files.readAllBytes(path);
+	                return Keys.hmacShaKeyFor(keyBytes);
+	            } else {
+	                // Generate and save the key
+	                SecretKey key = Keys.secretKeyFor(alg);
+	                Files.write(path, key.getEncoded());
+	                return key;
+	            }
+	        } catch (IOException e) {
+	            throw new RuntimeException("Could not load or generate secret key", e);
+	        }
 	    }
+//	    private final static SecretKey SECRET_KEY = generateSecretKey();
+//
+//	    private static SecretKey generateSecretKey() {
+//	        return Keys.secretKeyFor(alg);
+//	    }
 
 
 	    public String generateToken(UserDetails userDetails) {

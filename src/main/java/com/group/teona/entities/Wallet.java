@@ -28,14 +28,17 @@ public class Wallet {
 	
     @Column(name = "count", nullable = false)
 	private double count;
+    
+    @Column(name = "phoneNumber", nullable = false, unique = true)
+    private String phoneNumber;
 	
 	@OneToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
 	
 	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
 	private Pass pass;
 	
-	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 	Set<Card> cards = new HashSet<>();
 }

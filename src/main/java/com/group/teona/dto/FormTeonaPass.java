@@ -1,9 +1,5 @@
 package com.group.teona.dto;
 
-
-
-
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FormTeonaPass {
 
-	   private String firstName;
+	   	private String firstName;
 	    private String lastName;
 	    private String streetName;
 	    private String streetNameOptional;
@@ -20,5 +16,4 @@ public class FormTeonaPass {
 	    private String phoneNumber;
 	    private String country;
 	    private String image;
-	    private Long userId;
 }

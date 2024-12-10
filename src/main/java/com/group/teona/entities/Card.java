@@ -22,7 +22,7 @@ public class Card {
     private Long id;
 	
 	@Column(name = "topUp", nullable = false)
-	private double topUp;
+	private Integer topUp;
 	
 	
 	
@@ -32,6 +32,10 @@ public class Card {
 	@ManyToOne
 	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
+	
+	@ManyToOne
+	@JoinColumn(name = "adress_id", nullable = true)
+	private Adress adress;
 	
 
 }

@@ -13,11 +13,25 @@ import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.security.JwtService;
 import com.group.teona.services.AdressService;
+import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 
 @RestController
 @RequestMapping("/api/add")
 public class AdressController {
+
+    
+    @PostMapping("adressCard")
+    public ResponseEntity saveFormWithCard(@RequestParam Long walletId, @RequestBody FormAdress formRequest) {
+    	
+    	adressService.saveFormWithCard(walletId, formRequest);
+    	
+    	return ResponseEntity.ok("Carte ajoutée avec succès");
+
+    }
+        
+    }
+
 
 	@Autowired
 	private AdressService adressService;

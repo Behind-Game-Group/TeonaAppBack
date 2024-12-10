@@ -29,8 +29,34 @@ public class Pass {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
+	 	@Column(nullable = false)
+	    private String lastName;
+	 
+	 	@Column(nullable = false)
+	    private String firstName;
+
+	    @Column(nullable = false)
+	    private String streetName;
+
+	    private String streetNameOptional;
+
+	    @Column(nullable = false)
+	    private String postCode;
+
+	    @Column(nullable = false)
+	    private String city;
+
+	    @Column(nullable = false)
+	    private String phoneNumber;
+
+	    @Column(nullable = false)
+	    private String country;
+	
+	 @Column(nullable = false)
+	private String image;
+	
     
-    @Column(name = "subscription_time", nullable = false)
+    @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     

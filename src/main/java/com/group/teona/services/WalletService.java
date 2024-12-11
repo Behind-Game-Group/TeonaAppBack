@@ -2,8 +2,8 @@ package com.group.teona.services;
 
 import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
-import com.group.teona.entities.Card;
 import com.group.teona.entities.Pass;
+import com.group.teona.entities.Adess;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.enums.EnumSub;
@@ -11,16 +11,16 @@ import com.group.teona.enums.EnumSub;
 public interface WalletService {
 	
 
-	Wallet addWalletForUser(User user);
-	Wallet addWallet(String phoneNumber);
-	
-	
-	Pass addPass(User user, FormTeonaPass formRequest);
-	Pass addTopUp(Long passId, EnumSub topUp);
-	
-	Card addCard(User user);
-	Card addTopUp(Long cardId, Integer topUp);
-
+//	Wallet addWalletForUser(User user);
+//	Wallet addWallet(String phoneNumber);
+//	
+//	
+//	Adess addPass(User user, FormTeonaPass formRequest);
+//	Adess addTopUp(Long passId, EnumSub topUp);
+//
+//	Pass addCard(User user);
+//	Pass addTopUp(Long cardId, Integer topUp);
+//
 
 
 

@@ -7,8 +7,9 @@ Ce document résume les rootes utilisable avec cette application Spring Boot.
 Pour la configuration de la base de donnée, c'est dans application.properties
 </p>
 
->git pull origin devlpoement
+>git pull origin development
 
+<br>
 
 # Outils
 *JDK 22+*
@@ -26,8 +27,8 @@ ulr : `api/user/login`
 Json :
 ```json lines 
 {
-  op: "unue",
-  bi: 4
+  "string": "unue",
+  "number": 4
 }
 ```
 
@@ -58,10 +59,10 @@ Json :
 *-verif_email*
 `api/user/verify`
 
-````json lines
+````json 
 {
-  email: "exemple@gmail.com",
-  code: "132"
+  "email": "exemple@gmail.com",
+  "code": "132"
 }
 ````
 <br>
@@ -69,10 +70,10 @@ Json :
 *-connection*
 `api/user/login`
 
-````json lines
+````json 
 {
-  email: "exemple@gmail.com",
-  password: "15132"
+  "email": "exemple@gmail.com",
+  "password": "15132"
 }
 ````    
 <br>
@@ -82,7 +83,7 @@ Json :
 
 ````json lines
 {
-  email: "exemple@gmail.com",
+  "email": "exemple@gmail.com",
 }
 ````
 <br>
@@ -92,8 +93,8 @@ Json :
 
 ````json lines
 {
-  token: "1g0sr3g21srg20rse",
-  newPassword: "15132"
+  "token": "1g0sr3g21srg20rse",
+  "newPassword": "15132"
 }
 ````
 <br>
@@ -103,17 +104,17 @@ Json :
 
 [ with and without authentication ]
 
-````json lines
+````json 
 
 {
-  firstName:"james",
-  lastName:"camerone",
-  streetName:"15 rue du country",
-  streetNameOptional: "",
-  postCode:"75000",
-  city:"Paris",
-  phoneNumber:"+33678970",
-  country:"France",
+  "firstName":"james",
+  "lastName":"camerone",
+  "streetName":"15 rue du country",
+  "streetNameOptional": "",
+  "postCode":"75000",
+  "city":"Paris",
+  "phoneNumber":"+33678970",
+  "country":"France",
   "image":"img"
 }
 ````

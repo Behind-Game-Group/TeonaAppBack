@@ -46,47 +46,38 @@ public class CardServiceImpl implements CardService {
 		adress.setPostCode(formRequest.getPostCode());
 		adress.setCity(formRequest.getCity());
 		adress.setCountry(formRequest.getCountry());
+		adress.setUser(user);
 		
-		user.getAdresses().add(adress);
-		
+		adressRepository.save(adress);
+				
 		Card teonaCard = new Card();
 		teonaCard.setTopUp(formRequest.getTopUp());
 		teonaCard.setActive(true);
 		teonaCard.setAdress(adress);
+		teonaCard.setTopUp(formRequest.getTopUp());
 		
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
 			wallet.setUser(user);
 			wallet.setPhoneNumber(user.getPhoneNumber());
-			wallet.getCards().add(teonaCard);
-			
+			teonaCard.setWallet(wallet);
 			walletRepository.save(wallet);
 
 		}
 		else {
 			Wallet wallet = user.getWallet();
-			wallet.getCards().add(teonaCard);
+			teonaCard.setWallet(wallet);
 			
 			walletRepository.save(wallet);
 		}
-
+		
 		cardRepository.save(teonaCard);
-		adressRepository.save(adress);
-		userRepository.save(user);
 		
 
 	}
 	
 	@Override
 	public void saveFormCardWithoutUser (FormTeonaCard formRequest) {
-		
-		Card teonaCard = new Card();
-		teonaCard.setTopUp(formRequest.getTopUp());
-		teonaCard.setActive(true);
-		
-		Wallet wallet = new Wallet();
-		wallet.setPhoneNumber(formRequest.getPhoneNumber());
-		wallet.getCards().add(teonaCard);
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -97,11 +88,26 @@ public class CardServiceImpl implements CardService {
 		adress.setPostCode(formRequest.getPostCode());
 		adress.setCity(formRequest.getCity());
 		adress.setCountry(formRequest.getCountry());
-		adress.setCard(teonaCard);
 
-		cardRepository.save(teonaCard);
-		walletRepository.save(wallet);
 		adressRepository.save(adress);
+		
+		Card teonaCard = new Card();
+		teonaCard.setTopUp(formRequest.getTopUp());
+		teonaCard.setActive(true);
+		teonaCard.setTopUp(formRequest.getTopUp());
+		teonaCard.setAdress(adress);
+		
+		
+		Wallet wallet = new Wallet();
+		wallet.setPhoneNumber(formRequest.getPhoneNumber());
+		
+		walletRepository.save(wallet);
+		
+
+		teonaCard.setWallet(wallet);
+		
+		cardRepository.save(teonaCard);
+		
 	}
 	
 

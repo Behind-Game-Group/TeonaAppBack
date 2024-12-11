@@ -28,12 +28,6 @@ public class Pass {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	 	@Column(nullable = false)
-	    private String lastName;
-	 
-	 	@Column(nullable = false)
-	    private String firstName;
 
 	    @Column(nullable = false)
 	    private String streetName;
@@ -57,7 +51,8 @@ public class Pass {
 	private String image;
 	
     
-    @Column(name = "subscription_time", nullable = true)
+
+    @Column(name = "subscription_time", nullable = false)
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     
@@ -71,8 +66,8 @@ public class Pass {
     @Column(name = "isActive", nullable = true)
     private boolean isActive;
     
-    @OneToOne
-	@JoinColumn(name = "wallet_id", nullable = false)
+   @OneToOne
+   @JoinColumn(name = "wallet_id", nullable = false)
 	private Wallet wallet;
 
 

@@ -28,10 +28,7 @@ public class PassServiceImpl implements PassService {
 		if( walletUser != null) {
 		
 		Pass teonaPass = new Pass();
-		teonaPass.setFirstName(formRequest.getFirstName());
-		teonaPass.setLastName(formRequest.getLastName());
 		teonaPass.setPhoneNumber(formRequest.getPhoneNumber());
-		teonaPass.setStreetName(formRequest.getStreetName());
 		teonaPass.setStreetNameOptional(formRequest.getStreetNameOptional());
 		teonaPass.setPostCode(formRequest.getPostCode());
 		teonaPass.setCity(formRequest.getCity());

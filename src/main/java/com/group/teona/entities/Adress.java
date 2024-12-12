@@ -34,7 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Adess implements Serializable {
+public class Adress implements Serializable {
 	
 	/**
 	 * 

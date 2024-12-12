@@ -28,7 +28,7 @@ import com.group.teona.dto.SignUpRequest;
 import com.group.teona.dto.VerifyRequest;
 import com.group.teona.dto.forgotPasswordRequest;
 import com.group.teona.dto.resetPasswordRequest;
-import com.group.teona.entities.Adess;
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.UserService;
@@ -138,7 +138,7 @@ public class UserController {
 		        Optional<User> user = userService.login(email, password);
 		        if (user.isPresent()) {
 		        	   User loggedInUser = user.get();
-		               String jwt = jwtService.generateToken(loggedInUser, loggedInUser.getId());
+		               String jwt = jwtService.generateToken(loggedInUser, loggedInUser.getEmail(), loggedInUser.getId());
 
 		               // Return both jwt and userId in a Map
 		               Map<String, Object> response = new HashMap<>();

@@ -46,7 +46,7 @@ public class Pass {
 	
 	@ManyToOne
 	@JoinColumn(name = "adress_id", nullable = true)
-	private Adess adress;
+	private Adress adress;
 	
 
 }

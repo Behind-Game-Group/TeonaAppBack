@@ -65,7 +65,7 @@ public class User  implements UserDetails{
 		private String passPicture;
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-		private Set<Adess> adresses = new HashSet<>();
+		private Set<Adress> adresses = new HashSet<>();
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;

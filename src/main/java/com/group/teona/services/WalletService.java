@@ -3,7 +3,7 @@ package com.group.teona.services;
 import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.entities.Pass;
-import com.group.teona.entities.Adess;
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.enums.EnumSub;

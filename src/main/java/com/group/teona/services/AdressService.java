@@ -2,16 +2,19 @@ package com.group.teona.services;
 
 import java.util.Set;
 
-import com.group.teona.entities.Adess;
+import org.springframework.stereotype.Service;
+
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 
+@Service
 public interface AdressService {
 	
 
 	
-	 void saveAddress(FormTeonaPass formRequest, User user);
-	 void savePass(FormTeonaPass.PassData passData, User user);
+	public Adress saveAddress(FormTeonaPass formRequest, User user);
+	
 
 }

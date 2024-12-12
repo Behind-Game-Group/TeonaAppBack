@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
-import com.group.teona.entities.Adess;
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
@@ -35,8 +35,8 @@ public class AdressServiceImpl implements AdressService {
 	private PassRepository passRepository;
 
 	@Override
-    public void saveAddress(FormTeonaPass formRequest, User user) {
-        Adess address = new Adess();
+    public Adress saveAddress(FormTeonaPass formRequest, User user) {
+        Adress address = new Adress();
         address.setFirstName(formRequest.getFirstName());
         address.setLastName(formRequest.getLastName());
         address.setStreetName(formRequest.getStreetName());
@@ -48,18 +48,12 @@ public class AdressServiceImpl implements AdressService {
         address.setImage(formRequest.getImage());
         address.setUser(user);
 
-        adressRepository.save(address);
+        Adress savedAddress = adressRepository.save(address);
+        
+        return savedAddress;
     }
 	
-	   public void savePass(FormTeonaPass.PassData passData, User user) {
-	        Pass pass = new Pass();
-	        pass.setCardTitle(passData.getCardTitle());
-	        pass.setCardPrice(passData.getCardPrice());
-	        pass.setIsActive(passData.isActive());
-	        pass.setUser(user);
-
-	        passRepository.save(pass);
-	    }
+	
 
    
 

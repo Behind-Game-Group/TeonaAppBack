@@ -1,6 +1,6 @@
 package com.group.teona.dto;
 
-import com.group.teona.entities.Adess;
+import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 
@@ -23,19 +23,7 @@ public class FormTeonaPass {
 	    private String phoneNumber;
 	    private String country;
 	    private String image;
-	    private String userId;
-
-	    private PassData passData;
 	    
-	    @Data
-	    @NoArgsConstructor
-	    public static class PassData {
-	
-	        private String cardTitle;
-	        private Double cardPrice;
-	        private boolean isActive;
 
-	        
-	    }
-	
+	 
 }

@@ -23,21 +23,20 @@
 //@RestController
 //@RequestMapping("auth")
 //public class WalletController {
-//	
+//
 //
 //    @GetMapping("test")
 //    public ResponseEntity tested (Authentication authentication){//il faut avoir un token pour que sa fonctionne
 //        return ResponseEntity.ok("it a test : ");
-//   
-//        
+//
+//
 //    }
-//    
-//    
+
 //    @Autowired
 //	private WalletService walletService;
 //    
 //
-//	 
+//
 //    @Autowired
 //	private UserRepository userRepository;
 //
@@ -45,7 +44,9 @@
 //	public ResponseEntity addWallet( @RequestBody AddWalletRequest walletRequest ) {
 //		
 //
+
 //		walletService.addWallet(walletRequest.getPhoneNumber());
+
 //
 //		return ResponseEntity.ok("Wallet ajouté avec succès");
 //	}
@@ -59,16 +60,27 @@
 //
 //		return ResponseEntity.ok("Wallet ajouté avec succès " + userFind.get().getFirstName());
 //	}
+
 //    
 //    @PostMapping("addCardAuth")
+
+//
+//    @PostMapping("addCard")
+
 //    public ResponseEntity addCard( Authentication authentication) {
-//    	
+//
 //    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
+
 //    	
 //    	walletService.addCard(userFind.get() );
+
+//
+//    	walletService.addNewCard(userFind.get() );
+
 //
 //    	return ResponseEntity.ok("Carte ajoutée avec succès " + userFind.get().getFirstName());
 //    }
+
 //    
 //   
 //
@@ -76,16 +88,23 @@
 //    @PostMapping("addPassAuth")
 //    public ResponseEntity addPass( Authentication authentication, @RequestBody  FormTeonaPass formRequest) {
 //    	
+
+//
+//    @PostMapping("addPass")
+//    public ResponseEntity addPass(@RequestBody Pass pass, Authentication authentication) {
+//
+
 //    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 //
 //    	walletService.addPass(userFind.get(), formRequest);
 //
 //    	return ResponseEntity.ok("Pass créé avec succès" + userFind.get().getFirstName());
 //    }
-//    /*
+
+
 //    @GetMapping("getUser")
 //	public GetUserRequest getUserById (@RequestParam Long userId) {
-//		
+//
 //		Optional<User> user = userRepository.findById(userId);
 //		User userFind = user.get();
 //		if (user.isPresent()) {
@@ -94,9 +113,10 @@
 //			userRequest.setRole(userFind.getRole());
 //			return userRequest;
 //		}
-//		
+//
 //		 throw new RuntimeException("Invalid user");
 //	}
+
 //    */
 //    
 //    @PutMapping("topUp")
@@ -144,9 +164,10 @@
 //    }
 //    
 //    
+
 //    }
-//    
-// 
+//
+//
 //
 //
 //

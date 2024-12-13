@@ -16,7 +16,7 @@ import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.CardRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
-import com.group.teona.repositories.WalletRepository;
+//import com.group.teona.repositories.WalletRepository;
 ;
 
 @Service
@@ -28,8 +28,8 @@ public class AdressServiceImpl implements AdressService {
 	@Autowired
     AdressRepository adressRepository;
 	
-	@Autowired
-	WalletRepository walletRepository;
+//	@Autowired
+//	WalletRepository walletRepository;
 	
 	@Autowired
 	private PassRepository passRepository;

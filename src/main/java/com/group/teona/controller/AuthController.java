@@ -18,13 +18,13 @@
 //@RestController
 //@RequestMapping("auth")
 //public class AuthController {
-//	
+//
 //
 //    @GetMapping("test")
 //    public ResponseEntity tested (){
 //        return ResponseEntity.ok("it a test");
-//   
-//        
+//
+//
 //    }
 //	@PostMapping("test")
 //	public ResponseEntity tested2 (@RequestBody LoginRequest loginRequest){
@@ -33,14 +33,14 @@
 //
 //
 //	}
-//    
+//
 //    @Autowired
 //	private WalletService walletService;
-//	 
+//
 //    @Autowired
 //    private WalletRepository walletRepository;
-//    
-//    
+//
+//
 //    @PostMapping("add")
 //    // @PreAuthorize("hasAuthority('User')")
 //	public ResponseEntity addWallet(@RequestParam Long userId, @RequestBody WalletRequest walletRequest, Authentication authentication ) {
@@ -53,14 +53,14 @@
 //
 //		return ResponseEntity.ok("Wallet ajouté avec succès");
 //	}
-//    
+//
 //    @PostMapping("addCard")
 //    public ResponseEntity addCard(@RequestParam Long userId, @RequestBody Card card) {
 //    	walletService.addNewCard(userId, card);
 //
 //    	return ResponseEntity.ok("Carte ajoutée avec succès");
 //    }
-//    
+//
 //    @PostMapping("addTest")
 //    public ResponseEntity addWalletTest (@RequestBody Wallet wallet) {
 //    	 walletRepository.save(wallet);

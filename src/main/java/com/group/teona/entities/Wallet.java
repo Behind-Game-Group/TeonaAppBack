@@ -1,3 +1,4 @@
+
 package com.group.teona.entities;
 
 import java.util.HashSet;
@@ -42,3 +43,4 @@ public class Wallet {
 //	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 //	Set<Pass> cards = new HashSet<>();
 }
+

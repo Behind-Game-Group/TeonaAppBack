@@ -13,3 +13,4 @@ public class WalletRequest {
 	private Pass pass;
 
 }
+

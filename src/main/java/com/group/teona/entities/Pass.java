@@ -24,6 +24,7 @@ public class Pass {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
 	
 
 	
@@ -48,5 +49,13 @@ public class Pass {
 	@JoinColumn(name = "adress_id", nullable = true)
 	private Adress adress;
 	
+
+    
+ 
+   // @OneToOne
+	//@JoinColumn(name = "wallet_id", nullable = false)
+	//private Wallet wallet;
+
+
 
 }

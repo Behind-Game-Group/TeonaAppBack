@@ -22,9 +22,10 @@ public class JwtService {
         return Keys.secretKeyFor(alg);
     }
 
-    public String generateToken (UserDetails userDetails, Long userId){
+    public String generateToken (UserDetails userDetails,String email, Long userId){
     	 Map<String, Object> claims = new HashMap<>();
          claims.put("userId", userId);
+         claims.put("email", email);
          return generateToken(claims, userDetails.getUsername());
     }
 
@@ -35,18 +36,26 @@ public class JwtService {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 5))
+                .claim("email", extraClaims.get("email"))
                 .signWith(SECRET_KEY, alg)
                 .compact();
     }
 
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, UserDetails userDetails,String email) {
+        final String usernameFromToken = extractUsername(token);
+        final String emailFromToken = extractEmail(token);
+//        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return usernameFromToken.equals(userDetails.getUsername()) 
+                && emailFromToken.equals(email) 
+                && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
     }
     public Long extractUserId(String token) {
         return extractClaim(token, claims -> claims.get("userId", Long.class));

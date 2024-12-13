@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FormAdress {
 		
-    	private String number;
-	    private String streetName;
-	    private String streetNameOptional;
-	    private String postCode;
-	    private String city;
-	    private String country;
+//    	private String number;
+//	    private String streetName;
+//	    private String streetNameOptional;
+//	    private String postCode;
+//	    private String city;
+//	    private String country;
 
 }

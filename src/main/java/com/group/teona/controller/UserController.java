@@ -138,7 +138,7 @@ public class UserController {
 		        Optional<User> user = userService.login(email, password);
 		        if (user.isPresent()) {
 		        	   User loggedInUser = user.get();
-		               String jwt = jwtService.generateToken(loggedInUser, loggedInUser.getId());
+		               String jwt = jwtService.generateToken(loggedInUser, loggedInUser.getEmail(), loggedInUser.getId());
 
 		               // Return both jwt and userId in a Map
 		               Map<String, Object> response = new HashMap<>();

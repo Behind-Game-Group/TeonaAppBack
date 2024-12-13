@@ -1,11 +1,15 @@
 package com.group.teona.services;
 
 import java.util.Optional;
+
 import java.util.Set;
+
+import org.springframework.stereotype.Service;
 
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 
+@Service
 public interface UserService {
 
 

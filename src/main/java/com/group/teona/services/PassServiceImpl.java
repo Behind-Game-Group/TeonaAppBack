@@ -10,6 +10,7 @@ import com.group.teona.dto.PassRequestDto;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
+import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
@@ -23,7 +24,7 @@ public class PassServiceImpl implements PassService {
 	    private AdressRepository adressRepository;
 
 	  
-	    public void savePass(PassRequestDto passRequest, User user,Long adressId) {
+	    public void savePass(PassRequestDto passRequest, User user,Long adressId,Wallet wallet) {
 	    	
 	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
@@ -39,6 +40,7 @@ public class PassServiceImpl implements PassService {
 	        pass.setIsActive(passRequest.isActive());
 	        pass.setUser(user);
 	        pass.setAdress(adress);
+	        pass.setWallet(wallet);
 
 	        passRepository.save(pass);
 	    }

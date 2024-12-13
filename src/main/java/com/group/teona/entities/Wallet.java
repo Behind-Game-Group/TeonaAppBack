@@ -42,5 +42,18 @@ public class Wallet {
 	
 //	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 //	Set<Pass> cards = new HashSet<>();
+	
+    public void addFunds(double amount) {
+        this.count += amount;
+    }
+
+    public boolean deductFunds(double amount) {
+        if (amount > this.count) {
+            return false; 
+        }
+        this.count -= amount;
+        return true;
+    }
+    
 }
 

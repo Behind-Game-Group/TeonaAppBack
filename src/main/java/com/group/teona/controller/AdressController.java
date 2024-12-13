@@ -70,50 +70,7 @@ public class AdressController {
 		    }
 	}
 	
-	@PostMapping("/savePass")
-	public ResponseEntity<?> savePass(@RequestBody PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader) {
-		  try {
-			  System.out.println("Received Authorization Header: " + authorizationHeader);
-		        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-		            String token = authorizationHeader.substring(7); 
 
-		           
-		            if (token.split("\\.").length != 3) {
-		                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Malformed JWT token");
-		            }
-
-		            if (jwtService.isTokenValid(token)) {
-		                String username = jwtService.extractUsername(token);
-		                User user = userRepository.findByEmail(username)
-		                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
-		                
-		                Long adressId = passRequest.getAdressId();
-
-		                passService.savePass(passRequest, user,adressId);
-		                return ResponseEntity.ok("Pass saved successfully");
-		            } else {
-		                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-		            }
-		        } else {
-		            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Authorization header must start with 'Bearer '");
-		        }
-		    } catch (Exception e) {
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving pass: " + e.getMessage());
-		    }
-//		try {
-//            String token = authorizationHeader.substring(7);
-//            if (jwtService.isTokenValid(token)) {
-//                String username = jwtService.extractUsername(token);
-//                User user = userRepository.findByEmail(username)
-//                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//                passService.savePass(passRequest, user);
-//                return ResponseEntity.ok("Pass saved successfully");
-//            }
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving pass: " + e.getMessage());
-//        }
 
 }
-}
+

@@ -67,8 +67,8 @@ public class User  implements UserDetails{
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 		private Set<Adress> adresses = new HashSet<>();
 		
-//		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//		private Wallet wallet;
+		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+		private Wallet wallet;
 		
 		@Lob
 		@Column(name = "role", nullable = false)

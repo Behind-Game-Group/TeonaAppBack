@@ -51,10 +51,8 @@ public class CardServiceImpl implements CardService {
 		adressRepository.save(adress);
 				
 		Card teonaCard = new Card();
-		teonaCard.setTopUp(formRequest.getTopUp());
 		teonaCard.setActive(true);
 		teonaCard.setAdress(adress);
-		teonaCard.setTopUp(formRequest.getTopUp());
 		
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
@@ -92,9 +90,7 @@ public class CardServiceImpl implements CardService {
 		adressRepository.save(adress);
 		
 		Card teonaCard = new Card();
-		teonaCard.setTopUp(formRequest.getTopUp());
 		teonaCard.setActive(true);
-		teonaCard.setTopUp(formRequest.getTopUp());
 		teonaCard.setAdress(adress);
 		
 		

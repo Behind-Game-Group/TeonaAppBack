@@ -75,10 +75,15 @@ public class PassController {
 		                    wallet = walletRepository.findById(passRequest.getWalletId())
 		                            .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
 		                } else {
-		                    
+		                	Double cardPrice = passRequest.getCardPrice();
+		                	if (cardPrice == null || cardPrice < 0) {
+		                	    throw new IllegalArgumentException("Card price must be a positive value.");
+		                	}
+		                	  wallet = new Wallet();
+		                	wallet.setCount(cardPrice);
 		                    wallet = new Wallet();
 		                    wallet.setUser(user);
-		                    wallet.setCount(0.0); 
+		                    wallet.setCount(cardPrice); 
 		                    wallet.setPhoneNumber(user.getPhoneNumber());
 		                    walletRepository.save(wallet);
 		                } 

@@ -68,14 +68,14 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
 
     }
-    public boolean isTokenValid(String token) {
-        try {
-            String username = extractUsername(token);
-            return username != null && !isTokenExpired(token);
-        } catch (Exception e) {
-            return false; 
-        }
-    }
+//    public boolean isTokenValid(String token) {
+//        try {
+//            String username = extractUsername(token);
+//            return username != null && !isTokenExpired(token);
+//        } catch (Exception e) {
+//            return false; 
+//        }
+//    }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

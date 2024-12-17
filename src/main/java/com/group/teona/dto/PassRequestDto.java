@@ -16,5 +16,6 @@ public class PassRequestDto {
     private Double cardPrice;
     private boolean isActive;
     private Long adressId; 
+    private Long walletId; 
  
 }

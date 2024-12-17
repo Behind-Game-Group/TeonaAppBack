@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 import com.group.teona.entities.User;
@@ -30,6 +32,9 @@ public class PassController {
 	@Autowired
 	UserRepository userRepository;
 	
+	   @Autowired
+	    private UserDetailsService userDetailsService;
+	
 	@Autowired
 	AdressRepository adressRepository;
 	
@@ -51,12 +56,18 @@ public class PassController {
 		            if (token.split("\\.").length != 3) {
 		                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Malformed JWT token");
 		            }
+		            String usernameFromToken = jwtService.extractUsername(token);
+	                String emailFromToken = jwtService.extractEmail(token);
 
-		            if (jwtService.isTokenValid(token)) {
-		                String username = jwtService.extractUsername(token);
-		                User user = userRepository.findByEmail(username)
-		                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
-		                
+	                
+	                UserDetails userDetails = userDetailsService.loadUserByUsername(usernameFromToken);
+
+	                
+		            if (jwtService.isTokenValid(token, userDetails, emailFromToken)) {		                
+		            	 User user = userRepository.findByEmail(usernameFromToken)
+		                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+		            	 
 		                Long adressId = passRequest.getAdressId();
 		                
 		                Wallet wallet;

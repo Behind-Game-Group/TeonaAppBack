@@ -31,10 +31,10 @@ public class AdressController {
 
 	@Autowired
 	private PassService passService;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	AdressRepository adressRepository;
 
@@ -45,32 +45,34 @@ public class AdressController {
 	@CrossOrigin(origins = "http://localhost:8081")
 	public ResponseEntity<?> saveForm(@RequestBody FormTeonaPass formRequest,
 			@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
-		 try {
-		        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
-		            String token = authorizationHeader.substring(7);
+		try {
+			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+				String token = authorizationHeader.substring(7);
 
-		            if (jwtService.isTokenValid(token)) {
-		                String username = jwtService.extractUsername(token);
-		                User user = userRepository.findByEmail(username)
-		                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+				if (token.split("\\.").length != 3) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Malformed JWT token"));
+				}
 
-		                Adress savedAddress= adressService.saveAddress(formRequest, user);
-		                return ResponseEntity.ok(Map.of(
-		                        "message", "Address saved successfully",
-		                        "id", savedAddress.getId() 
-		                        
-		                    ));	                
-		                
-		            }
-		         
-		        }
-		        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-		    } catch (Exception e) {
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-		    }
+				String usernameFromToken = jwtService.extractUsername(token);
+				String emailFromToken = jwtService.extractEmail(token);
+
+				User user = userRepository.findByEmail(usernameFromToken)
+						.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+				if (!jwtService.isTokenValid(token, user, emailFromToken)) {
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid token"));
+				}
+
+				Adress savedAddress = adressService.saveAddress(formRequest, user);
+				return ResponseEntity.ok(Map.of("message", "Address saved successfully", "id", savedAddress.getId()
+
+				));
+
+			}
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+		}
 	}
-	
-
 
 }
-

@@ -57,9 +57,7 @@ public class PassController {
 		                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Malformed JWT token");
 		            }
 		            String usernameFromToken = jwtService.extractUsername(token);
-	                String emailFromToken = jwtService.extractEmail(token);
-
-	                
+	                String emailFromToken = jwtService.extractEmail(token);	                
 	                UserDetails userDetails = userDetailsService.loadUserByUsername(usernameFromToken);
 
 	                

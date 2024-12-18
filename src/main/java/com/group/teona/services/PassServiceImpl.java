@@ -1,5 +1,6 @@
 package com.group.teona.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,9 @@ public class PassServiceImpl implements PassService {
 
 	  
 	    public void savePass(PassRequestDto passRequest, User user,Long adressId,Wallet wallet) {
-	    	
+	    	 if (passRequest == null || user == null || adressId == null || wallet == null) {
+	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
+	         }
 	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
 	          if (optionalAdress.isEmpty()) {
@@ -34,6 +37,10 @@ public class PassServiceImpl implements PassService {
 
 	          Adress adress = optionalAdress.get();
 	          
+	          String cardTitle = passRequest.getCardTitle();
+	          int validityDuration = getValidityDuration(cardTitle);	      
+	          
+
 	        Pass pass = new Pass();
 	        pass.setCardTitle(passRequest.getCardTitle());
 	        pass.setCardPrice(passRequest.getCardPrice());
@@ -41,8 +48,26 @@ public class PassServiceImpl implements PassService {
 	        pass.setUser(user);
 	        pass.setAdress(adress);
 	        pass.setWallet(wallet);
+	        pass.setValidityDuration(validityDuration); 
+	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
+	          pass.setExpirationDate(expirationDate);; 
 
 	        passRepository.save(pass);
+	    }
+	    
+	    private int getValidityDuration(String cardTitle) {
+	        switch (cardTitle) {
+	            case "TeonaPass Yearly Pass":
+	                return 365; 
+	            case "TeonaPass Monthly Pass":
+	                return 30; 
+	            case "TeonaPass Weekly Pass":
+	                return 7;
+	            case "TeonaPass Daily Pass":
+	                return 1;
+	            default:
+	                throw new IllegalArgumentException("Invalid card title: " + cardTitle);
+	        }
 	    }
 
 	

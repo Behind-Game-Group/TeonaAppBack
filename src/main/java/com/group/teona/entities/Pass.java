@@ -1,5 +1,7 @@
 package com.group.teona.entities;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,7 +51,11 @@ public class Pass {
 	@JoinColumn(name = "adress_id", nullable = true)
 	private Adress adress;
 	
+	@Column(name = "validity_duration", nullable = false)
+    private Integer validityDuration;
 
+    @Column(name = "expiration_date", nullable = false)
+    private LocalDate expirationDate ;
     
  
    // @OneToOne

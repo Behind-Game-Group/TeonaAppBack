@@ -70,8 +70,10 @@ public class User  implements UserDetails{
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
+		/*
 		@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
 		private Pass pass;
+		*/
 		
 		@Lob
 		@Column(name = "role", nullable = false)

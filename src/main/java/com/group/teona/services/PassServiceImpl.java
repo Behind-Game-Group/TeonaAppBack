@@ -48,7 +48,7 @@ public class PassServiceImpl implements PassService {
 	        pass.setUser(user);
 	        pass.setAdress(adress);
 	        pass.setWallet(wallet);
-	        pass.setValidityDuration(validityDuration); 
+	        pass.setValidityDuration(validityDuration);
 	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
 	          pass.setExpirationDate(expirationDate);; 
 

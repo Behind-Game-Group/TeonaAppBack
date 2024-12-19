@@ -1,15 +1,18 @@
 package com.group.teona.controller;
 
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+
+
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.AdressRepository;
@@ -32,8 +35,8 @@ public class PassController {
 	@Autowired
 	UserRepository userRepository;
 	
-	 @Autowired
-	  UserDetailsService userDetailsService;
+	   @Autowired
+	    private UserDetailsService userDetailsService;
 	
 	@Autowired
 	AdressRepository adressRepository;
@@ -105,7 +108,4 @@ public class PassController {
 
 
 }
-
-
 }
-

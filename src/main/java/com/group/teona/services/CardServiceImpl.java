@@ -70,6 +70,7 @@ public class CardServiceImpl implements CardService {
 		
 		cardRepository.save(teonaCard);
 		
+		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
 
 	}
 	
@@ -137,6 +138,7 @@ public class CardServiceImpl implements CardService {
 		}
 			throw new IllegalArgumentException("Arguements non valides");
 	}
+	
 
 
 }

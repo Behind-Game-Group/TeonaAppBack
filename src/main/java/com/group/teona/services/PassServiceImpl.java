@@ -45,8 +45,7 @@ public class PassServiceImpl implements PassService {
 	        pass.setCardTitle(passRequest.getCardTitle());
 	        pass.setDateSubscription(LocalDate.now());
 	        pass.setCardPrice(passRequest.getCardPrice());
-	        pass.setIsActive(passRequest.isActive());
-	        pass.setUser(user);
+	        pass.setActive(passRequest.isActive());
 	        pass.setAdress(adress);
 	        pass.setWallet(wallet);
 	        pass.setValidityDuration(validityDuration);

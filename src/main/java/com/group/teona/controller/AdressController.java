@@ -15,12 +15,11 @@ import com.group.teona.entities.User;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.security.JwtService;
-import com.group.teona.services.AdressService;
 import com.group.teona.services.PassService;
-import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.dto.PassRequestDto;
 
+/*
 @RestController
 @RequestMapping("/api/add")
 public class AdressController {
@@ -75,3 +74,4 @@ public class AdressController {
 	}
 
 }
+*/

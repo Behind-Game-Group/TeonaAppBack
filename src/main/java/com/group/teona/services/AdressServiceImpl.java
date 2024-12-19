@@ -6,7 +6,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
@@ -16,9 +15,7 @@ import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.CardRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
-//import com.group.teona.repositories.WalletRepository;
-;
-
+/*
 @Service
 public class AdressServiceImpl implements AdressService {
 	
@@ -50,11 +47,10 @@ public class AdressServiceImpl implements AdressService {
         
         return savedAddress;
     }
-	
+	*/
 	
 
    
 
 	
 
-}

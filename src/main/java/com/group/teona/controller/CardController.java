@@ -28,30 +28,6 @@ public class CardController {
 	
 	 @Autowired
 	private UserRepository userRepository;
-/*
-	@PostMapping("card/user")
-    public ResponseEntity saveFormCardWithUser(Authentication authentication, @RequestBody FormTeonaCard formRequest) {
-		
-	    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
-	    	
-	    	if(userFind.isPresent()) {
-	    	
-		    	cardService.saveFormCardWithUser(formRequest, userFind.get());
-		    	
-		    	return ResponseEntity.ok("Your card has been created successfully " + userFind.get().getFirstName() );
-	    	}
-	    	
-	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
-		}
-		
-
-	@PostMapping("card/only")
-	public ResponseEntity saveFormCardWithoutUser( @RequestBody FormTeonaCard formRequest) {
-		
-		cardService.saveFormCardWithoutUser(formRequest);
-		return ResponseEntity.ok("Your card has been created successfully");
-	}
-	*/
 	 
 		@PostMapping("card")
 	    public ResponseEntity saveFormWithCard(Authentication authentication, @RequestBody FormTeonaCard formRequest) {

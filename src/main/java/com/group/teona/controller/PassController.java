@@ -2,6 +2,9 @@ package com.group.teona.controller;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,7 +90,12 @@ public class PassController {
 		                } 
 
 		                passService.savePass(passRequest, user,adressId,wallet);
-		                return ResponseEntity.ok("Pass saved successfully");
+		             
+		                Map<String, Object> response = new HashMap<>();
+		                response.put("message", "Pass saved successfully");
+		                response.put("cardPrice", wallet.getCount());
+
+		                return ResponseEntity.ok(response);
 		            } else {
 		                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
 		            }

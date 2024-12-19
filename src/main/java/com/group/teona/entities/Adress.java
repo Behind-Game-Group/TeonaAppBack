@@ -2,17 +2,9 @@ package com.group.teona.entities;
 
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group.teona.enums.EnumSub;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -62,18 +52,18 @@ public class Adress implements Serializable {
 	    @Column(nullable = false)
 	    private String city;
 
-	    @Column(nullable = false)
+	    @Column(nullable = false, unique = true)
 	    private String phoneNumber;
 
 	    @Column(nullable = false)
 	    private String country;
 
-	    private String image;
-
-
 		
 	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "user_id", nullable = false) 
+	    @JoinColumn(name = "user_id", nullable = true) 
 	    private User user;
+	    
+	    @OneToOne(mappedBy = "adress", cascade = CascadeType.ALL)
+		private Card card;
 
 }

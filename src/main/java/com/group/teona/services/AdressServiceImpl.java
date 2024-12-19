@@ -31,8 +31,7 @@ public class AdressServiceImpl implements AdressService {
 //	@Autowired
 //	WalletRepository walletRepository;
 	
-	@Autowired
-	private PassRepository passRepository;
+	
 
 	@Override
     public Adress saveAddress(FormTeonaPass formRequest, User user) {
@@ -45,7 +44,6 @@ public class AdressServiceImpl implements AdressService {
         address.setCity(formRequest.getCity());
         address.setPhoneNumber(formRequest.getPhoneNumber());
         address.setCountry(formRequest.getCountry());
-        address.setImage(formRequest.getImage());
         address.setUser(user);
 
         Adress savedAddress = adressRepository.save(address);

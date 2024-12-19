@@ -1,9 +1,6 @@
 package com.group.teona.dto;
 
-import com.group.teona.entities.Adress;
-import com.group.teona.entities.Pass;
-import com.group.teona.entities.User;
-
+import com.group.teona.enums.EnumSub;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +20,7 @@ public class FormTeonaPass {
 	    private String phoneNumber;
 	    private String country;
 	    private String image;
+	    private EnumSub subscriptionTime;
 	    
 
 	 

@@ -51,9 +51,6 @@ public class UserController {
     PasswordEncoder passwordEncoder;
 
 
-	@Autowired
-	private UserRepository userRepository;
-
 
 	@PostMapping("/register")
 	 @CrossOrigin(origins = "http://localhost:8081")

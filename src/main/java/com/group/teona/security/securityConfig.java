@@ -10,15 +10,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.group.teona.security.JwtRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +43,7 @@ public class securityConfig {
             .requestMatchers("/api/user/login").permitAll()
             .requestMatchers("/api/user/forgot-password").permitAll()
             .requestMatchers("/api/user/reset-password").permitAll()
+            .requestMatchers("/api/add/card/**").permitAll()
             .requestMatchers("/api/add/saveAddress").permitAll()
             .requestMatchers("/api/add/savePass").permitAll()
             .requestMatchers("/api/user/verify").permitAll()

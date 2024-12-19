@@ -23,8 +23,7 @@ public class Card {
     private Long id;
 	
 	@Column(name = "topUp", nullable = false)
-	private Integer topUp;
-	
+	private double topUp;
 	
 	
 	@Column(name = "isActive", nullable = false)

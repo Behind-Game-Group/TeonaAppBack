@@ -45,7 +45,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
-        if (!jwtService.isTokenValid(jwt, userDetails)){
+        if (!jwtService.isTokenValid(jwt, userDetails,email)){
             filterChain.doFilter(request, response);
             return;
         }

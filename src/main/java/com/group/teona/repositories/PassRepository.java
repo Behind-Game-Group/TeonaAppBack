@@ -7,4 +7,5 @@ import com.group.teona.entities.Pass;
 
 @Repository
 public interface PassRepository extends JpaRepository<Pass,Long> {
+	
 }

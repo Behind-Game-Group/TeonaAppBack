@@ -16,5 +16,7 @@ public class FormTeonaCard {
     private String city;
     private String phoneNumber;
     private String country;
+    
+    private FormTopUp formTopUp;
 
 }

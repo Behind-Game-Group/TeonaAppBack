@@ -1,51 +1,77 @@
 package com.group.teona.services;
 
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.group.teona.dto.FormTeonaPass;
+import com.group.teona.dto.PassRequestDto;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
+import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.PassRepository;
+import com.group.teona.repositories.WalletRepository;
 
 @Service
 public class PassServiceImpl implements PassService {
 	
 	@Autowired
+    WalletRepository walletRepository;
+	
+	@Autowired
     PassRepository passRepository;
-
-	@Override
-	public Pass saveFormPass(FormTeonaPass formRequest, User user) {
-		// TODO Auto-generated method stub
-		
 	
-		Wallet walletUser = user.getWallet();
-		
-		if( walletUser != null) {
-		
-		Pass teonaPass = new Pass();
-		teonaPass.setPhoneNumber(formRequest.getPhoneNumber());
-		teonaPass.setStreetNameOptional(formRequest.getStreetNameOptional());
-		teonaPass.setPostCode(formRequest.getPostCode());
-		teonaPass.setCity(formRequest.getCity());
-		teonaPass.setCountry(formRequest.getCountry());
-		teonaPass.setImage(formRequest.getImage());
-		teonaPass.setSubscriptionTime(formRequest.getSubscriptionTime());
-		teonaPass.setDateSubscription((LocalDate.now()));
-		teonaPass.setActive(true);
-		teonaPass.setWallet(walletUser);
-		
-		return passRepository.save(teonaPass);
+	@Autowired
+	AdressRepository adressRepository;
+
+	public void savePass(PassRequestDto passRequest, User user,Long adressId,Wallet wallet) {
+   	 if (passRequest == null || user == null || adressId == null || wallet == null) {
+            throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
         }
-		
-        throw new IllegalArgumentException("Wallet needed");
+   	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
-	}
+         if (optionalAdress.isEmpty()) {
+             throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+         }
+
+         Adress adress = optionalAdress.get();
+         
+         String cardTitle = passRequest.getCardTitle();
+         int validityDuration = getValidityDuration(cardTitle);	      
+         
+
+       Pass pass = new Pass();
+       pass.setCardTitle(passRequest.getCardTitle());
+       pass.setCardPrice(passRequest.getCardPrice());
+       pass.setActive(passRequest.isActive());
+       pass.setUser(user);
+       pass.setAdress(adress);
+       pass.setWallet(wallet);
+       pass.setValidityDuration(validityDuration);
+       LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
+         pass.setExpirationDate(expirationDate);; 
+
+       passRepository.save(pass);
+   }
+   
+   private int getValidityDuration(String cardTitle) {
+       switch (cardTitle) {
+           case "TeonaPass Yearly Pass":
+               return 365; 
+           case "TeonaPass Monthly Pass":
+               return 30; 
+           case "TeonaPass Weekly Pass":
+               return 7;
+           case "TeonaPass Daily Pass":
+               return 1;
+           default:
+               throw new IllegalArgumentException("Invalid card title: " + cardTitle);
+       }
+   }
 	
-
 
 }

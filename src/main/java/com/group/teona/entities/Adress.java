@@ -2,11 +2,6 @@ package com.group.teona.entities;
 
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,12 +14,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Adress implements Serializable {
 	
 	/**
@@ -53,14 +52,13 @@ public class Adress implements Serializable {
 	    @Column(nullable = false)
 	    private String city;
 
-	    @Column(nullable = false)
+	    @Column(nullable = false, unique = true)
 	    private String phoneNumber;
 
 	    @Column(nullable = false)
 	    private String country;
 
-	    private String image;
-
+		
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", nullable = true) 
 	    private User user;

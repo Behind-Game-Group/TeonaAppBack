@@ -7,11 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.teona.dto.FormTeonaCard;
+import com.group.teona.dto.FormTopUp;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.CardService;
@@ -70,5 +73,20 @@ public class CardController {
 			return ResponseEntity.ok("Your card has been created successfully ");
 
 	    }
+		
+
+		@PutMapping("card/topUp")
+	    public ResponseEntity saveFormWithCard(@RequestParam Long cardId, @RequestBody FormTopUp topUp) {
+			try {
+				cardService.addTopUp(cardId, topUp);
+				return ResponseEntity.ok("Top-up added");
+				
+			} catch (Exception e) {
+	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add a valid top-up");
+			}
+			
+		
+		}
+	
 	
 }

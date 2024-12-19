@@ -1,20 +1,19 @@
 package com.group.teona.services;
 
-import java.time.LocalDate;
+
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.FormTeonaCard;
-import com.group.teona.dto.FormTeonaPass;
+import com.group.teona.dto.FormTopUp;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
-import com.group.teona.entities.Pass;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.CardRepository;
-import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
 
@@ -103,9 +102,41 @@ public class CardServiceImpl implements CardService {
 		teonaCard.setWallet(wallet);
 		
 		cardRepository.save(teonaCard);
+				
+		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
 		
 	}
 	
+	
+	@Override
+	public Card addTopUp (Long cardId, FormTopUp formTopUp) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card cardFind = card.get();
+		
+		if(formTopUp.isTopUp5()) {
+			cardFind.setTopUp(cardFind.getTopUp() + 5.0);
+		}
+		if(formTopUp.isTopUp10()) {
+			cardFind.setTopUp(cardFind.getTopUp() + 10.0);
+		}
+		if(formTopUp.isTopUp15()) {
+			cardFind.setTopUp(cardFind.getTopUp() + 15.0);
+		}
+		if(formTopUp.isTopUp20()) {
+			cardFind.setTopUp(cardFind.getTopUp() + 20.0);
+		}
+		if(formTopUp.getTopUpPerso() > 0 ) {
+			cardFind.setTopUp(cardFind.getTopUp() + formTopUp.getTopUpPerso());
+		}
+		
+		if(cardFind.getTopUp() > 0) {
+			
+			cardFind.setActive(true);
+			return cardRepository.save(cardFind);
+
+		}
+			throw new IllegalArgumentException("Arguements non valides");
+	}
 
 
 }

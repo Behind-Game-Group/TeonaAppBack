@@ -34,7 +34,7 @@ public class CardServiceImpl implements CardService {
 	
 	// Créé un wallet, une card et une adresse associée pour l'user authentifié
 	@Override
-	public void saveFormCardWithUser (FormTeonaCard formRequest, User user) {
+	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user) {
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -71,12 +71,12 @@ public class CardServiceImpl implements CardService {
 		}
 		
 		cardRepository.save(teonaCard);
-		
+		return teonaCard.getId();
 
 	}
 	
 	@Override
-	public void saveFormCardWithoutUser (FormTeonaCard formRequest) {
+	public Long saveFormCardWithoutUser (FormTeonaCard formRequest) {
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -105,6 +105,9 @@ public class CardServiceImpl implements CardService {
 		teonaCard.setWallet(wallet);
 		
 		cardRepository.save(teonaCard);
+		
+		return teonaCard.getId();
+
 				
 		
 	}
@@ -136,7 +139,7 @@ public class CardServiceImpl implements CardService {
 				
 				cardFind.setActive(true);
 				return cardRepository.save(cardFind);
-		}
+			}
 
 		}
 			throw new IllegalArgumentException("Arguements non valides");

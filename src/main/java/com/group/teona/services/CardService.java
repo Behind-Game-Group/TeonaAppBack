@@ -9,9 +9,9 @@ import com.group.teona.entities.User;
 public interface CardService {
 	
 
-	void saveFormCardWithUser(FormTeonaCard formRequest, User user);
+	Long saveFormCardWithUser(FormTeonaCard formRequest, User user);
 
-	void saveFormCardWithoutUser(FormTeonaCard formRequest);
+	Long saveFormCardWithoutUser(FormTeonaCard formRequest);
 
 	Card addTopUp(Long cardId, FormTopUp formTopUp);
 

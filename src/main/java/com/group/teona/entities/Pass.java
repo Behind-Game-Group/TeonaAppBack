@@ -1,21 +1,11 @@
 package com.group.teona.entities;
 
+import java.sql.Blob;
 import java.time.LocalDate;
 
 import com.group.teona.enums.EnumSub;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -39,11 +29,12 @@ public class Pass {
 	  
 	  @Column(nullable = false)
 	  private String lastName;
-	
-	 @Column(nullable = false)
-	private String image;  
 
-    @Column(name = "subscription_time", nullable = false)
+      @Lob
+	 @Column(nullable = false, columnDefinition = "LONGBLOB")
+	private Blob image;
+
+    @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     
@@ -54,17 +45,17 @@ public class Pass {
 	@Temporal(TemporalType.DATE)
 	private LocalDate dateSubscription;
     
-    @Column(name = "cardTitle", nullable = false)
+    @Column(name = "cardTitle", nullable = true)
     private String cardTitle;
     
-	@Column(name = "cardPrice", nullable = false)
+	@Column(name = "cardPrice", nullable = true)
 	private Double cardPrice;
 
     @Column(name = "isActive", nullable = true)
     private boolean isActive;
     
    @OneToOne
-   @JoinColumn(name = "wallet_id", nullable = false)
+   @JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
    /*
    @OneToOne
@@ -76,14 +67,14 @@ public class Pass {
 	@JoinColumn(name = "adress_id", nullable = true)
 	private Adress adress;
 	
-	@Column(name = "validity_duration", nullable = false)
+	@Column(name = "validity_duration", nullable = true)
     private Integer validityDuration;
 
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date", nullable = true)
     private LocalDate expirationDate ;
     
     
-   
+
 
 
 

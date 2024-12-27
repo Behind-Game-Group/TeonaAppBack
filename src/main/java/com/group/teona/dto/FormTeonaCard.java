@@ -17,6 +17,6 @@ public class FormTeonaCard {
     private String phoneNumber;
     private String country;
     
-    private FormTopUp formTopUp;
+//    private FormTopUp formTopUp;
 
 }

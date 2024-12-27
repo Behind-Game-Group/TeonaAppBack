@@ -5,6 +5,7 @@ package com.group.teona.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.group.teona.entities.Adress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ import com.group.teona.dto.PassRequestDto;
 public class PassController {
 
 	
-
+@Autowired
+private AdressRepository repository;
 	@Autowired
 	private PassService passService;
 	
@@ -68,8 +70,9 @@ public class PassController {
 		            	 User user = userRepository.findByEmail(usernameFromToken)
 		                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-		            	 
-		                Long adressId = passRequest.getAdressId();
+
+						 	Long adressId = passRequest.getAdressId();
+
 		                
 		                Wallet wallet;
 		                if (passRequest.getWalletId() != null) {

@@ -2,6 +2,7 @@ package com.group.teona.controller;
 
 import java.util.Optional;
 
+import com.group.teona.dto.FromTopUpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,14 +52,17 @@ public class CardController {
 	    }
 		
 
-		@PutMapping("card/topUp")
-	    public ResponseEntity saveFormWithCard(@RequestParam Long cardId, @RequestBody FormTopUp topUp) {
+		@PostMapping("card/topUp")
+	    public ResponseEntity saveFormWithCard( @RequestBody FromTopUpDTO defaul) {
 			try {
-				cardService.addTopUp(cardId, topUp);
+				FormTopUp topUp=defaul.getDefaut();
+				System.out.println(defaul);
+//				topUp.setCardId(102l);topUp.setTopUp10(true);
+				cardService.addTopUp(topUp.getCardId(), topUp);
 				return ResponseEntity.ok("Top-up added");
 				
 			} catch (Exception e) {
-	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add a valid top-up");
+	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add a valid top-up"+e);
 			}
 			
 		

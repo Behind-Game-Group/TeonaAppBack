@@ -52,6 +52,8 @@ public class CardServiceImpl implements CardService {
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
 		teonaCard.setAdress(adress);
+		teonaCard.setTopUp(0.0);
+
 		
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
@@ -70,7 +72,6 @@ public class CardServiceImpl implements CardService {
 		
 		cardRepository.save(teonaCard);
 		
-		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
 
 	}
 	
@@ -92,6 +93,7 @@ public class CardServiceImpl implements CardService {
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
 		teonaCard.setAdress(adress);
+		teonaCard.setTopUp(0.0);
 		
 		
 		Wallet wallet = new Wallet();
@@ -104,7 +106,6 @@ public class CardServiceImpl implements CardService {
 		
 		cardRepository.save(teonaCard);
 				
-		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
 		
 	}
 	
@@ -114,26 +115,28 @@ public class CardServiceImpl implements CardService {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
 		
-		if(formTopUp.isTopUp5()) {
-			cardFind.setTopUp(cardFind.getTopUp() + 5.0);
-		}
-		if(formTopUp.isTopUp10()) {
-			cardFind.setTopUp(cardFind.getTopUp() + 10.0);
-		}
-		if(formTopUp.isTopUp15()) {
-			cardFind.setTopUp(cardFind.getTopUp() + 15.0);
-		}
-		if(formTopUp.isTopUp20()) {
-			cardFind.setTopUp(cardFind.getTopUp() + 20.0);
-		}
-		if(formTopUp.getTopUpPerso() > 0 ) {
-			cardFind.setTopUp(cardFind.getTopUp() + formTopUp.getTopUpPerso());
-		}
-		
-		if(cardFind.getTopUp() > 0) {
+		if (cardFind != null) {
+			if(formTopUp.isTopUp5()) {
+				cardFind.setTopUp(cardFind.getTopUp() + 5.0);
+			}
+			if(formTopUp.isTopUp10()) {
+				cardFind.setTopUp(cardFind.getTopUp() + 10.0);
+			}
+			if(formTopUp.isTopUp15()) {
+				cardFind.setTopUp(cardFind.getTopUp() + 15.0);
+			}
+			if(formTopUp.isTopUp20()) {
+				cardFind.setTopUp(cardFind.getTopUp() + 20.0);
+			}
+			if(formTopUp.getTopUpPerso() > 0 ) {
+				cardFind.setTopUp(cardFind.getTopUp() + formTopUp.getTopUpPerso());
+			}
 			
-			cardFind.setActive(true);
-			return cardRepository.save(cardFind);
+			if(cardFind.getTopUp() > 0) {
+				
+				cardFind.setActive(true);
+				return cardRepository.save(cardFind);
+		}
 
 		}
 			throw new IllegalArgumentException("Arguements non valides");

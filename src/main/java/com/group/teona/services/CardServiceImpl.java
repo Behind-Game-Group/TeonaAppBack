@@ -35,7 +35,7 @@ public class CardServiceImpl implements CardService {
 	
 	// Créé un wallet, une card et une adresse associée pour l'user authentifié
 	@Override
-	public void saveFormCardWithUser (FormTeonaCard formRequest, User user) {
+	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user) {
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -53,6 +53,8 @@ public class CardServiceImpl implements CardService {
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
 		teonaCard.setAdress(adress);
+		teonaCard.setTopUp(0.0);
+
 		
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
@@ -70,13 +72,12 @@ public class CardServiceImpl implements CardService {
 		}
 		
 		cardRepository.save(teonaCard);
-		
-//		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
+		return teonaCard.getId();
 
 	}
 	
 	@Override
-	public void saveFormCardWithoutUser (FormTeonaCard formRequest) {
+	public Long saveFormCardWithoutUser (FormTeonaCard formRequest) {
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -95,6 +96,7 @@ public class CardServiceImpl implements CardService {
 		teonaCard.setAdress(adress);
 		teonaCard.setTopUp(0.0);
 		
+		
 		Wallet wallet = new Wallet();
 		wallet.setPhoneNumber(formRequest.getPhoneNumber());
 		
@@ -102,14 +104,15 @@ public class CardServiceImpl implements CardService {
 		
 
 		teonaCard.setWallet(wallet);
-
+		
 		cardRepository.save(teonaCard);
-				
+		
+		return teonaCard.getId();
 
+				
 		
 	}
-
-
+	
 	@Override
 	public Card addTopUp (Long cardId, FormTopUp formTopUp) {
 		Optional<Card> card = cardRepository.findById(cardId);

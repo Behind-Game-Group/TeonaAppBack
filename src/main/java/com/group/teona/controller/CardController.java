@@ -38,16 +38,13 @@ public class CardController {
 		    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
 		    	
 		    	if(userFind.isPresent()) {
-		    	
-			    	cardService.saveFormCardWithUser(formRequest, userFind.get());
-			    	
-			    	return ResponseEntity.ok("Your card has been created successfully " + userFind.get().getFirstName() );
+		    				    	
+			    	return ResponseEntity.ok(cardService.saveFormCardWithUser(formRequest, userFind.get()));
 		    	}
 		    	
 		        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
 			}
-			cardService.saveFormCardWithoutUser(formRequest);
-			return ResponseEntity.ok("Your card has been created successfully ");
+					return ResponseEntity.ok(cardService.saveFormCardWithoutUser(formRequest));
 
 	    }
 		

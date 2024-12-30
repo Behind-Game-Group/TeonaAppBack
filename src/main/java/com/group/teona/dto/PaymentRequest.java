@@ -13,4 +13,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PaymentRequest {
 	private Long amount;
+	private String currency;
 }

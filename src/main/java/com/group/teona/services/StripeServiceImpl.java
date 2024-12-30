@@ -1,31 +1,31 @@
 package com.group.teona.services;
 
 import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class StripeServiceImpl  implements StripeService{
 	
-    public StripeServiceImpl() {
+	@Value("${stripe.api.key}")
+    private String stripeApiKey;
+
+    public String createPaymentIntent(Long amount, String currency)  throws StripeException{
+    	   Stripe.apiKey = stripeApiKey;
+
+           PaymentIntentCreateParams params =
+               PaymentIntentCreateParams.builder()
+                   .setAmount(amount) 
+                   .setCurrency(currency)
+                   .build();
+
+           PaymentIntent intent = PaymentIntent.create(params);
+           return intent.getClientSecret();
+       }
+
+	
     
-        Stripe.apiKey = "sk_test_51QSEyz086BcD82hOxBsjZbrofuqD3EiYQDoRUNU0BIcbPfvrj6Bfy0u44sBgIJhaMYQ212riT1DoUap2OsZGeyVS00PjQCeIBg";
-    }
-
-    public String createPaymentIntent(Long amount) {
-        try {
-         
-            PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                    .setAmount(amount)  
-                    .setCurrency("eur")
-                    .build();
-
-            PaymentIntent paymentIntent = PaymentIntent.create(params);
-            return paymentIntent.getClientSecret();  
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

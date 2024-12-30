@@ -1,15 +1,12 @@
 package com.group.teona.entities;
+
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
 import com.group.teona.enums.EnumRole;
 
 import jakarta.persistence.CascadeType;
@@ -34,22 +31,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User  implements UserDetails{
-	  @Id
-	    @GeneratedValue(strategy = GenerationType.AUTO)
+	  	@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    
-	    @Column(name = "name", length = 25, nullable = false)
-		private String name;
+	    @Column(name = "lastName", length = 25, nullable = false)
+		private String lastName;
 	    
-	    @Column(name = "firstname", length = 25, nullable = false)
-	   	private String firstname;
+	    @Column(name = "firstName", length = 25, nullable = false)
+	   	private String firstName;
 	    
-	    @Column(name = "gender", nullable = false)
-		@Enumerated(EnumType.STRING)
-	    private EnumGender gender;
+	    @Column(name = "gender", nullable = false)	
+	    private String gender;
 	    
-	    @Column(name = "residenceCountry", nullable = false)
-	    private String residenceCountry;
+	    @Column(name = "country", nullable = false)
+	    private String country;
 	    
 		@Column(name = "date_of_birth")
 		@Temporal(TemporalType.DATE)
@@ -61,7 +57,7 @@ public class User  implements UserDetails{
 		@Column(name = "password", length = 500, nullable = false)
 		private String password;
 		
-		@Column(name = "phoneNumber", length = 12, nullable = true, unique = true)
+		@Column(name = "phoneNumber", length = 12, nullable = false, unique = true)
 		private String phoneNumber;
 		
 
@@ -69,20 +65,24 @@ public class User  implements UserDetails{
 		private String passPicture;
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-		Set<Adress> adresses;
+		private Set<Adress> adresses = new HashSet<>();
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
-		@Column(name = "role", nullable = false)
-		@Enumerated(EnumType.STRING)
-		private EnumRole role;
-		
+		/*
+		@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+		private Pass pass;
+		*/
 		
 		@Lob
-		@Column(name = "language") 
-		@Enumerated(EnumType.STRING)	    
-		private List<EnumLanguage> languages;
+		@Column(name = "role", nullable = false)
+		@Enumerated(EnumType.STRING)
+		private List< EnumRole> role;
+		
+	
+		@Column(name = "language", nullable = true)     
+		private String language;
 		
 		
 		@Column(name = "verification_code", nullable = true)
@@ -91,15 +91,33 @@ public class User  implements UserDetails{
 		@Column(name = "code_expiration_time", nullable = true)
 	    private LocalDateTime codeExpirationTime;
 		
-		@Column(name = "is_verified", nullable = true)
-	    private boolean isVerified = false;
+		@Column(name = "verified", nullable = true)
+	    private boolean verified = false;
+		
+		@Column(name = "teonaPassenger", nullable = true)
+	    private boolean teonaPassenger = false;
+		
+		@Column(name = "teonaGroup", nullable = true)
+	    private boolean teonaGroup = false;
+		
+		@Column(name = "reset_token")
+		private String resetToken;
 
-		@Override
-		public Collection<? extends GrantedAuthority> getAuthorities() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		@Column(name = "token_expiration_time")
+		private LocalDateTime tokenExpirationTime;
+		
+	    @Override
+	    public Collection<? extends GrantedAuthority> getAuthorities() {
+	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
+	        for (EnumRole roleEnum : role) {
+	            grantedAuthorities.add(new SimpleGrantedAuthority(roleEnum.toString()));
+	        }
+
+	        return grantedAuthorities;
+	    }
+
+		  
 		@Override
 		public String getUsername() {
 			// TODO Auto-generated method stub

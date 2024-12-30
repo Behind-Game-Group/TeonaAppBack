@@ -1,12 +1,25 @@
 package com.group.teona.services;
 
+import java.util.Optional;
+
 import java.util.Set;
+
+import org.springframework.stereotype.Service;
 
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 
+@Service
 public interface UserService {
-	
-	 public User signUp (User user, Set<Adress> adresses) ;
 
+
+	public Optional<User> login(String email, String pass);
+	
+	public User signUp (User user) ;
+
+	public boolean emailExists(String email);
+	public User findByEmail(String email);
+	public void updateUser(User user);
+	public User findByResetToken(String resetToken);
+	
 }

@@ -1,14 +1,15 @@
 package com.group.teona.security;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,6 +21,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class securityConfig {
+
+    @Autowired
+    AuthenticationProvider authenticationProvider;
+
+    @Autowired
+    JwtRequestFilter jwtAuthenticationFilter;
+    
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
@@ -30,15 +41,25 @@ public class securityConfig {
                 .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/api/user/register").permitAll()
             .requestMatchers("/api/user/login").permitAll()
+            .requestMatchers("/api/user/forgot-password").permitAll()
+            .requestMatchers("/api/user/reset-password").permitAll()
+            .requestMatchers("/api/add/card/**").permitAll()
+            .requestMatchers("/api/add/saveAddress").permitAll()
+            .requestMatchers("/api/add/savePass").permitAll()
+            .requestMatchers("/api/payment/create-payment-intent").permitAll()
+            .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             
         )
-        .sessionManagement(session -> session
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-    // Add the JWT request filter before the username/password authentication filter
-//    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+       .sessionManagement(session -> session
+         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+         ;
+
+
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
     }
@@ -53,7 +74,8 @@ public class securityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); 
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

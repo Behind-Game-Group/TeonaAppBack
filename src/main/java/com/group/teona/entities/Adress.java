@@ -1,50 +1,69 @@
 package com.group.teona.entities;
 
 
-import java.util.Date;
-import java.util.Set;
-
-import com.group.teona.enums.EnumGender;
-import com.group.teona.enums.EnumLanguage;
-
+import java.io.Serializable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Adress {
+@Getter
+@Setter
+public class Adress implements Serializable {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(name = "numero", length = 4, nullable = false)
-	private String numero;
-	
-	@Column(name = "road", length = 75, nullable = false)
-	private String road;
-	
-	@Column(name = "postal_code", length = 5, nullable = false)
-	private String postalCode;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@Column(name = "city", length = 25, nullable = false)
-	private String city;
-	
-	@Column(name = "country", length = 25, nullable = false)
-	private String country;
+	  @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	    @Column(nullable = false)
+	    private String firstName;
+
+	    @Column(nullable = false)
+	    private String lastName;
+
+	    @Column(nullable = false)
+	    private String streetName;
+
+	    private String streetNameOptional;
+
+	    @Column(nullable = false)
+	    private String postCode;
+
+	    @Column(nullable = false)
+	    private String city;
+
+	    @Column(nullable = false, unique = true)
+	    private String phoneNumber;
+
+	    @Column(nullable = false)
+	    private String country;
+
+		
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    @JoinColumn(name = "user_id", nullable = true) 
+	    private User user;
+	    
+	    @OneToOne(mappedBy = "adress", cascade = CascadeType.ALL)
+		private Card card;
 
 }

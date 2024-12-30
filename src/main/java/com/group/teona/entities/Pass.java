@@ -1,14 +1,11 @@
 package com.group.teona.entities;
 
+import java.sql.Blob;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.group.teona.enums.EnumSub;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,41 +23,58 @@ public class Pass {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-	
-
-	
-	@Column(name = "cardTitle", nullable = false)
-	    private String cardTitle;
 	    
-	@Column(name = "cardPrice", nullable = false)
-	    private Double cardPrice;
-	
-	@Column(name = "isActive", nullable = false)
-	    private Boolean isActive;
-	
-	@ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
-    private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "wallet_id", nullable = true)
+	  @Column(nullable = false)
+	  private String firstName;
+	  
+	  @Column(nullable = false)
+	  private String lastName;
+
+      @Lob
+	 @Column(nullable = false, columnDefinition = "LONGBLOB")
+	private Blob image;
+
+    @Column(name = "subscription_time", nullable = true)
+	@Enumerated(EnumType.STRING)
+    private EnumSub subscriptionTime;
+    
+    @Column(name = "valide_duration", nullable = true)
+    private double valideDuration;
+    
+    @Column(name = "date_subscription")
+	@Temporal(TemporalType.DATE)
+	private LocalDate dateSubscription;
+    
+    @Column(name = "cardTitle", nullable = true)
+    private String cardTitle;
+    
+	@Column(name = "cardPrice", nullable = true)
+	private Double cardPrice;
+
+    @Column(name = "isActive", nullable = true)
+    private boolean isActive;
+    
+   @OneToOne
+   @JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
+   /*
+   @OneToOne
+   @JoinColumn(name = "user_id", nullable = false)
+	private User user;
+	*/
 	
 	@ManyToOne
 	@JoinColumn(name = "adress_id", nullable = true)
 	private Adress adress;
 	
-	@Column(name = "validity_duration", nullable = false)
+	@Column(name = "validity_duration", nullable = true)
     private Integer validityDuration;
 
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date", nullable = true)
     private LocalDate expirationDate ;
     
- 
-   // @OneToOne
-	//@JoinColumn(name = "wallet_id", nullable = false)
-	//private Wallet wallet;
+    
+
 
 
 

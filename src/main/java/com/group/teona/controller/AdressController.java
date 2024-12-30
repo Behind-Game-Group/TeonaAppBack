@@ -1,10 +1,10 @@
 package com.group.teona.controller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
+
+import java.util.Map;
+
+import com.group.teona.services.AdressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,10 @@ import com.group.teona.entities.User;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.security.JwtService;
-import com.group.teona.services.AdressService;
 import com.group.teona.services.PassService;
-import com.group.teona.dto.FormAdress;
 import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.dto.PassRequestDto;
+
 
 @RestController
 @RequestMapping("/api/add")
@@ -63,7 +62,7 @@ public class AdressController {
 					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid token"));
 				}
 
-				Adress savedAddress = adressService.saveAddress(formRequest, user);
+				Adress savedAddress = adressService.saveAddress (formRequest, user);
 				return ResponseEntity.ok(Map.of("message", "Address saved successfully", "id", savedAddress.getId()
 
 				));

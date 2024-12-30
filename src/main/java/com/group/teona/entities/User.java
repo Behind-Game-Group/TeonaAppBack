@@ -1,4 +1,5 @@
 package com.group.teona.entities;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -6,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group.teona.enums.EnumRole;
 
 import jakarta.persistence.CascadeType;
@@ -69,6 +69,11 @@ public class User  implements UserDetails{
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
+		
+		/*
+		@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+		private Pass pass;
+		*/
 		
 		@Lob
 		@Column(name = "role", nullable = false)

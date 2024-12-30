@@ -40,8 +40,9 @@ public class Wallet {
 	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
 	private Pass pass;
 	
-//	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
-//	Set<Pass> cards = new HashSet<>();
+	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
+	Set<Card> cards = new HashSet<>();
+
 	
     public void addFunds(double amount) {
         this.count += amount;

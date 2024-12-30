@@ -1,11 +1,12 @@
-
 package com.group.teona.repositories;
-
+import com.group.teona.entities.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.group.teona.entities.Pass;
+import com.group.teona.entities.Card;
+
+import java.util.List;
 
 @Repository
-public interface CardRepository extends JpaRepository<Pass,Long> {
+public interface CardRepository extends JpaRepository<Card,Long> {
 }

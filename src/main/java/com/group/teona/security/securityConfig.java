@@ -46,6 +46,7 @@ public class securityConfig {
             .requestMatchers("/api/add/card/**").permitAll()
             .requestMatchers("/api/add/saveAddress").permitAll()
             .requestMatchers("/api/add/savePass").permitAll()
+            .requestMatchers("/api/payment/create-payment-intent").permitAll()
             .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             

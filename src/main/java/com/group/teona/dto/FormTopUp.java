@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class FormTopUp {
-	
+	private Long cardId;
 	private boolean topUp5 ;
 	private boolean topUp10 ;
 	private boolean topUp15 ;

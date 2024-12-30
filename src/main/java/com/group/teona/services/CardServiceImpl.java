@@ -1,6 +1,7 @@
 package com.group.teona.services;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,12 +113,11 @@ public class CardServiceImpl implements CardService {
 		
 	}
 	
-	
 	@Override
 	public Card addTopUp (Long cardId, FormTopUp formTopUp) {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
-		
+
 		if (cardFind != null) {
 			if(formTopUp.isTopUp5()) {
 				cardFind.setTopUp(cardFind.getTopUp() + 5.0);
@@ -134,17 +134,17 @@ public class CardServiceImpl implements CardService {
 			if(formTopUp.getTopUpPerso() > 0 ) {
 				cardFind.setTopUp(cardFind.getTopUp() + formTopUp.getTopUpPerso());
 			}
-			
+
 			if(cardFind.getTopUp() > 0) {
-				
+
 				cardFind.setActive(true);
 				return cardRepository.save(cardFind);
 			}
 
 		}
-			throw new IllegalArgumentException("Arguements non valides");
+		throw new IllegalArgumentException("Arguements non valides");
 	}
-	
-
-
 }
+
+
+

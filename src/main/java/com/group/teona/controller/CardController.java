@@ -2,7 +2,6 @@ package com.group.teona.controller;
 
 import java.util.Optional;
 
-import com.group.teona.dto.FromTopUpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.teona.dto.FormTeonaCard;
 import com.group.teona.dto.FormTopUp;
+import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.CardService;
@@ -49,13 +49,10 @@ public class CardController {
 	    }
 		
 
-		@PostMapping("card/topUp")
-	    public ResponseEntity saveFormWithCard( @RequestBody FromTopUpDTO defaul) {
+		@PutMapping("card/topUp")
+	    public ResponseEntity saveFormWithCard( @RequestBody FormTopUp formTopUp) {
 			try {
-				FormTopUp topUp=defaul.getDefaut();
-				System.out.println(defaul);
-//				topUp.setCardId(102l);topUp.setTopUp10(true);
-				cardService.addTopUp(topUp.getCardId(), topUp);
+				cardService.addTopUp(formTopUp.getCardId(), formTopUp.getChoiceTopUp());
 				return ResponseEntity.ok("Top-up added");
 				
 			} catch (Exception e) {

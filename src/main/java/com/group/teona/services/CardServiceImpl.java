@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.FormTeonaCard;
-import com.group.teona.dto.FormTopUp;
+import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.User;
@@ -114,7 +114,7 @@ public class CardServiceImpl implements CardService {
 	}
 	
 	@Override
-	public Card addTopUp (Long cardId, FormTopUp formTopUp) {
+	public Card addTopUp (Long cardId, ChoiceTopUp formTopUp) {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
 

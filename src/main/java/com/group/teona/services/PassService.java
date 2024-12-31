@@ -9,5 +9,5 @@ import com.group.teona.entities.Wallet;
 
 @Service
 public interface PassService {
-	 void savePass(PassRequestDto passRequest, User user,Long adressId,Wallet wallet);
+	 void savePass(PassRequestDto passRequest, User user,Long adressId);
 }

@@ -24,22 +24,17 @@ public class Pass {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	    
-	  @Column(nullable = false)
-	  private String firstName;
-	  
-	  @Column(nullable = false)
-	  private String lastName;
+
 
       @Lob
-	 @Column(nullable = false, columnDefinition = "LONGBLOB")
+	 @Column(nullable = true, columnDefinition = "LONGBLOB")
 	private Blob image;
 
     @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)
     private EnumSub subscriptionTime;
     
-    @Column(name = "valide_duration", nullable = true)
-    private double valideDuration;
+
     
     @Column(name = "date_subscription")
 	@Temporal(TemporalType.DATE)
@@ -57,11 +52,11 @@ public class Pass {
    @OneToOne
    @JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
-   /*
+   
    @OneToOne
    @JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	*/
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "adress_id", nullable = true)

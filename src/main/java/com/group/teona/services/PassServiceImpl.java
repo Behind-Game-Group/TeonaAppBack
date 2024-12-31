@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.PassRequestDto;
@@ -15,6 +16,7 @@ import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
+import com.group.teona.repositories.WalletRepository;
 
 @Service
 public class PassServiceImpl implements PassService {
@@ -23,12 +25,30 @@ public class PassServiceImpl implements PassService {
 	  
 	  @Autowired
 	    private AdressRepository adressRepository;
+	  
+		@Autowired
+	    WalletRepository walletRepository;
 
 	  
-	    public void savePass(PassRequestDto passRequest, User user,Long adressId,Wallet wallet) {
-	    	 if (passRequest == null || user == null || adressId == null || wallet == null) {
+	    public void savePass(PassRequestDto passRequest, User user,Long adressId) {
+	    	 if (passRequest == null || user == null || adressId == null ) {
 	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
 	         }
+	    
+
+	    	
+	    	   
+	    	   Wallet wallet = user.getWallet();
+	           if (wallet == null) {
+	               wallet = new Wallet();
+	               wallet.setUser(user);
+	               wallet.setPhoneNumber(user.getPhoneNumber());
+	               wallet.setCount(passRequest.getCardPrice());
+	               walletRepository.save(wallet);
+
+	               // Link wallet to user
+	               user.setWallet(wallet);
+	           }
 	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
 	          if (optionalAdress.isEmpty()) {
@@ -39,15 +59,21 @@ public class PassServiceImpl implements PassService {
 	          
 	          String cardTitle = passRequest.getCardTitle();
 	          int validityDuration = getValidityDuration(cardTitle);	      
-	          
+//	          
 
+	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	          if (hasActivePass) {
+	              throw new IllegalStateException("User already has an active pass.");
+	          }
+	          
 	        Pass pass = new Pass();
 	        pass.setCardTitle(passRequest.getCardTitle());
 	        pass.setDateSubscription(LocalDate.now());
 	        pass.setCardPrice(passRequest.getCardPrice());
-	        pass.setActive(passRequest.isActive());
+	        pass.setActive(true);
 	        pass.setAdress(adress);
 	        pass.setWallet(wallet);
+	        pass.setUser(user);
 	        pass.setValidityDuration(validityDuration);
 	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
 	          pass.setExpirationDate(expirationDate);; 
@@ -70,5 +96,13 @@ public class PassServiceImpl implements PassService {
 	        }
 	    }
 
-	
+	    @Scheduled(cron = "0 0 0 * * ?") 
+	    public void deactivateExpiredPasses() {
+	        List<Pass> expiredPasses = passRepository.findAllByExpirationDateBeforeAndIsActiveTrue(LocalDate.now());
+	        for (Pass pass : expiredPasses) {
+	            pass.setActive(false);
+	        }
+	        passRepository.saveAll(expiredPasses);
+	        System.out.println("Deactivated " + expiredPasses.size() + " expired passes");
+	    }
 }

@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.group.teona.entities.User;
 import com.group.teona.entities.Wallet;
 import com.group.teona.repositories.AdressRepository;
+import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
 import com.group.teona.security.JwtService;
@@ -42,6 +43,9 @@ private AdressRepository repository;
 	
 	@Autowired
 	AdressRepository adressRepository;
+	
+	@Autowired
+	PassRepository passRepository;
 	
 	@Autowired
 	WalletRepository walletRepository;
@@ -73,30 +77,12 @@ private AdressRepository repository;
 
 						 	Long adressId = passRequest.getAdressId();
 
-		                
-		                Wallet wallet;
-		                if (passRequest.getWalletId() != null) {
-		                    wallet = walletRepository.findById(passRequest.getWalletId())
-		                            .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
-		                } else {
-		                	Double cardPrice = passRequest.getCardPrice();
-		                	if (cardPrice == null || cardPrice < 0) {
-		                	    throw new IllegalArgumentException("Card price must be a positive value.");
-		                	}
-		                	  wallet = new Wallet();
-		                	wallet.setCount(cardPrice);
-		                    wallet = new Wallet();
-		                    wallet.setUser(user);
-		                    wallet.setCount(cardPrice); 
-		                    wallet.setPhoneNumber(user.getPhoneNumber());
-		                    walletRepository.save(wallet);
-		                } 
-
-		                passService.savePass(passRequest, user,adressId,wallet);
+	
+		                passService.savePass(passRequest, user,adressId);
 		             
 		                Map<String, Object> response = new HashMap<>();
 		                response.put("message", "Pass saved successfully");
-		                response.put("cardPrice", wallet.getCount());
+		                response.put("cardPrice",user.getWallet().getCount());
 
 		                return ResponseEntity.ok(response);
 		            } else {

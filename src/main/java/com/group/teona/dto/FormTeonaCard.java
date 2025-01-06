@@ -1,12 +1,17 @@
 package com.group.teona.dto;
 
 
+import com.group.teona.entities.Adress;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class FormTeonaCard {
+	
+	private boolean existingAdress;
+	private Adress selectedAdress;
 	
 	private String firstName;
     private String lastName;

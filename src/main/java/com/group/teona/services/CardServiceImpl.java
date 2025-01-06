@@ -37,6 +37,15 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user) {
 		
+		if(formRequest.isExistingAdress() && user.getAdresses() != null) {
+			
+			Card teonaCard = new Card();
+			teonaCard.setActive(true);
+			teonaCard.setAdress(formRequest.getSelectedAdress());
+			teonaCard.setTopUp(0.0);
+			cardRepository.save(teonaCard);
+			return teonaCard.getId();
+		}
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
 		adress.setLastName(formRequest.getLastName());

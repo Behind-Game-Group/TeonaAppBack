@@ -2,7 +2,7 @@ package com.group.teona.entities;
 
 
 import java.io.Serializable;
-import jakarta.persistence.CascadeType;
+import java.sql.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,19 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Adress implements Serializable {
 	
 	/**
@@ -52,18 +48,16 @@ public class Adress implements Serializable {
 	    @Column(nullable = false)
 	    private String city;
 
-	    @Column(nullable = false, unique = true)
-	    private String phoneNumber;
 
 	    @Column(nullable = false)
 	    private String country;
 
-		
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "user_id", nullable = true) 
-	    private User user;
+		@Column
+		private Boolean isUse;
+
+		@Column
+		private Date creationDate;
+
 	    
-	    @OneToOne(mappedBy = "adress", cascade = CascadeType.ALL)
-		private Card card;
 
 }

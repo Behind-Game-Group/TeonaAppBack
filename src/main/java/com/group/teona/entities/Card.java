@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,10 +34,9 @@ public class Card {
 	@ManyToOne
 	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
-	
-	@OneToOne
-	@JoinColumn(name = "adress_id", nullable = true)
-	private Adress adress;
+
+	@Column(name = "creationDate" ,nullable = true)
+	private Date creationDate;
 	
 
 }

@@ -40,25 +40,24 @@ public class CardServiceImpl implements CardService {
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
 		adress.setLastName(formRequest.getLastName());
-		adress.setPhoneNumber(formRequest.getPhoneNumber());
 		adress.setStreetName(formRequest.getStreetName());
 		adress.setStreetNameOptional(formRequest.getStreetNameOptional());
 		adress.setPostCode(formRequest.getPostCode());
 		adress.setCity(formRequest.getCity());
 		adress.setCountry(formRequest.getCountry());
-		adress.setUser(user);
+		adress.setIsUse(true);
 		
 		adressRepository.save(adress);
 				
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
-		teonaCard.setAdress(adress);
-		teonaCard.setTopUp(0.0);
+		teonaCard.setTopUp(1.0);
 
 		
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
 			wallet.setUser(user);
+			wallet.setAdress(adress);
 			wallet.setPhoneNumber(user.getPhoneNumber());
 			teonaCard.setWallet(wallet);
 			walletRepository.save(wallet);
@@ -82,7 +81,6 @@ public class CardServiceImpl implements CardService {
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
 		adress.setLastName(formRequest.getLastName());
-		adress.setPhoneNumber(formRequest.getPhoneNumber());
 		adress.setStreetName(formRequest.getStreetName());
 		adress.setStreetNameOptional(formRequest.getStreetNameOptional());
 		adress.setPostCode(formRequest.getPostCode());
@@ -93,13 +91,12 @@ public class CardServiceImpl implements CardService {
 		
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
-		teonaCard.setAdress(adress);
 		teonaCard.setTopUp(0.0);
 		
 		
 		Wallet wallet = new Wallet();
 		wallet.setPhoneNumber(formRequest.getPhoneNumber());
-		
+		wallet.setAdress(adress);
 		walletRepository.save(wallet);
 		
 

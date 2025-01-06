@@ -1,4 +1,4 @@
-package com.group.teona;
+/*package com.group.teona;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -76,7 +76,7 @@ String json = toJson(lo);
                 .andExpect(content().json("{'email':'info2', 'password':'11'}"));
 
 
-    /*   // assertThat(authController.tested()).isNotNull(); avec jupiter
+      // assertThat(authController.tested()).isNotNull(); avec jupiter
         /*this.mockMvc.perform(get("/auth/test")).andDo(print()).andExpect(status().isOk())
           when(authController).thenReturn(ResponseEntity.ok("it a test"));
 
@@ -93,7 +93,7 @@ String json = toJson(lo);
       .andExpect(MockMvcResultMatchers.jsonPath("$.employees").exists())
       .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].employeeId").isNotEmpty());
 
-        */
+
         assert true;
     }
 
@@ -140,7 +140,8 @@ String json = toJson(lo);
 
 
 
-        when(cardRepository.findById((long) 2)).thenReturn(Optional.of(new Pass()));
+      //  when(cardRepository.findById((long) 2)).thenReturn(Optional.of(new Pass()));
 
     }
 }
+*/

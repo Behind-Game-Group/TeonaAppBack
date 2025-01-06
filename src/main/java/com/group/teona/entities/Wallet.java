@@ -43,6 +43,11 @@ public class Wallet {
 	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 	Set<Card> cards = new HashSet<>();
 
+
+    @OneToOne
+    @JoinColumn(name = "adress_id", nullable = true)
+    private Adress adress;
+
 	
     public void addFunds(double amount) {
         this.count += amount;

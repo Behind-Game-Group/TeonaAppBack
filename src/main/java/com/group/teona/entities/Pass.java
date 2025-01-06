@@ -57,10 +57,7 @@ public class Pass {
    @JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
-	
-	@ManyToOne
-	@JoinColumn(name = "adress_id", nullable = true)
-	private Adress adress;
+
 	
 	@Column(name = "validity_duration", nullable = true)
     private Integer validityDuration;

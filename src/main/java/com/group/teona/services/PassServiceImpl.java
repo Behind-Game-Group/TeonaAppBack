@@ -56,6 +56,8 @@ public class PassServiceImpl implements PassService {
 	          }
 
 	          Adress adress = optionalAdress.get();
+	          adress.setIsUse(true);
+			  adressRepository.save(adress);
 	          
 	          String cardTitle = passRequest.getCardTitle();
 	          int validityDuration = getValidityDuration(cardTitle);	      
@@ -71,7 +73,7 @@ public class PassServiceImpl implements PassService {
 	        pass.setDateSubscription(LocalDate.now());
 	        pass.setCardPrice(passRequest.getCardPrice());
 	        pass.setActive(true);
-	        pass.setAdress(adress);
+	        wallet.setAdress(adress);
 	        pass.setWallet(wallet);
 	        pass.setUser(user);
 	        pass.setValidityDuration(validityDuration);

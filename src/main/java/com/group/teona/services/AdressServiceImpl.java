@@ -36,9 +36,7 @@ public class AdressServiceImpl implements AdressService {
         address.setStreetNameOptional(formRequest.getStreetNameOptional());
         address.setPostCode(formRequest.getPostCode());
         address.setCity(formRequest.getCity());
-        address.setPhoneNumber(formRequest.getPhoneNumber());
         address.setCountry(formRequest.getCountry());
-        address.setUser(user);
 
         Adress savedAddress = adressRepository.save(address);
         

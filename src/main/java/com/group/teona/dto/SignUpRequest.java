@@ -1,9 +1,5 @@
 package com.group.teona.dto;
 
-
-import java.util.Set;
-
-import com.group.teona.entities.Adress;
 import com.group.teona.entities.User;
 
 import lombok.Data;

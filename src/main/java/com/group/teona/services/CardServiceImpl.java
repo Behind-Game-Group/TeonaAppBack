@@ -1,7 +1,6 @@
 package com.group.teona.services;
 
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,8 +110,8 @@ public class CardServiceImpl implements CardService {
 	}
 	
 	@Override
-	public Card addTopUp (Long cardId, ChoiceTopUp formTopUp) {
-		Optional<Card> card = cardRepository.findById(cardId);
+	public Card addTopUp ( ChoiceTopUp formTopUp) {
+		Optional<Card> card = cardRepository.findById(formTopUp.getCardId());
 		Card cardFind = card.get();
 
 		if (cardFind != null) {

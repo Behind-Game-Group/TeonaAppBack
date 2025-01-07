@@ -52,10 +52,7 @@ public class Pass {
    @OneToOne
    @JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
-   
-   @OneToOne
-   @JoinColumn(name = "user_id", nullable = false)
-	private User user;
+
 	
 
 	

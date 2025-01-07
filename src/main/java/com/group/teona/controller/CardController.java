@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.teona.dto.FormTeonaCard;
-import com.group.teona.dto.FormTopUp;
 import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
@@ -50,9 +48,9 @@ public class CardController {
 		
 
 		@PutMapping("card/topUp")
-	    public ResponseEntity saveFormWithCard( @RequestBody FormTopUp formTopUp) {
+	    public ResponseEntity saveFormWithCard( @RequestBody ChoiceTopUp formTopUp) {
 			try {
-				cardService.addTopUp(formTopUp.getCardId(), formTopUp.getChoiceTopUp());
+				cardService.addTopUp(formTopUp);
 				return ResponseEntity.ok("Top-up added");
 				
 			} catch (Exception e) {

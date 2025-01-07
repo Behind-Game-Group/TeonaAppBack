@@ -13,7 +13,7 @@ public interface CardService {
 
 	Long saveFormCardWithoutUser(FormTeonaCard formRequest);
 
-	Card addTopUp(Long cardId, ChoiceTopUp formTopUp);
+	Card addTopUp( ChoiceTopUp formTopUp);
 
 
 

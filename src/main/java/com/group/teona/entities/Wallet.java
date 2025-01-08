@@ -1,9 +1,11 @@
-
+ 
 package com.group.teona.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,8 +23,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Wallet {
+public class Wallet implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,9 +40,11 @@ public class Wallet {
     @Column(name = "phoneNumber", nullable = false, unique = true)
     private String phoneNumber;
 	
+    
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
+	
 	
 	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
 	private Pass pass;
@@ -55,6 +64,11 @@ public class Wallet {
         this.count -= amount;
         return true;
     }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hashCode(id);
+    	    }
     
 }
 

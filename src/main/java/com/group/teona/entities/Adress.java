@@ -1,7 +1,11 @@
-package com.group.teona.entities;
+ package com.group.teona.entities;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -62,8 +66,13 @@ public class Adress implements Serializable {
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", nullable = true) 
 	    private User user;
+	        
+	    @OneToMany(mappedBy = "adress", cascade = CascadeType.ALL)
+		private Set<Card> cards = new HashSet<>();
 	    
-	    @OneToOne(mappedBy = "adress", cascade = CascadeType.ALL)
-		private Card card;
+	    @Override
+	    public int hashCode() {
+	    	return Objects.hashCode(id);
+	    	    }
 
 }

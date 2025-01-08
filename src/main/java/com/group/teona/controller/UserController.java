@@ -48,9 +48,8 @@ public class UserController {
 	private  EmailService emailService;
 	
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-
+    PasswordEncoder passwordEncoder;  
+   
 
 	@PostMapping("/register")
 	 @CrossOrigin(origins = "http://localhost:8081")

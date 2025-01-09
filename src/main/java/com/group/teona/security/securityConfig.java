@@ -44,9 +44,10 @@ public class securityConfig {
             .requestMatchers("/api/user/forgot-password").permitAll()
             .requestMatchers("/api/user/reset-password").permitAll()
             .requestMatchers("/api/add/card/**").permitAll()
-            .requestMatchers("/api/adress/getUserAdress").permitAll()
+            .requestMatchers("/api/adress/**").permitAll()
             .requestMatchers("/api/add/savePass").permitAll()
             .requestMatchers("/api/payment/create-payment-intent").permitAll()
+            .requestMatchers("/api/payment/webhook").permitAll()
             .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             

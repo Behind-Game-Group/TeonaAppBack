@@ -55,7 +55,8 @@ private AdressRepository repository;
 
 	
 	@PostMapping("/savePass")
-	public ResponseEntity<?> savePass(@RequestBody PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader) {
+	public ResponseEntity<?> savePass(@RequestBody(required = false) PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader,
+			@RequestParam(required = false) Long adressId) {
 		  try {
 			  System.out.println("Received Authorization Header: " + authorizationHeader);
 		        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -73,9 +74,6 @@ private AdressRepository repository;
 		            if (jwtService.isTokenValid(token, userDetails, emailFromToken)) {		                
 		            	 User user = userRepository.findByEmail(usernameFromToken)
 		                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-
-						 	Long adressId = passRequest.getAdressId();
 
 	
 		                passService.savePass(passRequest, user,adressId);

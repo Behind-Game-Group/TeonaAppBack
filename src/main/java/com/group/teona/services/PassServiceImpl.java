@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.dto.PassRequestDto;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
@@ -30,53 +31,78 @@ public class PassServiceImpl implements PassService {
 	    WalletRepository walletRepository;
 
 	  
-	    public void savePass(PassRequestDto passRequest, User user,Long adressId) {
-	    	 if (passRequest == null || user == null || adressId == null ) {
+	    public void savePass(PassRequestDto passRequest,  User user,Long adressId) {
+	    	
+	    	 if (passRequest == null || user == null ) {
 	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
 	         }
+	    	 if (adressId == null && passRequest.getFormTeonaPass() == null ) {
+	             throw new IllegalArgumentException("Invalid input: Address is null");
+	         }
+	    	 String cardTitle = passRequest.getCardTitle();
+	          int validityDuration = getValidityDuration(cardTitle);
+	    	 
+	    	 Pass pass = new Pass();
+		        pass.setCardTitle(passRequest.getCardTitle());
+		        pass.setCardPrice(passRequest.getCardPrice());
+		        pass.setDateSubscription(LocalDate.now());
+		        pass.setActive(true);
+		        pass.setUser(user);
+		        pass.setValidityDuration(validityDuration);
+		        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
+		        pass.setExpirationDate(expirationDate);; 
 	    
-
-	    	
 	    	   
-	    	   Wallet wallet = user.getWallet();
-	           if (wallet == null) {
-	               wallet = new Wallet();
+	           if (user.getWallet() != null) {
+		    	   Wallet wallet = user.getWallet();
+	        	   user.setWallet(wallet);
+	        	   pass.setWallet(wallet);
+	        	   
+	 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	 	          if (hasActivePass) {
+	 	              throw new IllegalStateException("User already has an active pass.");
+	 	          }
+	           }
+	           else {	 
+	        	   Wallet wallet = new Wallet();
 	               wallet.setUser(user);
 	               wallet.setPhoneNumber(user.getPhoneNumber());
-	               wallet.setCount(passRequest.getCardPrice());
 	               walletRepository.save(wallet);
+	        	   pass.setWallet(wallet);
+
 
 	               // Link wallet to user
 	               user.setWallet(wallet);
+
+	 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	 	          if (hasActivePass) {
+	 	              throw new IllegalStateException("User already has an active pass.");
+	 	          }
 	           }
 	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
 	          if (optionalAdress.isEmpty()) {
-	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+	        	FormTeonaPass formRequest = passRequest.getFormTeonaPass();
+	        	Adress adress = new Adress();
+	  			adress.setFirstName(formRequest.getFirstName());
+	  			adress.setLastName(formRequest.getLastName());
+	  			adress.setPhoneNumber(formRequest.getPhoneNumber());
+	  			adress.setStreetName(formRequest.getStreetName());
+	  			adress.setStreetNameOptional(formRequest.getStreetNameOptional());
+	  			adress.setPostCode(formRequest.getPostCode());
+	  			adress.setCity(formRequest.getCity());
+	  			adress.setCountry(formRequest.getCountry());
+	  			adress.setUser(user);
+	  			adressRepository.save(adress);
+	  			 
+	  			pass.setAdress(adress);
 	          }
+	          else {
+		          Adress adress = optionalAdress.get();
+		  			adressRepository.save(adress);
 
-	          Adress adress = optionalAdress.get();
-	          
-	          String cardTitle = passRequest.getCardTitle();
-	          int validityDuration = getValidityDuration(cardTitle);	      
-//	          
-
-	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-	          if (hasActivePass) {
-	              throw new IllegalStateException("User already has an active pass.");
-	          }
-	          
-	        Pass pass = new Pass();
-	        pass.setCardTitle(passRequest.getCardTitle());
-	        pass.setDateSubscription(LocalDate.now());
-	        pass.setCardPrice(passRequest.getCardPrice());
-	        pass.setActive(true);
-	        pass.setAdress(adress);
-	        pass.setWallet(wallet);
-	        pass.setUser(user);
-	        pass.setValidityDuration(validityDuration);
-	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
-	          pass.setExpirationDate(expirationDate);; 
+		  			pass.setAdress(adress);	        	  
+	          }         
 
 	        passRepository.save(pass);
 	    }

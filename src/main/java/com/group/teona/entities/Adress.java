@@ -70,6 +70,9 @@ public class Adress implements Serializable {
 	    @OneToMany(mappedBy = "adress", cascade = CascadeType.ALL)
 		private Set<Card> cards = new HashSet<>();
 	    
+	    @OneToMany(mappedBy = "adress", cascade = CascadeType.ALL)
+		private Set<Pass> pass = new HashSet<>();
+	    
 	    @Override
 	    public int hashCode() {
 	    	return Objects.hashCode(id);

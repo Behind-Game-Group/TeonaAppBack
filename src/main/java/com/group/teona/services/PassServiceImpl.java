@@ -51,6 +51,8 @@ public class PassServiceImpl implements PassService {
 		        pass.setValidityDuration(validityDuration);
 		        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
 		        pass.setExpirationDate(expirationDate);; 
+		        
+		        System.out.println(pass.getId());
 	    
 	    	   
 	           if (user.getWallet() != null) {
@@ -79,9 +81,9 @@ public class PassServiceImpl implements PassService {
 	 	              throw new IllegalStateException("User already has an active pass.");
 	 	          }
 	           }
-	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 
-	          if (optionalAdress.isEmpty()) {
+	          if (adressId == null) {
+
 	        	FormTeonaPass formRequest = passRequest.getFormTeonaPass();
 	        	Adress adress = new Adress();
 	  			adress.setFirstName(formRequest.getFirstName());
@@ -98,10 +100,10 @@ public class PassServiceImpl implements PassService {
 	  			pass.setAdress(adress);
 	          }
 	          else {
-		          Adress adress = optionalAdress.get();
-		  			adressRepository.save(adress);
+		          Optional<Adress> adress = adressRepository.findById(adressId);
+		  			adressRepository.save(adress.get());
 
-		  			pass.setAdress(adress);	        	  
+		  			pass.setAdress(adress.get());	        	  
 	          }         
 
 	        passRepository.save(pass);

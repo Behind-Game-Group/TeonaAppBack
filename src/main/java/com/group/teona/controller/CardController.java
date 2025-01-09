@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.teona.dto.FormTeonaCard;
 import com.group.teona.dto.FormTopUp;
-import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.User;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.CardService;

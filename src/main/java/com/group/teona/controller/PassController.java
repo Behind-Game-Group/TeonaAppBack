@@ -30,16 +30,15 @@ import com.group.teona.dto.PassRequestDto;
 public class PassController {
 
 	
-@Autowired
-private AdressRepository repository;
+
 	@Autowired
-	private PassService passService;
+	PassService passService;
 	
 	@Autowired
 	UserRepository userRepository;
 	
-	   @Autowired
-	    private UserDetailsService userDetailsService;
+	@Autowired
+	UserDetailsService userDetailsService;
 	
 	@Autowired
 	AdressRepository adressRepository;
@@ -52,6 +51,8 @@ private AdressRepository repository;
 
 	@Autowired
 	private JwtService jwtService;
+	
+
 
 	
 	@PostMapping("/savePass")
@@ -74,10 +75,15 @@ private AdressRepository repository;
 		            if (jwtService.isTokenValid(token, userDetails, emailFromToken)) {		                
 		            	 User user = userRepository.findByEmail(usernameFromToken)
 		                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
+		            	 
+		            	if(adressId != null) {
+			                passService.savePass(passRequest, user,adressId);
 
-	
-		                passService.savePass(passRequest, user,adressId);
-		             
+		            	}
+		            	else {
+		            		passService.savePass(passRequest, user, null);
+		            	}
+			             
 		                Map<String, Object> response = new HashMap<>();
 		                response.put("message", "Pass saved successfully");
 		                response.put("cardPrice",user.getWallet().getCount());
@@ -92,7 +98,8 @@ private AdressRepository repository;
 		    } catch (Exception e) {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving pass: " + e.getMessage());
 		    }
+	}
+		 
 
 
-}
 }

@@ -40,6 +40,7 @@ public class CardServiceImpl implements CardService {
 		teonaCard.setActive(true);
 		teonaCard.setTopUp(0.0);
 		
+		System.out.println(teonaCard.getId());
 		
 		if(adressId != null) {
 			Optional<Adress> adress = adressRepository.findById(adressId);

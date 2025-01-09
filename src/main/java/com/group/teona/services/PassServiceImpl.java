@@ -63,7 +63,19 @@ public class PassServiceImpl implements PassService {
 
 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
 	          if (hasActivePass) {
-	              throw new IllegalStateException("User already has an active pass.");
+	        	  List<Pass> activePasses = passRepository.findAllByWalletAndIsActive(wallet, true);
+	        	    for (Pass pass : activePasses) {
+	        	        if (pass.getExpirationDate().isBefore(LocalDate.now())) {
+	        	            pass.setActive(false); 
+	        	            passRepository.save(pass);
+	        	        }
+	        	    }
+	        	    
+	        	   
+	        	    hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	        	    if (hasActivePass) {
+	        	        throw new IllegalStateException("User already has an active pass.");
+	        	    }
 	          }
 	          
 	        Pass pass = new Pass();

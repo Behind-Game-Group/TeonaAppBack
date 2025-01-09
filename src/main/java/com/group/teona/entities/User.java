@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.group.teona.enums.EnumRole;
 
+import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -67,13 +68,10 @@ public class User  implements UserDetails{
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 		private Set<Adress> adresses = new HashSet<>();
 		
+		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
-		/*
-		@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
-		private Pass pass;
-		*/
 		
 		@Lob
 		@Column(name = "role", nullable = false)
@@ -123,6 +121,11 @@ public class User  implements UserDetails{
 			// TODO Auto-generated method stub
 			return email;
 		}
+		
+		 @Override
+		 public int hashCode() {
+		   return Objects.hashCode(id);
+		 }
 		
 		
 

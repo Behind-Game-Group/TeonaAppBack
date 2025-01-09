@@ -2,18 +2,19 @@ package com.group.teona.services;
 
 
 import com.group.teona.dto.FormTeonaCard;
-import com.group.teona.dto.FormTopUp;
+import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.User;
 
 public interface CardService {
 	
 
-	void saveFormCardWithUser(FormTeonaCard formRequest, User user);
+	Long saveFormCardWithUser(FormTeonaCard formRequest, User user, Long adressId);
 
-	void saveFormCardWithoutUser(FormTeonaCard formRequest);
+	Long saveFormCardWithoutUser(FormTeonaCard formRequest);
 
-	Card addTopUp(Long cardId, FormTopUp formTopUp);
+	Card addTopUp(Long cardId, ChoiceTopUp formTopUp);
+
 
 
 

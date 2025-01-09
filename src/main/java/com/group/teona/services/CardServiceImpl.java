@@ -1,14 +1,13 @@
 package com.group.teona.services;
 
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.teona.dto.FormTeonaCard;
-import com.group.teona.dto.FormTopUp;
+import com.group.teona.dto.ChoiceTopUp;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Card;
 import com.group.teona.entities.User;
@@ -35,25 +34,34 @@ public class CardServiceImpl implements CardService {
 	
 	// Créé un wallet, une card et une adresse associée pour l'user authentifié
 	@Override
-	public void saveFormCardWithUser (FormTeonaCard formRequest, User user) {
+	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user, Long adressId) {
 		
-		Adress adress = new Adress();
-		adress.setFirstName(formRequest.getFirstName());
-		adress.setLastName(formRequest.getLastName());
-		adress.setPhoneNumber(formRequest.getPhoneNumber());
-		adress.setStreetName(formRequest.getStreetName());
-		adress.setStreetNameOptional(formRequest.getStreetNameOptional());
-		adress.setPostCode(formRequest.getPostCode());
-		adress.setCity(formRequest.getCity());
-		adress.setCountry(formRequest.getCountry());
-		adress.setUser(user);
-		
-		adressRepository.save(adress);
-				
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
-		teonaCard.setAdress(adress);
+		teonaCard.setTopUp(0.0);
 		
+		
+		if(adressId != null) {
+			Optional<Adress> adress = adressRepository.findById(adressId);
+			teonaCard.setAdress(adress.get());
+		}
+		else {
+			Adress adress = new Adress();
+			adress.setFirstName(formRequest.getFirstName());
+			adress.setLastName(formRequest.getLastName());
+			adress.setPhoneNumber(formRequest.getPhoneNumber());
+			adress.setStreetName(formRequest.getStreetName());
+			adress.setStreetNameOptional(formRequest.getStreetNameOptional());
+			adress.setPostCode(formRequest.getPostCode());
+			adress.setCity(formRequest.getCity());
+			adress.setCountry(formRequest.getCountry());
+			adress.setUser(user);
+			adressRepository.save(adress);
+			 
+			teonaCard.setAdress(adress);
+
+		}
+		 
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();
 			wallet.setUser(user);
@@ -70,13 +78,12 @@ public class CardServiceImpl implements CardService {
 		}
 		
 		cardRepository.save(teonaCard);
-		
-//		addTopUp(teonaCard.getId(), formRequest.getFormTopUp() );
+		return teonaCard.getId();
 
 	}
 	
 	@Override
-	public void saveFormCardWithoutUser (FormTeonaCard formRequest) {
+	public Long saveFormCardWithoutUser (FormTeonaCard formRequest) {
 		
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
@@ -95,6 +102,7 @@ public class CardServiceImpl implements CardService {
 		teonaCard.setAdress(adress);
 		teonaCard.setTopUp(0.0);
 		
+		
 		Wallet wallet = new Wallet();
 		wallet.setPhoneNumber(formRequest.getPhoneNumber());
 		
@@ -102,16 +110,17 @@ public class CardServiceImpl implements CardService {
 		
 
 		teonaCard.setWallet(wallet);
-
+		
 		cardRepository.save(teonaCard);
-				
+		
+		return teonaCard.getId();
 
+				
 		
 	}
-
-
+	
 	@Override
-	public Card addTopUp (Long cardId, FormTopUp formTopUp) {
+	public Card addTopUp (Long cardId, ChoiceTopUp formTopUp) {
 		Optional<Card> card = cardRepository.findById(cardId);
 		Card cardFind = card.get();
 

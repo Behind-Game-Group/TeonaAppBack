@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.group.teona.enums.EnumSub;
 
+import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -68,7 +69,10 @@ public class Pass {
     @Column(name = "expiration_date", nullable = true)
     private LocalDate expirationDate ;
     
-    
+    @Override
+    public int hashCode() {
+    	return Objects.hashCode(id);
+    	    }
 
 
 

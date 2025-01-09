@@ -31,7 +31,8 @@ public class CardController {
 	private UserRepository userRepository;
 	 
 		@PostMapping("card")
-	    public ResponseEntity saveFormWithCard(Authentication authentication, @RequestBody FormTeonaCard formRequest) {
+	    public ResponseEntity saveFormWithCard(Authentication authentication, @RequestBody(required = false) FormTeonaCard formRequest,
+	    		@RequestParam (required = false) Long adressId ) {
 			
 			if(authentication != null) {
 	    	
@@ -39,7 +40,7 @@ public class CardController {
 		    	
 		    	if(userFind.isPresent()) {
 		    				    	
-			    	return ResponseEntity.ok(cardService.saveFormCardWithUser(formRequest, userFind.get()));
+			    	return ResponseEntity.ok(cardService.saveFormCardWithUser(formRequest, userFind.get(), adressId));
 		    	}
 		    	
 		        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");

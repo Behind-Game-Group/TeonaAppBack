@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.teona.controller.UserController;
 import com.group.teona.dto.LoginRequest;
-import com.group.teona.entities.Pass;
+import com.group.teona.entities.Card;
 import com.group.teona.repositories.CardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,7 +140,7 @@ String json = toJson(lo);
 
 
 
-        when(cardRepository.findById((long) 2)).thenReturn(Optional.of(new Pass()));
+        when(cardRepository.findById((long) 2)).thenReturn(Optional.of(new Card()));
 
     }
 }

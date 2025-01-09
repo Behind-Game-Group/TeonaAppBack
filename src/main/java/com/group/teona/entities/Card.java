@@ -1,5 +1,6 @@
 package com.group.teona.entities;
 
+import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +34,13 @@ public class Card {
 	@JoinColumn(name = "wallet_id", nullable = true)
 	private Wallet wallet;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "adress_id", nullable = true)
 	private Adress adress;
 	
+	 @Override
+	    public int hashCode() {
+	    	return Objects.hashCode(id);
+	    	    }
 
 }

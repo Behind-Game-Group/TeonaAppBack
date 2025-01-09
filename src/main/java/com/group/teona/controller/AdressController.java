@@ -2,7 +2,10 @@ package com.group.teona.controller;
 
 
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import com.group.teona.services.AdressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,12 @@ import com.group.teona.repositories.UserRepository;
 import com.group.teona.security.JwtService;
 import com.group.teona.services.PassService;
 import com.group.teona.dto.FormTeonaPass;
+import com.group.teona.dto.GetAdress;
 import com.group.teona.dto.PassRequestDto;
 
 
 @RestController
-@RequestMapping("/api/add")
+@RequestMapping("/api/adress")
 public class AdressController {
 
 	@Autowired
@@ -72,6 +76,45 @@ public class AdressController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 		}
+	}
+	
+	@GetMapping("/getUserAdress")
+	public ResponseEntity getUserAdress (Authentication authentication) {
+		
+		if(authentication != null) {
+			Optional<User> user = userRepository.findByEmail(authentication.getName());
+	    	
+			return ResponseEntity.ok(adressService.getUserAdress(user.get()));
+		}
+		
+    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
+
+	}
+	
+	@GetMapping("/getAdress")
+	public ResponseEntity getAdress (@RequestParam Long adressId) {
+		
+		Optional<Adress> adressOpt = adressRepository.findById(adressId);
+		if (adressOpt != null) {
+				
+				Adress adress = adressOpt.get();
+			
+				GetAdress getAdress = new GetAdress();
+				getAdress.setId(adress.getId());
+				getAdress.setFirstName(adress.getFirstName());
+				getAdress.setLastName(adress.getLastName());
+				getAdress.setPhoneNumber(adress.getPhoneNumber());
+				getAdress.setStreetName(adress.getStreetName());
+				getAdress.setStreetNameOptional(adress.getStreetNameOptional());
+				getAdress.setPostCode(adress.getPostCode());
+				getAdress.setCity(adress.getCity());
+				getAdress.setCountry(adress.getCountry());
+				
+				return ResponseEntity.ok(getAdress);
+				
+		}
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Adress doesn't exist");
+
 	}
 
 }

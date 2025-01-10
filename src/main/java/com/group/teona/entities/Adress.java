@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,6 +31,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Adress implements Serializable {
 	
 	/**
@@ -56,8 +60,8 @@ public class Adress implements Serializable {
 	    @Column(nullable = false)
 	    private String city;
 
-	    @Column(nullable = false, unique = true)
-	    private String phoneNumber;
+	    @Column(nullable = true, unique = true)
+	    private String countryCode;
 
 	    @Column(nullable = false)
 	    private String country;
@@ -65,6 +69,7 @@ public class Adress implements Serializable {
 		
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", nullable = true) 
+	    @JsonBackReference
 	    private User user;
 	        
 	    @OneToMany(mappedBy = "adress", cascade = CascadeType.ALL)

@@ -29,82 +29,75 @@ public class PassServiceImpl implements PassService {
 	  
 		@Autowired
 	    WalletRepository walletRepository;
-
+		
+		 @Autowired
+		  private UserRepository userRepository;
 	  
 	    public void savePass(PassRequestDto passRequest,  User user,Long adressId) {
-	    	
-	    	 if (passRequest == null || user == null ) {
-	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
+	    	System.out.println("PassRequest: " + passRequest);
+	        System.out.println("User: " + user);
+	        System.out.println("AdressId: " + adressId);
+	    	 if (passRequest == null || user == null || adressId == null ) {
+	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID");
 	         }
-	    	 if (adressId == null && passRequest.getFormTeonaPass() == null ) {
-	             throw new IllegalArgumentException("Invalid input: Address is null");
-	         }
-	    	 String cardTitle = passRequest.getCardTitle();
-	          int validityDuration = getValidityDuration(cardTitle);
-	    	 
-	    	 Pass pass = new Pass();
-		        pass.setCardTitle(passRequest.getCardTitle());
-		        pass.setCardPrice(passRequest.getCardPrice());
-		        pass.setDateSubscription(LocalDate.now());
-		        pass.setActive(true);
-		        pass.setUser(user);
-		        pass.setValidityDuration(validityDuration);
-		        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
-		        pass.setExpirationDate(expirationDate);; 
-		        
-		        System.out.println(pass.getId());
 	    
+	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId);
+
+	          if (optionalAdress.isEmpty()) {
+	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+	          }
+	          Adress adress = optionalAdress.get();
 	    	   
-	           if (user.getWallet() != null) {
-		    	   Wallet wallet = user.getWallet();
-	        	   user.setWallet(wallet);
-	        	   pass.setWallet(wallet);
-	        	   
-	 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-	 	          if (hasActivePass) {
-	 	              throw new IllegalStateException("User already has an active pass.");
-	 	          }
-	           }
-	           else {	 
-	        	   Wallet wallet = new Wallet();
+	    	   Wallet wallet = user.getWallet();
+	           if (wallet == null) {
+	               wallet = new Wallet();
 	               wallet.setUser(user);
 	               wallet.setPhoneNumber(user.getPhoneNumber());
+	               wallet.setCount(passRequest.getCardPrice());
 	               walletRepository.save(wallet);
-	        	   pass.setWallet(wallet);
 
-
-	               // Link wallet to user
-	               user.setWallet(wallet);
-
-	 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-	 	          if (hasActivePass) {
-	 	              throw new IllegalStateException("User already has an active pass.");
-	 	          }
+	       	               user.setWallet(wallet);
 	           }
+//	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
+//
+//	          if (optionalAdress.isEmpty()) {
+//	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+//	          }
+//
+//	          Adress adress = optionalAdress.get();
+	          
+	          String cardTitle = passRequest.getCardTitle();
+	          int validityDuration = getValidityDuration(cardTitle);	      
+//	          
 
-	          if (adressId == null) {
-
-	        	FormTeonaPass formRequest = passRequest.getFormTeonaPass();
-	        	Adress adress = new Adress();
-	  			adress.setFirstName(formRequest.getFirstName());
-	  			adress.setLastName(formRequest.getLastName());
-	  			adress.setPhoneNumber(formRequest.getPhoneNumber());
-	  			adress.setStreetName(formRequest.getStreetName());
-	  			adress.setStreetNameOptional(formRequest.getStreetNameOptional());
-	  			adress.setPostCode(formRequest.getPostCode());
-	  			adress.setCity(formRequest.getCity());
-	  			adress.setCountry(formRequest.getCountry());
-	  			adress.setUser(user);
-	  			adressRepository.save(adress);
-	  			 
-	  			pass.setAdress(adress);
+	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	          if (hasActivePass) {
+	        	  List<Pass> activePasses = passRepository.findAllByWalletAndIsActive(wallet, true);
+	        	    for (Pass pass : activePasses) {
+	        	        if (pass.getExpirationDate().isBefore(LocalDate.now())) {
+	        	            pass.setActive(false); 
+	        	            passRepository.save(pass);
+	        	        }
+	        	    }
+	        	    
+	        	   
+	        	    hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+	        	    if (hasActivePass) {
+	        	        throw new IllegalStateException("User already has an active pass.");
+	        	    }
 	          }
-	          else {
-		          Optional<Adress> adress = adressRepository.findById(adressId);
-		  			adressRepository.save(adress.get());
-
-		  			pass.setAdress(adress.get());	        	  
-	          }         
+	          
+	        Pass pass = new Pass();
+	        pass.setCardTitle(passRequest.getCardTitle());
+	        pass.setDateSubscription(LocalDate.now());
+	        pass.setCardPrice(passRequest.getCardPrice());
+	        pass.setActive(true);
+	        pass.setAdress(adress);
+	        pass.setWallet(wallet);
+	        pass.setUser(user);
+	        pass.setValidityDuration(validityDuration);
+	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
+	          pass.setExpirationDate(expirationDate);; 
 
 	        passRepository.save(pass);
 	    }

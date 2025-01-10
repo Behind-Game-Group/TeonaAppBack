@@ -17,8 +17,11 @@ public class FormTeonaPass {
 	    private String streetNameOptional;
 	    private String postCode;
 	    private String city;
-	    private String phoneNumber;
-	    private String country;    
+	    private String countryCode;
+	    private String country;
+	    private String image;
+	    private EnumSub subscriptionTime;
+	    
 
 	 
 }

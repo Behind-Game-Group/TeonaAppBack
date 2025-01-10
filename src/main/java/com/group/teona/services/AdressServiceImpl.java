@@ -32,7 +32,23 @@ public class AdressServiceImpl implements AdressService {
 	
 
 	@Override
-    public Adress saveAddress(FormTeonaPass formRequest, User user) {
+    public Adress saveOrUpdateAddress(FormTeonaPass formRequest, User user) {
+		
+		 Optional<Adress> existingAddressOpt = adressRepository.findByUserId(user.getId());
+		    if (existingAddressOpt.isPresent()) {
+		    	  Adress existingAddress = existingAddressOpt.get();
+		          existingAddress.setFirstName(formRequest.getFirstName());
+		          existingAddress.setLastName(formRequest.getLastName());
+		          existingAddress.setStreetName(formRequest.getStreetName());
+		          existingAddress.setStreetNameOptional(formRequest.getStreetNameOptional());
+		          existingAddress.setPostCode(formRequest.getPostCode());
+		          existingAddress.setCity(formRequest.getCity());
+		          existingAddress.setCountryCode(formRequest.getCountryCode());
+		          existingAddress.setCountry(formRequest.getCountry());
+
+		          return adressRepository.save(existingAddress);
+		    }else {
+		    
         Adress address = new Adress();
         address.setFirstName(formRequest.getFirstName());
         address.setLastName(formRequest.getLastName());
@@ -40,7 +56,7 @@ public class AdressServiceImpl implements AdressService {
         address.setStreetNameOptional(formRequest.getStreetNameOptional());
         address.setPostCode(formRequest.getPostCode());
         address.setCity(formRequest.getCity());
-        address.setPhoneNumber(formRequest.getPhoneNumber());
+        address.setCountryCode(formRequest.getCountryCode());
         address.setCountry(formRequest.getCountry());
         address.setUser(user);
 
@@ -48,33 +64,34 @@ public class AdressServiceImpl implements AdressService {
         
         return savedAddress;
     }
-
-
-	@Override
-	public Set <GetAdress> getUserAdress (User user) {
-		
-		Set <Adress> adresses = user.getAdresses();
-		Set <GetAdress> getAdresses = new HashSet<>();
-		
-		for (Adress adress : adresses) {
-			GetAdress getAdress = new GetAdress();
-			getAdress.setId(adress.getId());
-			getAdress.setFirstName(adress.getFirstName());
-			getAdress.setLastName(adress.getLastName());
-			getAdress.setPhoneNumber(adress.getPhoneNumber());
-			getAdress.setStreetName(adress.getStreetName());
-			getAdress.setStreetNameOptional(adress.getStreetNameOptional());
-			getAdress.setPostCode(adress.getPostCode());
-			getAdress.setCity(adress.getCity());
-			getAdress.setCountry(adress.getCountry());
-			
-			getAdresses.add(getAdress);
- 
-			
-		} 
-		return getAdresses;
-		
 	}
+
+
+//	@Override
+//	public Set <GetAdress> getUserAdress (User user) {
+//		
+//		Set <Adress> adresses = user.getAdresses();
+//		Set <GetAdress> getAdresses = new HashSet<>();
+//		
+//		for (Adress adress : adresses) {
+//			GetAdress getAdress = new GetAdress();
+//			getAdress.setId(adress.getId());
+//			getAdress.setFirstName(adress.getFirstName());
+//			getAdress.setLastName(adress.getLastName());
+//			getAdress.setPhoneNumber(adress.getPhoneNumber());
+//			getAdress.setStreetName(adress.getStreetName());
+//			getAdress.setStreetNameOptional(adress.getStreetNameOptional());
+//			getAdress.setPostCode(adress.getPostCode());
+//			getAdress.setCity(adress.getCity());
+//			getAdress.setCountry(adress.getCountry());
+//			
+//			getAdresses.add(getAdress);
+// 
+//			
+//		} 
+//		return getAdresses;
+//		
+//	}
 
 }	
 

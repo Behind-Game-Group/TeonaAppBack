@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group.teona.enums.EnumRole;
 
 import io.jsonwebtoken.lang.Objects;
@@ -31,6 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"adresses", "wallet"})
 public class User  implements UserDetails{
 	  	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +69,7 @@ public class User  implements UserDetails{
 		private String passPicture;
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		@JsonManagedReference
 		private Set<Adress> adresses = new HashSet<>();
 		
 		
@@ -127,6 +131,21 @@ public class User  implements UserDetails{
 		   return Objects.hashCode(id);
 		 }
 		
-		
+		    @Override
+		    public String toString() {
+		        return "User{" +
+		                "id=" + id + ", " +
+		                "firstName='" + firstName + "', " +
+		                "lastName='" + lastName + "', " +
+		                "gender='" + gender + "', " +
+		                "country='" + country + "', " +
+		                "email='" + email + "', " +
+		                "phoneNumber='" + phoneNumber + "', " +
+		                "adressesSize=" + adresses.size() + ", " + 
+		                "walletId=" + (wallet != null ? wallet.getId() : "None") + ", " + 
+		                "role=" + role + ", " +
+		                "language='" + language + "', " +
+		                "verified=" + verified + "}";
+		    }	
 
 }

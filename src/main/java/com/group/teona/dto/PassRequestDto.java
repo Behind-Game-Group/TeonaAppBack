@@ -15,7 +15,7 @@ public class PassRequestDto  {
     private String cardTitle;
     private Double cardPrice;
     private boolean isActive;
+    private Long adressId; 
     private Long walletId;
     private String image;
-    private FormTeonaPass formTeonaPass;
 }

@@ -15,7 +15,7 @@ public class FormTeonaCard {
     private String streetNameOptional;
     private String postCode;
     private String city;
-    private String phoneNumber;
+    private String countryCode;
     private String country;
     
 

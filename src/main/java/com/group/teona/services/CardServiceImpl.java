@@ -32,7 +32,7 @@ public class CardServiceImpl implements CardService {
 	@Autowired
     AdressRepository adressRepository;
 	
-	// Créé un wallet, une card et une adresse associée pour l'user authentifié
+	
 	@Override
 	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user, Long adressId) {
 		
@@ -49,7 +49,7 @@ public class CardServiceImpl implements CardService {
 			Adress adress = new Adress();
 			adress.setFirstName(formRequest.getFirstName());
 			adress.setLastName(formRequest.getLastName());
-			adress.setPhoneNumber(formRequest.getPhoneNumber());
+			adress.setCountryCode(formRequest.getCountryCode());
 			adress.setStreetName(formRequest.getStreetName());
 			adress.setStreetNameOptional(formRequest.getStreetNameOptional());
 			adress.setPostCode(formRequest.getPostCode());
@@ -88,7 +88,7 @@ public class CardServiceImpl implements CardService {
 		Adress adress = new Adress();
 		adress.setFirstName(formRequest.getFirstName());
 		adress.setLastName(formRequest.getLastName());
-		adress.setPhoneNumber(formRequest.getPhoneNumber());
+		adress.setCountryCode(formRequest.getCountryCode());
 		adress.setStreetName(formRequest.getStreetName());
 		adress.setStreetNameOptional(formRequest.getStreetNameOptional());
 		adress.setPostCode(formRequest.getPostCode());
@@ -104,7 +104,7 @@ public class CardServiceImpl implements CardService {
 		
 		
 		Wallet wallet = new Wallet();
-		wallet.setPhoneNumber(formRequest.getPhoneNumber());
+//		wallet.setPhoneNumber(user.getPhoneNumber());
 		
 		walletRepository.save(wallet);
 		

@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdressRepository extends JpaRepository<Adress,Long> {
 	List<Adress> findByUser(User user);
+	  Optional<Adress> findByUserId(Long userId);
 }

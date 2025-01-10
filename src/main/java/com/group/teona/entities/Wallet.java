@@ -52,6 +52,8 @@ public class Wallet implements Serializable {
 	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 	Set<Card> cards = new HashSet<>();
 
+	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+	private Set<VisaCard> visacards = new HashSet<>();
 	
     public void addFunds(double amount) {
         this.count += amount;

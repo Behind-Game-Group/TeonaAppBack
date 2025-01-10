@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"adresses"})
+@JsonIgnoreProperties({"adresses", "wallet"})
 public class User  implements UserDetails{
 	  	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -131,6 +131,21 @@ public class User  implements UserDetails{
 		   return Objects.hashCode(id);
 		 }
 		
-		
+		    @Override
+		    public String toString() {
+		        return "User{" +
+		                "id=" + id + ", " +
+		                "firstName='" + firstName + "', " +
+		                "lastName='" + lastName + "', " +
+		                "gender='" + gender + "', " +
+		                "country='" + country + "', " +
+		                "email='" + email + "', " +
+		                "phoneNumber='" + phoneNumber + "', " +
+		                "adressesSize=" + adresses.size() + ", " + 
+		                "walletId=" + (wallet != null ? wallet.getId() : "None") + ", " + 
+		                "role=" + role + ", " +
+		                "language='" + language + "', " +
+		                "verified=" + verified + "}";
+		    }	
 
 }

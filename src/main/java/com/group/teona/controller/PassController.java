@@ -30,16 +30,15 @@ import com.group.teona.dto.PassRequestDto;
 public class PassController {
 
 	
-@Autowired
-private AdressRepository repository;
+
 	@Autowired
-	private PassService passService;
+	PassService passService;
 	
 	@Autowired
 	UserRepository userRepository;
 	
-	   @Autowired
-	    private UserDetailsService userDetailsService;
+	@Autowired
+	UserDetailsService userDetailsService;
 	
 	@Autowired
 	AdressRepository adressRepository;
@@ -52,9 +51,10 @@ private AdressRepository repository;
 
 	@Autowired
 	private JwtService jwtService;
-
 	
+
 	@PostMapping("/savePass")
+	@CrossOrigin(origins = "http://localhost:8081")
 	public ResponseEntity<?> savePass(@RequestBody PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader) {
 		  try {
 			  System.out.println("Received Authorization Header: " + authorizationHeader);
@@ -97,4 +97,5 @@ private AdressRepository repository;
 
 
 }
+
 }

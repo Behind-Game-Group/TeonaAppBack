@@ -72,5 +72,16 @@ public class Wallet implements Serializable {
     	return Objects.hashCode(id);
     	    }
     
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "id=" + id + ", " +
+                "phoneNumber='" + phoneNumber + "', " +
+                "count=" + count + ", " +
+                "userId=" + (user != null ? user.getId() : "None") + ", " +
+                "cardsSize=" + cards.size() + ", " +  
+                "visacardsSize=" + visacards.size() + "}";
+    }
+    
 }
 

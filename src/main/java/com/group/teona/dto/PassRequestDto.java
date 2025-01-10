@@ -1,6 +1,5 @@
 package com.group.teona.dto;
 
-import com.group.teona.entities.Adress;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;

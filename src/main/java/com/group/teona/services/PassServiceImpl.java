@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.dto.FormTeonaPass;
 import com.group.teona.dto.PassRequestDto;
 import com.group.teona.entities.Adress;
 import com.group.teona.entities.Pass;
@@ -28,15 +29,24 @@ public class PassServiceImpl implements PassService {
 	  
 		@Autowired
 	    WalletRepository walletRepository;
-
+		
+		 @Autowired
+		  private UserRepository userRepository;
 	  
-	    public void savePass(PassRequestDto passRequest, User user,Long adressId) {
+	    public void savePass(PassRequestDto passRequest,  User user,Long adressId) {
+	    	System.out.println("PassRequest: " + passRequest);
+	        System.out.println("User: " + user);
+	        System.out.println("AdressId: " + adressId);
 	    	 if (passRequest == null || user == null || adressId == null ) {
-	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID, or Wallet is null");
+	             throw new IllegalArgumentException("Invalid input: PassRequest, User, Address ID");
 	         }
 	    
+	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId);
 
-	    	
+	          if (optionalAdress.isEmpty()) {
+	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+	          }
+	          Adress adress = optionalAdress.get();
 	    	   
 	    	   Wallet wallet = user.getWallet();
 	           if (wallet == null) {
@@ -46,16 +56,15 @@ public class PassServiceImpl implements PassService {
 	               wallet.setCount(passRequest.getCardPrice());
 	               walletRepository.save(wallet);
 
-	               // Link wallet to user
-	               user.setWallet(wallet);
+	       	               user.setWallet(wallet);
 	           }
-	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
-
-	          if (optionalAdress.isEmpty()) {
-	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
-	          }
-
-	          Adress adress = optionalAdress.get();
+//	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
+//
+//	          if (optionalAdress.isEmpty()) {
+//	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
+//	          }
+//
+//	          Adress adress = optionalAdress.get();
 	          
 	          String cardTitle = passRequest.getCardTitle();
 	          int validityDuration = getValidityDuration(cardTitle);	      

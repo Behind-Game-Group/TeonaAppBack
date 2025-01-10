@@ -47,6 +47,7 @@ public class securityConfig {
             .requestMatchers("/api/adress/saveAddress").permitAll()
             .requestMatchers("/api/adress/getAdress").permitAll()            
             .requestMatchers("/api/add/savePass").permitAll()
+            .requestMatchers("/api/add/deletePass").permitAll()
             .requestMatchers("/api/payment/create-payment-intent").permitAll()
             .requestMatchers("/api/payment/webhook").permitAll()
             .requestMatchers("/api/user/verify").permitAll()

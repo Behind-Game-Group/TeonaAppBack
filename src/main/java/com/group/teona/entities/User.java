@@ -33,8 +33,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"adresses", "wallet"})
-public class User  implements UserDetails{
+@JsonIgnoreProperties({"adresses", "wallet", "journeys"})
+public class User  implements UserDetails {
 	  	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
@@ -76,6 +76,9 @@ public class User  implements UserDetails{
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;
 		
+		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		@JsonManagedReference
+		private Set<Journey> journeys = new HashSet<>();
 		
 		@Lob
 		@Column(name = "role", nullable = false)

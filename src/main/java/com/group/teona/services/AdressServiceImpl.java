@@ -67,31 +67,32 @@ public class AdressServiceImpl implements AdressService {
 	}
 
 
-//	@Override
-//	public Set <GetAdress> getUserAdress (User user) {
-//		
-//		Set <Adress> adresses = user.getAdresses();
-//		Set <GetAdress> getAdresses = new HashSet<>();
-//		
-//		for (Adress adress : adresses) {
-//			GetAdress getAdress = new GetAdress();
-//			getAdress.setId(adress.getId());
-//			getAdress.setFirstName(adress.getFirstName());
-//			getAdress.setLastName(adress.getLastName());
-//			getAdress.setPhoneNumber(adress.getPhoneNumber());
-//			getAdress.setStreetName(adress.getStreetName());
-//			getAdress.setStreetNameOptional(adress.getStreetNameOptional());
-//			getAdress.setPostCode(adress.getPostCode());
-//			getAdress.setCity(adress.getCity());
-//			getAdress.setCountry(adress.getCountry());
-//			
-//			getAdresses.add(getAdress);
-// 
-//			
-//		} 
-//		return getAdresses;
-//		
-//	}
+	@Override
+	public Set <GetAdress> getUserAdress (Long userId) {
+		
+		Optional<User> userToFind = userRepository.findById(userId);
+		User user = userToFind.get();
+		
+		Set <Adress> adresses = user.getAdresses();
+		Set <GetAdress> getAdresses = new HashSet<>();
+		
+		for (Adress adress : adresses) {
+			GetAdress getAdress = new GetAdress();
+			getAdress.setId(adress.getId());
+			getAdress.setFirstName(adress.getFirstName());
+			getAdress.setLastName(adress.getLastName());
+			getAdress.setStreetName(adress.getStreetName());
+			getAdress.setStreetNameOptional(adress.getStreetNameOptional());
+			getAdress.setPostCode(adress.getPostCode());
+			getAdress.setCity(adress.getCity());
+			getAdress.setCountry(adress.getCountry());
+			
+			getAdresses.add(getAdress);
+		
+	} 
+			return getAdresses;
+	
+	}
 
 }	
 

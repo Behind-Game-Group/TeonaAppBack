@@ -126,5 +126,13 @@ public class AdressController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
 	    }
 	}
+	
+	@GetMapping("/getUserAdress")
+	@CrossOrigin(origins = "http://localhost:8081")
+	public ResponseEntity getUserAdress (@RequestParam Long userId) {
+		
+		return ResponseEntity.ok(adressService.getUserAdress(userId));
+	}
+
 
 }

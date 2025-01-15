@@ -72,6 +72,10 @@ public class User  implements UserDetails{
 		@JsonManagedReference
 		private Set<Adress> adresses = new HashSet<>();
 		
+		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		@JsonManagedReference
+		private Set<Journey> journeys = new HashSet<>();
+		
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;

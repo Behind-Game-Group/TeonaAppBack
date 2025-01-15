@@ -17,7 +17,7 @@ public interface AdressService {
 	
 	public Adress saveOrUpdateAddress(FormTeonaPass formRequest, User user);
 
-//	Set <GetAdress> getUserAdress(User user);
+	Set<GetAdress> getUserAdress(Long userId);
 	
 
 }

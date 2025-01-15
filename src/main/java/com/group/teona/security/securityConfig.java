@@ -48,8 +48,11 @@ public class securityConfig {
             .requestMatchers("/api/adress/getAdress").permitAll()            
             .requestMatchers("/api/add/savePass").permitAll()
             .requestMatchers("/api/add/deletePass").permitAll()
+            .requestMatchers("/api/add/has-wallet/**").permitAll()
             .requestMatchers("/api/payment/create-payment-intent").permitAll()
             .requestMatchers("/api/payment/webhook").permitAll()
+            .requestMatchers("/api/visacard/add").permitAll()
+            .requestMatchers("/api/visacard/**").permitAll()
             .requestMatchers("/api/user/verify").permitAll()
                        .anyRequest().authenticated()
             

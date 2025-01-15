@@ -11,5 +11,5 @@ public interface VisaCardService {
 
 	public List<VisaCard> getCardsByWalletId(Long walletId);
 	public VisaCard addVisaCard(Long walletId, String cardOwner, String lastFourDigits);
-	
+	public List<VisaCard> getVisaCardsByWalletId(Long walletId);
 }

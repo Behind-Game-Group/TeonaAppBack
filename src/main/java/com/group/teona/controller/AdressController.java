@@ -71,18 +71,7 @@ public class AdressController {
 	                "message", "Address saved or updated successfully",
 	                "id", updatedAddress.getId()
 	            ));
-//				
-//				Optional<Adress> existingAddress = adressRepository.findByUserId(user.getId());
-//	            if (existingAddress.isPresent()) {
-//	                return ResponseEntity.ok(Map.of(
-//	                        "message", "Address already exists",
-//	                        "id", existingAddress.get().getId()
-//	                ));
-//	            }
-//				Adress savedAddress = adressService.saveOrUpdateAddress (formRequest, user);
-//				return ResponseEntity.ok(Map.of("message", "Address save or updated successfully", "id", savedAddress.getId()
-//
-//				));
+
 
 			}
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");

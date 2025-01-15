@@ -31,13 +31,19 @@ public class VisaCardController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<VisaCard> addCard(
-	        @PathVariable Long walletId,
+	public ResponseEntity<?> addCard(
 	        @RequestBody VisaCardRequest visaCardRequest) {
-		VisaCard visaCard = visaCardService.addVisaCard(walletId, visaCardRequest.getCardOwner(), visaCardRequest.getLastFourDigits());
+	
+		VisaCard visaCard = visaCardService.addVisaCard(visaCardRequest.getWalletId(), visaCardRequest.getCardOwner(), visaCardRequest.getLastFourDigits());
 	    return ResponseEntity.status(HttpStatus.CREATED).body(visaCard);
 	}
 	
+	
+	  @GetMapping("/{walletId}")
+	    public ResponseEntity<List<VisaCard>> getVisaCards(@PathVariable Long walletId) {
+	        List<VisaCard> visaCards = visaCardService.getVisaCardsByWalletId(walletId);
+	        return ResponseEntity.ok(visaCards);
+	    }
 	
 
 }

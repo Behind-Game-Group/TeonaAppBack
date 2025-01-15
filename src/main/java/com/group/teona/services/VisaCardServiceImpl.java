@@ -37,5 +37,13 @@ public class VisaCardServiceImpl implements VisaCardService{
 
 	        return visacardRepository.save(card);
 	}
+	
+	@Override
+	public List<VisaCard> getVisaCardsByWalletId(Long walletId) {
+	    Wallet wallet = walletRepository.findById(walletId)
+	                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+	    return visacardRepository.findByWallet(wallet);
+	}
 
 }

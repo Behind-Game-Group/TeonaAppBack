@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.group.teona.dto.VisaCardRequest;
 import com.group.teona.entities.VisaCard;
+import com.group.teona.entities.Wallet;
 
 public interface VisaCardRepository extends JpaRepository<VisaCard,Long> {
 
 	List<VisaCard> findByWalletId(Long walletId);
+	List<VisaCard> findByWallet(Wallet wallet);
 }

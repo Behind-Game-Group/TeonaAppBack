@@ -1,6 +1,7 @@
 package com.group.teona.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,8 +118,9 @@ public class PassServiceImpl implements PassService {
 	        }
 	    }
 
-	    @Scheduled(cron = "0 0 0 * * ?") 
+	    @Scheduled(cron = "0 * * * * ?") 
 	    public void deactivateExpiredPasses() {
+	    	System.out.println("Scheduler started at: " + LocalDateTime.now());
 	        List<Pass> expiredPasses = passRepository.findAllByExpirationDateBeforeAndIsActiveTrue(LocalDate.now());
 	        for (Pass pass : expiredPasses) {
 	            pass.setActive(false);

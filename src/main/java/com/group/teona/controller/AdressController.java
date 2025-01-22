@@ -128,7 +128,7 @@ public class AdressController {
 	}
 	
 	@GetMapping("/getUserAdress")
-	//@CrossOrigin(origins = "http://localhost:8081")
+	@CrossOrigin(origins = "http://localhost:8081")
 	public ResponseEntity getUserAdress (@RequestParam Long userId) {
 		
 		return ResponseEntity.ok(adressService.getUserAdress(userId));

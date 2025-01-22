@@ -85,6 +85,7 @@ public class AdressServiceImpl implements AdressService {
 			getAdress.setStreetNameOptional(adress.getStreetNameOptional());
 			getAdress.setPostCode(adress.getPostCode());
 			getAdress.setCity(adress.getCity());
+			getAdress.setCountryCode(adress.getCountryCode());
 			getAdress.setCountry(adress.getCountry());
 			
 			getAdresses.add(getAdress);

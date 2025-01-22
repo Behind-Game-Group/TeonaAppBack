@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
@@ -72,7 +73,7 @@ public class User  implements UserDetails{
 		@JsonManagedReference
 		private Set<Adress> adresses = new HashSet<>();
 		
-		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		@ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
 		@JsonManagedReference
 		private Set<Journey> journeys = new HashSet<>();
 		

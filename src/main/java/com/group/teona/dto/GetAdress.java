@@ -19,7 +19,7 @@ public class GetAdress {
 
     private String city;
 
-    private String phoneNumber;
+    private String countryCode;
 
     private String country;   
     

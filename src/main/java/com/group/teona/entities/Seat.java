@@ -31,6 +31,8 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
+	@Column(nullable = false)
+	private String number;
 	
 	@Column(nullable = false)
 	private boolean occuped;

@@ -1,7 +1,10 @@
 package com.group.teona.entities;
 
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -34,14 +37,18 @@ public class Bus {
 	    @Column(nullable = false)
 	    private String numbers;
 	    
-	    
-	    @Column
+	    @Column(nullable = true)
 		@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	    private List<Seat> seats;
 	    
+	    @Column(nullable = true)
+		@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+	    private List<Journey> journeys;
 	    
+	    @Column(nullable = true)
 		@ManyToMany(mappedBy = "bus")
-	    private List<City> cities;
+	    private List<City> cities = new ArrayList<>();
+	    
 	  	
 
 }

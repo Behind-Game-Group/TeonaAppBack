@@ -3,6 +3,9 @@ package com.group.teona.entities;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,11 +37,11 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String name;
 	
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String coordinates;
 	
 	
@@ -50,11 +53,11 @@ public class City {
 		     )
 	private List<Bus> bus;
 	
-	@OneToMany(mappedBy = "cityDepart")
-    private Set<Journey> journeyDepart;
 	
-	@OneToMany(mappedBy = "cityArrival")
-    private Set<Journey> cityArrival;
+	@ManyToMany(mappedBy = "cities")
+	@JsonManagedReference
+    private Set<Journey> journeys;
+	
 	
 
 }

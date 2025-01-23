@@ -49,15 +49,32 @@ public class PassServiceImpl implements PassService {
 	          }
 	          Adress adress = optionalAdress.get();
 	    	   
-	    	   Wallet wallet = user.getWallet();
-	           if (wallet == null) {
-	               wallet = new Wallet();
-	               wallet.setUser(user);
-	               wallet.setPhoneNumber(user.getPhoneNumber());
-	               wallet.setCount(passRequest.getCardPrice());
-	               walletRepository.save(wallet);
-
-	       	               user.setWallet(wallet);
+	          
+	          Pass existingInactivePass = passRepository.findFirstByWalletAndIsActive(user.getWallet(), false);
+	          Wallet wallet;
+	          if (existingInactivePass != null) {
+	              wallet = existingInactivePass.getWallet();
+	          } else {
+	         
+	              wallet = user.getWallet();
+	              if (wallet == null) {
+	                  wallet = new Wallet();
+	                  wallet.setUser(user);
+	                  wallet.setPhoneNumber(user.getPhoneNumber());
+	                  wallet.setCount(passRequest.getCardPrice());
+	                  walletRepository.save(wallet);
+	                  user.setWallet(wallet);
+	              }
+	          
+//	    	   Wallet wallet = user.getWallet();
+//	           if (wallet == null) {
+//	               wallet = new Wallet();
+//	               wallet.setUser(user);
+//	               wallet.setPhoneNumber(user.getPhoneNumber());
+//	               wallet.setCount(passRequest.getCardPrice());
+//	               walletRepository.save(wallet);
+//
+//	       	               user.setWallet(wallet);
 	           }
 //	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
 //
@@ -72,21 +89,22 @@ public class PassServiceImpl implements PassService {
 //	          
 
 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-	          if (hasActivePass) {
-	        	  List<Pass> activePasses = passRepository.findAllByWalletAndIsActive(wallet, true);
-	        	    for (Pass pass : activePasses) {
-	        	        if (pass.getExpirationDate().isBefore(LocalDate.now())) {
-	        	            pass.setActive(false); 
-	        	            passRepository.save(pass);
-	        	        }
-	        	    }
-	        	    
-	        	   
-	        	    hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-	        	    if (hasActivePass) {
-	        	        throw new IllegalStateException("User already has an active pass.");
-	        	    }
-	          }
+//	          if (hasActivePass) {
+//	        	  List<Pass> activePasses = passRepository.findAllByWalletAndIsActive(wallet, true);
+//	        	    for (Pass pass : activePasses) {
+//	        	        if (pass.getExpirationDate().isBefore(LocalDate.now())) {
+//	        	            pass.setActive(false); 
+//	        	            passRepository.save(pass);
+//	        	        }
+//	        	    }
+//	        	    
+//	        	   
+//	        	 
+//	          }
+	          hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+      	    if (hasActivePass) {
+      	        throw new IllegalStateException("User already has an active pass.");
+      	    }
 	          
 	        Pass pass = new Pass();
 	        pass.setCardTitle(passRequest.getCardTitle());

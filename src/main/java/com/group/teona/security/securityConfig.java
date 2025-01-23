@@ -50,6 +50,7 @@ public class securityConfig {
             .requestMatchers("/api/add/deletePass").permitAll()
             .requestMatchers("/api/add/has-wallet/**").permitAll()
             .requestMatchers("/api/payment/create-payment-intent").permitAll()
+            .requestMatchers("/api/payment/confirm-payment").permitAll()
             .requestMatchers("/api/payment/webhook").permitAll()
             .requestMatchers("/api/visacard/add").permitAll()
             .requestMatchers("/api/visacard/**").permitAll()

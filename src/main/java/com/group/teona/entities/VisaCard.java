@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,8 +37,12 @@ public class VisaCard implements Serializable{
 	    @Column(name = "lastFourDigits", nullable = false, length = 4)
 	    private String lastFourDigits;
 
+//	    @Column(name = "type", nullable = false)
+//	    private String type;
+	    
 	    @ManyToOne
 	    @JoinColumn(name = "wallet_id", nullable = false)
+	    @JsonBackReference
 	    private Wallet wallet;
 	 
 	 

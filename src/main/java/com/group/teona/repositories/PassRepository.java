@@ -14,4 +14,5 @@ public interface PassRepository extends JpaRepository<Pass,Long> {
 	List<Pass> findAllByExpirationDateBeforeAndIsActiveTrue(LocalDate date);
 	 List<Pass> findAllByWalletAndIsActive(Wallet wallet, boolean isActive);
     boolean existsByWalletAndIsActive(Wallet wallet, boolean isActive);	
+    Pass findFirstByWalletAndIsActive(Wallet wallet, boolean isActive);
 }

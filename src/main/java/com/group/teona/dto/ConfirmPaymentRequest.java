@@ -1,7 +1,5 @@
 package com.group.teona.dto;
 
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -13,10 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentRequest {
-	private Long amount;
-	private String currency;
+public class ConfirmPaymentRequest {
+	private String clientSecret;
+	private String paymentIntentId;
 	
-
 	
 }

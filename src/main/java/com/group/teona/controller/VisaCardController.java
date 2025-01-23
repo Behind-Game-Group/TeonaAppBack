@@ -44,6 +44,11 @@ public class VisaCardController {
 	        List<VisaCard> visaCards = visaCardService.getVisaCardsByWalletId(walletId);
 	        return ResponseEntity.ok(visaCards);
 	    }
-	
+	  
+	  @GetMapping("/user/{userId}")
+	  public ResponseEntity<List<VisaCard>> getVisaCardsByUserId(@PathVariable Long userId) {
+	      List<VisaCard> visaCards = visaCardService.getVisaCardsByUserId(userId);
+	      return ResponseEntity.ok(visaCards);
+	  }
 
 }

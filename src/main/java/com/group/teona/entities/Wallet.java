@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.jsonwebtoken.lang.Objects;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -47,6 +49,7 @@ public class Wallet implements Serializable {
 	
 	
 	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Pass pass;
 	
 	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)

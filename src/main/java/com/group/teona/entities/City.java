@@ -1,5 +1,7 @@
 package com.group.teona.entities;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +33,13 @@ import lombok.Setter;
 @Table(name = "city")
 @Getter
 @Setter
-public class City {
+public class City implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,19 +51,18 @@ public class City {
 	@Column(nullable = false, unique = true)
 	private String coordinates;
 	
-	
+	//@JsonBackReference("bus-cities")
 	@ManyToMany
 	 @JoinTable(
 		 name = "city_bus", 
 		 joinColumns = { @JoinColumn(name = "city_id") }, 
 		 inverseJoinColumns = { @JoinColumn(name = "bus_id") }
 		     )
-	private List<Bus> bus;
+	private List<Bus> busStop = new ArrayList<>();
 	
-	
+	//@JsonManagedReference("journeys-cities")
 	@ManyToMany(mappedBy = "cities")
-	@JsonManagedReference
-    private Set<Journey> journeys;
+    private List<Journey> journeys = new ArrayList<>();
 	
 	
 

@@ -73,8 +73,8 @@ public class User  implements UserDetails{
 		@JsonManagedReference
 		private Set<Adress> adresses = new HashSet<>();
 		
+		//@JsonManagedReference("user-journeys")
 		@ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
-		@JsonManagedReference
 		private Set<Journey> journeys = new HashSet<>();
 		
 		

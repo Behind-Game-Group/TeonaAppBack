@@ -1,5 +1,6 @@
 package com.group.teona.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,23 +26,21 @@ public class BusServiceImpl implements BusService {
 		
 		Bus bus = new Bus();
 		bus.setNumbers(formBus.getNumbers());
-		/*
-		List<String> cities = formBus.getCities();
-		for (String cityName : cities) {
-			City city = cityRepository.findByName(cityName);
-			bus.getCities().add(city);	
-			
-		}
+		
+		List<Long> citiesID = formBus.getCitiesID();
 
-		List<City> cities = formBus.getCities();
-		for (City city : cities) {
-			City newCity = new City();
-			newCity.setName(city.getName());
-			newCity.setCoordinates(city.getCoordinates());
-			cityRepository.save(newCity);
-			bus.getCities().add(newCity);
-		}
-		*/
+		
+		for (Long cityID : citiesID) {
+			Optional<City> city = cityRepository.findById(cityID);
+			if(city.isPresent()) {
+				City cityFind = city.get();
+				System.out.println(cityFind);
+				bus.getCities().add(cityFind);
+			}
+
+			
+		}	
+			
 		 return busRepository.save(bus);
 
 		}

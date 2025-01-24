@@ -1,6 +1,7 @@
 package com.group.teona.entities;
 
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,19 +35,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Journey {
+public class Journey implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
+
+	//@JsonBackReference("journeys-cities")
 	@ManyToMany
 	 @JoinTable(
-		 name = "journey_city", 
+		 name = "journeys_cities", 
 		 joinColumns = { @JoinColumn(name = "journey_id") }, 
 		 inverseJoinColumns = { @JoinColumn(name = "city_id") }
 		     )
-	@JsonBackReference
 	private List<City> cities = new ArrayList<>();
 	
 	@ManyToOne
@@ -89,7 +95,6 @@ public class Journey {
 	 name = "User_Journey", 
 	 joinColumns = { @JoinColumn(name = "user_id") }, 
 	 inverseJoinColumns = { @JoinColumn(name = "journet_id") })
-    @JsonBackReference
 	private Set <User> user;
 	
 	

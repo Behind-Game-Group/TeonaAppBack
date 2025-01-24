@@ -1,9 +1,11 @@
 package com.group.teona.entities;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -28,9 +30,14 @@ import lombok.Setter;
 @Table(name = "bus")
 @Getter
 @Setter
-public class Bus {
+public class Bus implements Serializable {
 	
-	  @Id
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	  
@@ -45,8 +52,8 @@ public class Bus {
 		@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	    private List<Journey> journeys;
 	    
-	    @Column(nullable = true)
-		@ManyToMany(mappedBy = "bus")
+		//@JsonManagedReference("bus-cities")
+		@ManyToMany(mappedBy = "busStop")
 	    private List<City> cities = new ArrayList<>();
 	    
 	  	

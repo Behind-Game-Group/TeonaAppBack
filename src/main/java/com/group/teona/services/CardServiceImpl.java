@@ -34,7 +34,7 @@ public class CardServiceImpl implements CardService {
 	
 	
 	@Override
-	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user, Long adressId) {
+	public Long saveFormCardWithUser (FormTeonaCard formRequest, User user) {
 		
 		Card teonaCard = new Card();
 		teonaCard.setActive(true);
@@ -42,26 +42,20 @@ public class CardServiceImpl implements CardService {
 		
 		System.out.println(teonaCard.getId());
 		
-		if(adressId != null) {
-			Optional<Adress> adress = adressRepository.findById(adressId);
-			teonaCard.setAdress(adress.get());
-		}
-		else {
-			Adress adress = new Adress();
-			adress.setFirstName(formRequest.getFirstName());
-			adress.setLastName(formRequest.getLastName());
-			adress.setCountryCode(formRequest.getCountryCode());
-			adress.setStreetName(formRequest.getStreetName());
-			adress.setStreetNameOptional(formRequest.getStreetNameOptional());
-			adress.setPostCode(formRequest.getPostCode());
-			adress.setCity(formRequest.getCity());
-			adress.setCountry(formRequest.getCountry());
-			adress.setUser(user);
-			adressRepository.save(adress);
-			 
-			teonaCard.setAdress(adress);
-
-		}
+		
+		Adress adress = new Adress();
+		adress.setFirstName(formRequest.getFirstName());
+		adress.setLastName(formRequest.getLastName());
+		adress.setCountryCode(formRequest.getCountryCode());
+		adress.setStreetName(formRequest.getStreetName());
+		adress.setStreetNameOptional(formRequest.getStreetNameOptional());
+		adress.setPostCode(formRequest.getPostCode());
+		adress.setCity(formRequest.getCity());
+		adress.setCountry(formRequest.getCountry());
+		adress.setUser(user);
+		adressRepository.save(adress);
+		 
+		teonaCard.setAdress(adress);
 		 
 		if (user.getWallet() == null) {
 			Wallet wallet = new Wallet();

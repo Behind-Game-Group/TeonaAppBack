@@ -127,10 +127,12 @@ public class AdressController {
 	    }
 	}
 	
-	@GetMapping("/getUserAdress")
+	@GetMapping("/getAuthAdress")
 	@CrossOrigin(origins = "http://localhost:8081")
-	public ResponseEntity getUserAdress (@RequestParam Long userId) {
+	public ResponseEntity getAuthAdress (Authentication authentication) {
 		
+		Optional <User> user = userRepository.findByEmail(authentication.getName());
+		Long userId = user.get().getId();		
 		return ResponseEntity.ok(adressService.getUserAdress(userId));
 	}
 

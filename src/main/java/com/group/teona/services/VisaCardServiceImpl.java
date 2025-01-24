@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.entities.User;
 import com.group.teona.entities.VisaCard;
 import com.group.teona.entities.Wallet;
+import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.VisaCardRepository;
 import com.group.teona.repositories.WalletRepository;
 
@@ -19,6 +21,9 @@ public class VisaCardServiceImpl implements VisaCardService{
 
     @Autowired
     private WalletRepository walletRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
     
 	@Override
 	public List<VisaCard> getCardsByWalletId(Long walletId) {
@@ -36,6 +41,28 @@ public class VisaCardServiceImpl implements VisaCardService{
 	        card.setWallet(wallet);
 
 	        return visacardRepository.save(card);
+	}
+	
+	@Override
+	public List<VisaCard> getVisaCardsByWalletId(Long walletId) {
+	    Wallet wallet = walletRepository.findById(walletId)
+	                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+	    return visacardRepository.findByWallet(wallet);
+	}
+	
+	@Override
+	public List<VisaCard> getVisaCardsByUserId(Long userId) {
+	    User user = userRepository.findById(userId)
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	    Wallet wallet = user.getWallet();
+	    if (wallet == null) {
+	        throw new RuntimeException("Wallet not found for user");
+	    }
+
+
+	    return visacardRepository.findByWallet(wallet);
 	}
 
 }

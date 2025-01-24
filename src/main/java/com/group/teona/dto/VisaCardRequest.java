@@ -6,6 +6,8 @@ import lombok.Data;
 public class VisaCardRequest {
 	private String cardOwner;
     private String lastFourDigits;
+    private Long walletId;
+
 	
 	
 }

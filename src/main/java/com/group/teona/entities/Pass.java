@@ -3,6 +3,8 @@ package com.group.teona.entities;
 import java.sql.Blob;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.group.teona.enums.EnumSub;
 
 import io.jsonwebtoken.lang.Objects;
@@ -52,10 +54,12 @@ public class Pass {
     
    @OneToOne
    @JoinColumn(name = "wallet_id", nullable = true)
+   @JsonBackReference
 	private Wallet wallet;
    
    @OneToOne
    @JoinColumn(name = "user_id", nullable = false)
+   @JsonIgnore
 	private User user;
 	
 	

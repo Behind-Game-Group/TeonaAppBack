@@ -22,7 +22,7 @@ import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
 import com.group.teona.security.JwtService;
 import com.group.teona.services.PassService;
-
+import com.group.teona.services.StripeService;
 import com.group.teona.dto.PassRequestDto;
 
 @RestController
@@ -52,19 +52,26 @@ public class PassController {
 	@Autowired
 	private JwtService jwtService;
 	
+	@Autowired
+    private StripeService stripeService;
+	
 
 	@PostMapping("/savePass")
-	@CrossOrigin(origins = "http://localhost:8081")
-	public ResponseEntity<?> savePass(@RequestBody PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader) {
+	@CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
+	public ResponseEntity<?> savePass(@RequestBody PassRequestDto passRequest, @RequestHeader(value = "Authorization") String authorizationHeader, @RequestParam("paymentIntentId") String paymentIntentId,@RequestParam("paymentMethodId") String paymentMethodId) {
 		  try {
 			  System.out.println("Received Authorization Header: " + authorizationHeader);
-		        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+			  System.out.println("Received PassRequest: " + passRequest);
+			  System.out.println("Payment Intent ID: " + paymentIntentId);
+			  
+		        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
 		            String token = authorizationHeader.substring(7); 
 
 		           
 		            if (token.split("\\.").length != 3) {
 		                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Malformed JWT token");
 		            }
+		            
 		            String usernameFromToken = jwtService.extractUsername(token);
 	                String emailFromToken = jwtService.extractEmail(token);	                
 	                UserDetails userDetails = userDetailsService.loadUserByUsername(usernameFromToken);
@@ -78,7 +85,7 @@ public class PassController {
 						 	Long adressId = passRequest.getAdressId();
 
 	
-		                passService.savePass(passRequest, user,adressId);
+		                passService.savePass(passRequest, user,adressId, paymentIntentId, paymentMethodId);
 		             
 		                Map<String, Object> response = new HashMap<>();
 		                response.put("message", "Pass saved successfully");

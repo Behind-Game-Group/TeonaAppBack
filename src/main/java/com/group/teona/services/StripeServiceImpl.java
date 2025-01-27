@@ -10,6 +10,7 @@ import com.stripe.param.PaymentIntentConfirmParams;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.PaymentIntentUpdateParams;
 import com.stripe.param.PaymentMethodCreateParams;
+import com.stripe.exception.StripeException;
 
 import jakarta.annotation.PostConstruct;
 
@@ -17,6 +18,7 @@ import com.stripe.exception.*;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -76,6 +78,15 @@ public class StripeServiceImpl  implements StripeService{
       
       }
 
+    public String getPaymentStatus(String paymentIntentId) {
+        try {
+            PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
+            return paymentIntent.getStatus(); 
+        } catch (StripeException e) {
+            throw new IllegalStateException("Error checking payment status", e);
+        }
+    }
+    
 	
     
 }

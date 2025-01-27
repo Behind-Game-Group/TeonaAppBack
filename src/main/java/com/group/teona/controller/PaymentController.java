@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,45 +27,7 @@ public class PaymentController {
 
 	    @PostMapping("/create-payment-intent")
 	    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody PaymentRequest paymentData) {
-//	    	 try {
-//	    		 PaymentRequest.CardDetails cardDetails = paymentData.getCardDetails();
-//	    	        int amount = paymentData.getAmount().intValue();
-//	    	        String currency = paymentData.getCurrency();
-//
-//	    	        Map<String, Object> params = new HashMap<>();
-//	    	        params.put("type", "card");
-//	    	        params.put("card", Map.of(
-//	    	            "number", cardDetails.getNumber(),
-//	    	            "exp_month", cardDetails.getExp_month(),
-//	    	            "exp_year", cardDetails.getExp_year(),
-//	    	            "cvc", cardDetails.getCvc()
-//	    	        ));
-//
-//
-//	    	        // Create PaymentMethod
-//	    	        PaymentMethod paymentMethod = PaymentMethod.create(params);
-//
-//	    	        // Create PaymentIntent with the created PaymentMethod
-//	    	        Map<String, Object> paymentIntentParams = new HashMap<>();
-//	    	        paymentIntentParams.put("amount", amount); // Amount in cents
-//	    	        paymentIntentParams.put("currency", currency);
-//	    	        paymentIntentParams.put("payment_method", paymentMethod.getId());
-//	    	        paymentIntentParams.put("confirmation_method", "automatic");
-//
-//	    	        PaymentIntent paymentIntent = PaymentIntent.create(paymentIntentParams);
-//
-//	    	 
-//	    	        Map<String, Object> response = new HashMap<>();
-//	    	        response.put("payment_intent_id", paymentIntent.getId());
-//	    	        response.put("client_secret", paymentIntent.getClientSecret());
-//	    	        response.put("payment_method_id", paymentMethod.getId()); 
-//
-//	    	        return ResponseEntity.ok(response);
-//	    	    } 
-//	    	  catch (Exception e) {
-//		            e.printStackTrace();
-//		            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
-//		        }
+
 	        
 	    	 try {
 	    		 PaymentIntent paymentIntent = stripeService.createPaymentIntent(paymentData.getAmount(), paymentData.getCurrency());
@@ -105,5 +69,6 @@ public class PaymentController {
 	        }
 	    }
 	    
+
 	    
 }

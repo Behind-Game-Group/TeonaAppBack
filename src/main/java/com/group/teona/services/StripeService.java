@@ -11,4 +11,5 @@ import com.stripe.model.PaymentIntent;
 public interface StripeService {
 	  public PaymentIntent createPaymentIntent(Long amount, String currency) throws StripeException;
 	  public boolean confirmPayment(String paymentIntentId ,String paymentMethodId) throws StripeException;
+	 public String getPaymentStatus(String paymentIntentId) throws StripeException;
 }

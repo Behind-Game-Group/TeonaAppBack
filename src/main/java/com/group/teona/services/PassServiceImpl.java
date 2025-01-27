@@ -19,6 +19,8 @@ import com.group.teona.repositories.AdressRepository;
 import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
+import com.stripe.exception.StripeException;
+
 
 @Service
 public class PassServiceImpl implements PassService {
@@ -33,8 +35,30 @@ public class PassServiceImpl implements PassService {
 		
 		 @Autowired
 		  private UserRepository userRepository;
+		 
+		 @Autowired
+		    private StripeService stripeService;
+		 
 	  
-	    public void savePass(PassRequestDto passRequest,  User user,Long adressId) {
+	    public void savePass(PassRequestDto passRequest,  User user,Long adressId, String paymentIntentId, String paymentMethodId) {
+	    	  try {
+	    	       
+	    	        String paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
+	    	        
+	    	        if ("succeeded".equals(paymentStatus)) {
+	    	            System.out.println("Payment has already been confirmed. Proceeding to save the pass.");
+	    	        } else {
+	    	         
+	    	            boolean paymentSuccess = stripeService.confirmPayment(paymentIntentId, paymentMethodId);
+	    	            if (!paymentSuccess) {
+	    	                throw new IllegalStateException("Payment was not successful. Pass cannot be saved.");
+	    	            }
+	    	        }
+	    	  }
+	    	 catch (StripeException e) {
+	             throw new IllegalStateException("Error while confirming payment", e);
+	         }
+
 	    	System.out.println("PassRequest: " + passRequest);
 	        System.out.println("User: " + user);
 	        System.out.println("AdressId: " + adressId);
@@ -86,22 +110,10 @@ public class PassServiceImpl implements PassService {
 	          
 	          String cardTitle = passRequest.getCardTitle();
 	          int validityDuration = getValidityDuration(cardTitle);	      
-//	          
+       
 
 	          boolean hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
-//	          if (hasActivePass) {
-//	        	  List<Pass> activePasses = passRepository.findAllByWalletAndIsActive(wallet, true);
-//	        	    for (Pass pass : activePasses) {
-//	        	        if (pass.getExpirationDate().isBefore(LocalDate.now())) {
-//	        	            pass.setActive(false); 
-//	        	            passRepository.save(pass);
-//	        	        }
-//	        	    }
-//	        	    
-//	        	   
-//	        	 
-//	          }
-	          hasActivePass = passRepository.existsByWalletAndIsActive(wallet, true);
+
       	    if (hasActivePass) {
       	        throw new IllegalStateException("User already has an active pass.");
       	    }

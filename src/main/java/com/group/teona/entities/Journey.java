@@ -46,7 +46,6 @@ public class Journey implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	//@JsonBackReference("journeys-cities")
 	@ManyToMany
 	 @JoinTable(
 		 name = "journeys_cities", 
@@ -54,6 +53,10 @@ public class Journey implements Serializable {
 		 inverseJoinColumns = { @JoinColumn(name = "city_id") }
 		     )
 	private List<City> cities = new ArrayList<>();
+	
+	@Column
+	private List <LocalDateTime> schedules = new ArrayList<>();
+
 	
 	@ManyToOne
 	@JoinColumn(name = "cityArrival_id")

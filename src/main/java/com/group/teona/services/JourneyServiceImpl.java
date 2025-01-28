@@ -40,10 +40,11 @@ public class JourneyServiceImpl implements JourneyService {
 		journey.setDateArrival(formJourney.getDateArrival());
 		journey.setDuration(Duration.between(journey.getDateDepart(), journey.getDateArrival()));
 		Bus bus = busRepository.findByNumbers(formJourney.getBus());
+		journey.setBus(bus);
 		List<String> cities = formJourney.getCities();
 		for (String city : cities) {
 			City newCity = cityRepository.findByName(city);
-			journey.getCities().add(newCity);
+				journey.getCities().add(newCity);
 			
 		}
 		 return journeyRepository.save(journey);

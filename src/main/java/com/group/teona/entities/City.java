@@ -51,7 +51,6 @@ public class City implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String coordinates;
 	
-	//@JsonBackReference("bus-cities")
 	@ManyToMany
 	 @JoinTable(
 		 name = "city_bus", 
@@ -60,7 +59,6 @@ public class City implements Serializable {
 		     )
 	private List<Bus> busStop = new ArrayList<>();
 	
-	//@JsonManagedReference("journeys-cities")
 	@ManyToMany(mappedBy = "cities")
     private List<Journey> journeys = new ArrayList<>();
 	

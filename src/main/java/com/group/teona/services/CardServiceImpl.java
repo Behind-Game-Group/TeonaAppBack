@@ -99,7 +99,6 @@ public class CardServiceImpl implements CardService {
 		
 		
 		Wallet wallet = new Wallet();
-//		wallet.setPhoneNumber(user.getPhoneNumber());
 		
 		walletRepository.save(wallet);
 		

@@ -41,7 +41,7 @@ public class Bus implements Serializable {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	  
-	    @Column(nullable = false)
+	    @Column(nullable = false, unique = true)
 	    private String numbers;
 	    
 	    @Column(nullable = true)
@@ -52,7 +52,6 @@ public class Bus implements Serializable {
 		@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	    private List<Journey> journeys;
 	    
-		//@JsonManagedReference("bus-cities")
 		@ManyToMany(mappedBy = "busStop")
 	    private List<City> cities = new ArrayList<>();
 	    

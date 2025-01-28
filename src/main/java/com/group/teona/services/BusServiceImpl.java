@@ -41,7 +41,19 @@ public class BusServiceImpl implements BusService {
 			
 		}	
 			
-		 return busRepository.save(bus);
+		  busRepository.save(bus);
+		  
+		  for (Long cityID : citiesID) {
+			  Optional<City> city = cityRepository.findById(cityID);
+				if(city.isPresent()) {
+					City cityFind = city.get();
+					bus.getCities().add(cityFind);
+					cityFind.getBusStop().add(bus);
+					cityRepository.save(cityFind);
+				}
+			
+		}
+		  return bus;
 
 		}
 

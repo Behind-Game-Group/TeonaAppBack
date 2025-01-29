@@ -81,7 +81,6 @@ public class CardController {
 
 					Map<String, Object> response = new HashMap<>();
 					response.put("message", "Card saved successfully");
-					response.put("cardPrice", user.getWallet().getCount());
 
 					return ResponseEntity.ok(response);
 				} else {

@@ -70,18 +70,7 @@ public class PassServiceImpl implements PassService {
 	    	                throw new IllegalStateException("Unknown payment status: " + paymentStatus);
 	    	        }
 
-//	    	        paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
-//	    	        
-//	    	        if ("succeeded".equals(paymentStatus)) {
-//	    	            System.out.println("Payment has already been confirmed. Proceeding to save the pass.");
-//	    	        } else {
-//	    	         
-//	    	            boolean paymentSuccess = stripeService.confirmPayment(paymentIntentId, paymentMethodId);
-//	    	            if (!paymentSuccess) {
-//	    	                throw new IllegalStateException("Payment was not successful. Pass cannot be saved.");
-//	    	            }
-//	    	            paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
-//	    	        }
+
 	    	  }
 	    	 catch (StripeException e) {
 	             throw new IllegalStateException("Error while confirming payment", e);
@@ -113,28 +102,13 @@ public class PassServiceImpl implements PassService {
 	                  wallet = new Wallet();
 	                  wallet.setUser(user);
 	                  wallet.setPhoneNumber(user.getPhoneNumber());
-	                  wallet.setCount(passRequest.getCardPrice());
 	                  walletRepository.save(wallet);
 	                  user.setWallet(wallet);
 	              }
 	          
-//	    	   Wallet wallet = user.getWallet();
-//	           if (wallet == null) {
-//	               wallet = new Wallet();
-//	               wallet.setUser(user);
-//	               wallet.setPhoneNumber(user.getPhoneNumber());
-//	               wallet.setCount(passRequest.getCardPrice());
-//	               walletRepository.save(wallet);
-//
-//	       	               user.setWallet(wallet);
+
 	           }
-//	    	  Optional<Adress> optionalAdress = adressRepository.findById(adressId); 
-//
-//	          if (optionalAdress.isEmpty()) {
-//	              throw new IllegalArgumentException("Address with ID " + adressId + " not found");
-//	          }
-//
-//	          Adress adress = optionalAdress.get();
+
 	          
 	          String cardTitle = passRequest.getCardTitle();
 	          int validityDuration = getValidityDuration(cardTitle);	      

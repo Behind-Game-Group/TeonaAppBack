@@ -36,8 +36,7 @@ public class Wallet implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-    @Column(name = "count", nullable = false)
-	private double count;
+
     
     @Column(name = "phoneNumber", nullable = false, unique = true)
     private String phoneNumber;
@@ -48,9 +47,9 @@ public class Wallet implements Serializable {
 	private User user;
 	
 	
-	@OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Pass pass;
+	private Set<Pass> passes = new HashSet<>();
 	
 	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
 	Set<Card> cards = new HashSet<>();
@@ -58,17 +57,7 @@ public class Wallet implements Serializable {
 	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
 	private Set<VisaCard> visacards = new HashSet<>();
 	
-    public void addFunds(double amount) {
-        this.count += amount;
-    }
-
-    public boolean deductFunds(double amount) {
-        if (amount > this.count) {
-            return false; 
-        }
-        this.count -= amount;
-        return true;
-    }
+  
     
     @Override
     public int hashCode() {
@@ -80,7 +69,6 @@ public class Wallet implements Serializable {
         return "Wallet{" +
                 "id=" + id + ", " +
                 "phoneNumber='" + phoneNumber + "', " +
-                "count=" + count + ", " +
                 "userId=" + (user != null ? user.getId() : "None") + ", " +
                 "cardsSize=" + cards.size() + ", " +  
                 "visacardsSize=" + visacards.size() + "}";

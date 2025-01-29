@@ -88,7 +88,6 @@ public class PassController {
 		             
 		                Map<String, Object> response = new HashMap<>();
 		                response.put("message", "Pass saved successfully");
-		                response.put("cardPrice",user.getWallet().getCount());
 
 		                return ResponseEntity.ok(response);
 		            } else {

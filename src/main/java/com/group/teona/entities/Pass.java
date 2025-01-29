@@ -28,15 +28,13 @@ public class Pass {
     private Long id;
 	    
 
-
       @Lob
 	 @Column(nullable = true, columnDefinition = "LONGBLOB")
 	private Blob image;
 
     @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)
-    private EnumSub subscriptionTime;
-    
+    private EnumSub subscriptionTime;  
 
     
     @Column(name = "date_subscription")
@@ -45,6 +43,9 @@ public class Pass {
     
     @Column(name = "cardTitle", nullable = true)
     private String cardTitle;
+    
+    @Column(name = "paymentStatus", nullable = true)
+    private String paymentStatus;
     
 	@Column(name = "cardPrice", nullable = true)
 	private Double cardPrice;

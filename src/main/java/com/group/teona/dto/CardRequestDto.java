@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PassRequestDto  {
-    private String cardTitle;
-    private Double cardPrice;
+public class CardRequestDto {
+	private String cardTitle;
     private boolean isActive;
     private Long adressId; 
     private Long walletId;
-    private String image;
+    private String topUp;
+    private Double cardPrice;
     private String paymentStatus;
 }

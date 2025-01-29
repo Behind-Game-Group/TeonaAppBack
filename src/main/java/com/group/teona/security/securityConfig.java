@@ -43,7 +43,7 @@ public class securityConfig {
             .requestMatchers("/api/user/login").permitAll()
             .requestMatchers("/api/user/forgot-password").permitAll()
             .requestMatchers("/api/user/reset-password").permitAll()
-            .requestMatchers("/api/add/card/**").permitAll()
+            .requestMatchers("/api/add/savePass/**").permitAll()
             .requestMatchers("/api/adress/saveAddress").permitAll()
             .requestMatchers("/api/adress/getAdress").permitAll()            
             .requestMatchers("/api/add/savePass/**").permitAll()

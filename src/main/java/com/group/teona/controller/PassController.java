@@ -52,8 +52,7 @@ public class PassController {
 	@Autowired
 	private JwtService jwtService;
 	
-	@Autowired
-    private StripeService stripeService;
+	
 	
 
 	@PostMapping("/savePass")

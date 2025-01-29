@@ -41,19 +41,47 @@ public class PassServiceImpl implements PassService {
 		 
 	  
 	    public void savePass(PassRequestDto passRequest,  User user,Long adressId, String paymentIntentId, String paymentMethodId) {
+	    	String paymentStatus = null;
 	    	  try {
-	    	       
-	    	        String paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
-	    	        
-	    	        if ("succeeded".equals(paymentStatus)) {
-	    	            System.out.println("Payment has already been confirmed. Proceeding to save the pass.");
-	    	        } else {
-	    	         
-	    	            boolean paymentSuccess = stripeService.confirmPayment(paymentIntentId, paymentMethodId);
-	    	            if (!paymentSuccess) {
-	    	                throw new IllegalStateException("Payment was not successful. Pass cannot be saved.");
-	    	            }
+	    		  paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
+	    	        System.out.println("Payment Status: " + paymentStatus);
+
+	    	        switch (paymentStatus) {
+	    	            case "succeeded":
+	    	                System.out.println("Payment confirmed. Proceeding to save the pass.");
+	    	                break;
+
+	    	            case "requires_payment_method":
+	    	                throw new IllegalStateException("Payment failed: Invalid payment method or card declined.");
+
+	    	            case "requires_action":
+	    	                throw new IllegalStateException("Payment requires user authentication. Please complete authentication.");
+
+	    	            case "processing":
+	    	                throw new IllegalStateException("Payment is still processing. Please wait and try again.");
+
+	    	            case "canceled":
+	    	                throw new IllegalStateException("Payment was canceled by the user.");
+
+	    	            case "requires_capture":
+	    	                throw new IllegalStateException("Payment needs manual capture. Please capture the payment in Stripe.");
+
+	    	            default:
+	    	                throw new IllegalStateException("Unknown payment status: " + paymentStatus);
 	    	        }
+
+//	    	        paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
+//	    	        
+//	    	        if ("succeeded".equals(paymentStatus)) {
+//	    	            System.out.println("Payment has already been confirmed. Proceeding to save the pass.");
+//	    	        } else {
+//	    	         
+//	    	            boolean paymentSuccess = stripeService.confirmPayment(paymentIntentId, paymentMethodId);
+//	    	            if (!paymentSuccess) {
+//	    	                throw new IllegalStateException("Payment was not successful. Pass cannot be saved.");
+//	    	            }
+//	    	            paymentStatus = stripeService.getPaymentStatus(paymentIntentId);
+//	    	        }
 	    	  }
 	    	 catch (StripeException e) {
 	             throw new IllegalStateException("Error while confirming payment", e);
@@ -122,13 +150,15 @@ public class PassServiceImpl implements PassService {
 	        pass.setCardTitle(passRequest.getCardTitle());
 	        pass.setDateSubscription(LocalDate.now());
 	        pass.setCardPrice(passRequest.getCardPrice());
-	        pass.setActive(true);
+	        pass.setActive("succeeded".equals(paymentStatus));
 	        pass.setAdress(adress);
 	        pass.setWallet(wallet);
 	        pass.setUser(user);
 	        pass.setValidityDuration(validityDuration);
 	        LocalDate expirationDate = LocalDate.now().plusDays(validityDuration);
 	          pass.setExpirationDate(expirationDate);; 
+	        
+			pass.setPaymentStatus(paymentStatus); 
 
 	        passRepository.save(pass);
 	    }

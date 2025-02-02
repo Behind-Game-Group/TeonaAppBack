@@ -51,6 +51,7 @@ public class City implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String coordinates;
 	
+	/*
 	@ManyToMany
 	 @JoinTable(
 		 name = "city_bus", 
@@ -61,7 +62,11 @@ public class City implements Serializable {
 	
 	@ManyToMany(mappedBy = "cities")
     private List<Journey> journeys = new ArrayList<>();
+	*/
 	
+	@Column(nullable = true)
+	@OneToMany(mappedBy = "city")
+	private List<Station> stations;
 	
 
 }

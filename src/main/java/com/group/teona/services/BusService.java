@@ -3,8 +3,8 @@ package com.group.teona.services;
 
 import org.springframework.stereotype.Service;
 
-import com.group.teona.dto.FormBus;
 import com.group.teona.entities.Bus;
+import com.group.teona.form.FormBus;
 
 
 

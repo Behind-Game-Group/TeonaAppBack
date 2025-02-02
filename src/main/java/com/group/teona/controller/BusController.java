@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group.teona.dto.FormBus;
 import com.group.teona.entities.Bus;
 import com.group.teona.entities.City;
+import com.group.teona.form.FormBus;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.BusService;
 import com.group.teona.services.CityService;

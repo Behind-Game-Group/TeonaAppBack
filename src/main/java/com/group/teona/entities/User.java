@@ -20,6 +20,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
@@ -73,10 +75,8 @@ public class User  implements UserDetails{
 		@JsonManagedReference
 		private Set<Adress> adresses = new HashSet<>();
 		
-		//@JsonManagedReference("user-journeys")
-		@ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
-		private Set<Journey> journeys = new HashSet<>();
-		
+		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+		private Set<Reservation> reservations;
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 		private Wallet wallet;

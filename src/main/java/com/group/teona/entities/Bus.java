@@ -51,10 +51,10 @@ public class Bus implements Serializable {
 	    @Column(nullable = true)
 		@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
 	    private List<Journey> journeys;
-	    
+	    /*
 		@ManyToMany(mappedBy = "busStop")
 	    private List<City> cities = new ArrayList<>();
-	    
+	    */
 	  	
 
 }

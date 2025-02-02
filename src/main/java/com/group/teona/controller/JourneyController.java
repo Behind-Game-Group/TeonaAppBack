@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.group.teona.dto.FormAddJourney;
-import com.group.teona.dto.FormAddUserJourney;
 import com.group.teona.entities.User;
+import com.group.teona.form.FormAddJourney;
+import com.group.teona.form.FormAddReservation;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.services.JourneyService;
 
@@ -36,8 +36,9 @@ public class JourneyController {
 
 	}
 	
+	
 	@PutMapping("/user/journey")
-	public ResponseEntity addJourneyUser (Authentication authentication, @RequestParam Long journeyId,  @RequestBody FormAddUserJourney userJourneyDto) {
+	public ResponseEntity addJourneyUser (Authentication authentication, @RequestParam Long journeyId,  @RequestBody FormAddReservation userJourneyDto) {
     	
 		if(authentication != null) {
 	    	
@@ -45,7 +46,7 @@ public class JourneyController {
 		    	
 		    	if(userFind.isPresent()) {
 		    		Long userID = userFind.get().getId();
-		    		journeyService.addJourneyUser(userID, journeyId, userJourneyDto);
+		    		//journeyService.addJourneyUser(userID, journeyId, userJourneyDto);
 		    		return ResponseEntity.ok("");
 		    	}
 		    	
@@ -58,28 +59,6 @@ public class JourneyController {
 
 	}
 	
-	/*
-	 
-		@PostMapping("card")
-	    public ResponseEntity saveFormWithCard(Authentication authentication, @RequestBody(required = false) FormTeonaCard formRequest,
-	    		@RequestParam (required = false) Long adressId ) {
-			
-			if(authentication != null) {
-	    	
-		    	Optional<User> userFind = userRepository.findByEmail(authentication.getName());
-		    	
-		    	if(userFind.isPresent()) {
-		    				    	
-			    	return ResponseEntity.ok(cardService.saveFormCardWithUser(formRequest, userFind.get(), adressId));
-		    	}
-		    	
-		        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
-			}
-					return ResponseEntity.ok(cardService.saveFormCardWithoutUser(formRequest));
-
-	    }
-	    
-	    */
 
 	
 	

@@ -1,8 +1,9 @@
 package com.group.teona.entities;
 
-
-import java.sql.Time;
-import java.time.LocalDate;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,23 +26,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Seat {
+public class Station {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(nullable = false)
-	private String number;
-	
-	@Column(nullable = false)
-	private boolean occuped;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bus_id", nullable = true) 
-    private Bus bus;
+    @JoinColumn(name = "city_id") 
+	private City city;
 	
-	@OneToOne(mappedBy = "seat")
-	private Station station;
+	@Column
+	private LocalDateTime schedules;
+	
+	@ManyToOne
+    @JoinColumn(name = "journey_id") 
+    private Journey journey;
+	
+	@OneToOne
+	@JoinColumn(name = "seat_id")
+	private Seat seat;
 
 }

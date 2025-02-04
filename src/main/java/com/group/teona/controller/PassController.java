@@ -21,6 +21,7 @@ import com.group.teona.repositories.PassRepository;
 import com.group.teona.repositories.UserRepository;
 import com.group.teona.repositories.WalletRepository;
 import com.group.teona.security.JwtService;
+import com.group.teona.services.EmailService;
 import com.group.teona.services.PassService;
 import com.group.teona.services.StripeService;
 import com.group.teona.dto.PassRequestDto;
@@ -52,7 +53,8 @@ public class PassController {
 	@Autowired
 	private JwtService jwtService;
 	
-	
+	@Autowired
+	private  EmailService emailService;
 	
 
 	@PostMapping("/savePass")
@@ -85,9 +87,19 @@ public class PassController {
 
 	
 		                passService.savePass(passRequest, user,adressId, paymentIntentId, paymentMethodId);
+		                
+		                boolean emailSent = emailService.sendInvoiceEmail(
+		                        emailFromToken,
+		                        passRequest.getCardTitle(),
+		                        passRequest.getCardPrice(),
+		                        String.valueOf(adressId)
+		                );
+		                
 		             
 		                Map<String, Object> response = new HashMap<>();
 		                response.put("message", "Pass saved successfully");
+//		                response.put("emailSent", emailSent ? "Invoice email sent" : "Failed to send invoice email");
+		                response.put("emailSent", emailSent);
 
 		                return ResponseEntity.ok(response);
 		            } else {

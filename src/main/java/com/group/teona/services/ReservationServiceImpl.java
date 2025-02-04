@@ -71,42 +71,21 @@ public class ReservationServiceImpl implements ReservationService {
 				reservation.getStations().add(station);				
 			}
 		}
-		/*
-		boolean stationDepart = false;
-		boolean stationArrival = false;
-		
-		// Cherche une station du trajet avec ville et horaire compatible avec le formAddReservation 
-		
-		for (Station station : journey.getStations()) {
-			if(station.getCity().equals(formAddReservation.getCityDeparture()) 
-			   && station.getSchedules().toLocalDate().equals(formAddReservation.getDate())) {
-				stationDepart = true;
-				reservation.getStations().add(station);
-			}
-		}
-		
-		for (Station station : journey.getStations()) {
-			if(station.getCity().equals(formAddReservation.getCityArrival()) 
-			   && ) {
-				stationArrival = true;
-			}
-		}
-		*/
-		
-		/*
-		if(journey.getDateDepart().toLocalDate().isEqual(reservation.getDate())) {
-			if() {
 				
-			}
-		}
-		else {
-			throw new Error("Date incompatible");
-		}
-		*/
-		
 		reservation.setAdult(formAddReservation.isAdult());
 		reservation.setChildren(formAddReservation.isChildren());
 		reservation.setWithBike(formAddReservation.isWithBike());
+		
+		reservation.setFinalPrice( (journey.getPrice() / journey.getStations().size() ) * reservation.getStations().size() );
+		
+		if(reservation.isChildren()) {
+			reservation.setFinalPrice((reservation.getFinalPrice() * 0.5));
+		}
+		if(reservation.isWithBike()) {
+			reservation.setFinalPrice((reservation.getFinalPrice() * 1.5));
+
+		}
+		
 		
 		return reservationRepository.save(reservation);
 	}

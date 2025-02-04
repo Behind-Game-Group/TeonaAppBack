@@ -14,6 +14,8 @@ public class FormAddJourney {
 	
 	private String bus;
 	
+	private double price;
+	
 	
 
 

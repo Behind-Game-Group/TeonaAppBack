@@ -1,6 +1,8 @@
 package com.group.teona.services;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.group.teona.dto.GetJourney;
+import com.group.teona.dto.GetStation;
 import com.group.teona.entities.Bus;
 import com.group.teona.entities.City;
 import com.group.teona.entities.Journey;
@@ -41,7 +45,7 @@ public class JourneyServiceImpl implements JourneyService {
 	@Autowired
     StationRepository stationRepository;
 	
-	
+	@Override
 	public Journey addJourney (FormAddJourney formJourney) {
 		Journey journey = new Journey();
 		Bus bus = busRepository.findByNumbers(formJourney.getBus());
@@ -63,7 +67,7 @@ public class JourneyServiceImpl implements JourneyService {
 		journey.setDateDepart(journey.getStations().getFirst().getSchedules());
 		journey.setDateArrival(journey.getStations().getLast().getSchedules());
 		journey.setDuration(Duration.between(journey.getDateDepart(), journey.getDateArrival()));
-		journey.setPrice(25 * journey.getStations().size() );
+		journey.setPrice(formJourney.getPrice());
 				
 		 journeyRepository.save(journey);
 		
@@ -73,6 +77,72 @@ public class JourneyServiceImpl implements JourneyService {
 		 }
 		 
 		 return journey;
+	}
+	
+	@Override
+	public List<GetJourney> getJourney (String CityDeparture, String CityArrival, LocalDate dateDepart) {
+		
+		List <String> cities = new ArrayList<>();
+		cities.add(CityDeparture);
+		cities.add(CityArrival);
+		System.out.println(CityDeparture);
+		
+		
+		LocalDateTime startOfDay = dateDepart.atStartOfDay();
+		LocalDateTime startOfNextDay = dateDepart.plusDays(1).atStartOfDay();
+		System.out.println(startOfDay);	
+		System.out.println(startOfNextDay);	
+
+		
+		List <Journey> journeys = journeyRepository.findJourneysByAttributes(cities, startOfDay, startOfNextDay);
+		
+		List <GetJourney> getJourneys = new ArrayList<>();
+		
+		for (Journey journey : journeys) {
+			GetJourney getJourney = new GetJourney();
+			getJourney.setId(journey.getId());
+			getJourney.setBusNumber(journey.getBus().getNumbers());
+			
+			// Ajoute les stations du trajet qui contiennent les villes entrées
+			for (Station station : journey.getStations()) {
+				if(station.getCity().getName().equals(CityDeparture) || station.getCity().getName().equals(CityArrival) ) {
+					getJourney.getStations().add(station);
+				}
+			}
+			
+			// Trie les stations récupérées par horaires
+			getJourney.getStations().sort(Comparator.comparing(Station::getSchedules));
+			
+			// Ajoute les stations de trajet entre les stations des villes entrées
+			for (Station station : journey.getStations()) {
+				if(station.getSchedules().isAfter(getJourney.getStations().getFirst().getSchedules()) &&
+					station.getSchedules().isBefore(getJourney.getStations().getLast().getSchedules())) {
+					
+					getJourney.getStations().add(station);
+
+				}
+			}
+			getJourney.setDateDepart(getJourney.getStations().getFirst().getSchedules());
+			getJourney.setDateArrival(getJourney.getStations().getLast().getSchedules());
+			getJourney.setDuration(Duration.between(getJourney.getDateDepart(), getJourney.getDateArrival()));
+			getJourney.setPrice( (journey.getPrice() / journey.getStations().size() ) * getJourney.getStations().size() );
+			
+			for (Station station : getJourney.getStations()) {
+				 GetStation getStation = new GetStation();
+				 getStation.setCity(station.getCity().getName());
+				 getStation.setSchedules(station.getSchedules());
+				 getJourney.getGetStations().add(getStation);
+							
+						}
+			
+			getJourney.setStations(null);
+			getJourneys.add(getJourney);
+			
+			
+		}
+		
+		return getJourneys;
+		
 	}
 	
 

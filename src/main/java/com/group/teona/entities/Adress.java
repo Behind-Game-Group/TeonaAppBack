@@ -60,7 +60,7 @@ public class Adress implements Serializable {
 	    @Column(nullable = false)
 	    private String city;
 
-	    @Column(nullable = true, unique = true)
+	    @Column(nullable = true, unique = false)
 	    private String countryCode;
 
 	    @Column(nullable = false)

@@ -45,6 +45,7 @@ public class securityConfig {
             .requestMatchers("/api/user/reset-password").permitAll()
             .requestMatchers("/api/add/savePass/**").permitAll()
             .requestMatchers("/api/adress/saveAddress").permitAll()
+            .requestMatchers("/api/adress/uploads/**").permitAll()
             .requestMatchers("/api/adress/getAdress").permitAll()            
             .requestMatchers("/api/add/savePass/**").permitAll()
             .requestMatchers("/api/add/deletePass").permitAll()

@@ -39,6 +39,7 @@ public class AdressServiceImpl implements AdressService {
 		    	  Adress existingAddress = existingAddressOpt.get();
 		          existingAddress.setFirstName(formRequest.getFirstName());
 		          existingAddress.setLastName(formRequest.getLastName());
+		          existingAddress.setImage(formRequest.getImage());
 		          existingAddress.setStreetName(formRequest.getStreetName());
 		          existingAddress.setStreetNameOptional(formRequest.getStreetNameOptional());
 		          existingAddress.setPostCode(formRequest.getPostCode());
@@ -52,6 +53,7 @@ public class AdressServiceImpl implements AdressService {
         Adress address = new Adress();
         address.setFirstName(formRequest.getFirstName());
         address.setLastName(formRequest.getLastName());
+        address.setImage(formRequest.getImage());
         address.setStreetName(formRequest.getStreetName());
         address.setStreetNameOptional(formRequest.getStreetNameOptional());
         address.setPostCode(formRequest.getPostCode());

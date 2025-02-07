@@ -44,6 +44,7 @@ public class Wallet implements Serializable {
     
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = true)
+	@JsonIgnore
 	private User user;
 	
 	
@@ -52,9 +53,11 @@ public class Wallet implements Serializable {
 	private Set<Pass> passes = new HashSet<>();
 	
 	@OneToMany( mappedBy = "wallet", cascade = CascadeType.ALL)
+	@JsonIgnore
 	Set<Card> cards = new HashSet<>();
 
 	@OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+	
 	private Set<VisaCard> visacards = new HashSet<>();
 	
   

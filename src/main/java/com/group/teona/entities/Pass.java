@@ -28,9 +28,7 @@ public class Pass {
     private Long id;
 	    
 
-      @Lob
-	 @Column(nullable = true, columnDefinition = "LONGBLOB")
-	private Blob image;
+
 
     @Column(name = "subscription_time", nullable = true)
 	@Enumerated(EnumType.STRING)

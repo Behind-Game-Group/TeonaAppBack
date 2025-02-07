@@ -19,8 +19,7 @@ public interface JourneyRepository extends JpaRepository<Journey,Long> {
 										   @Param("startDate") LocalDateTime startDate,
 										   @Param("endDate") LocalDateTime endDate);
 	
-	@Query("SELECT j FROM Journey j JOIN j.stations s JOIN s.city c WHERE c.name IN :cityNames")
-	List<Journey> findJourneysByAttribute(@Param("cityNames") List<String> cityNames);
+	
 	
 	
 

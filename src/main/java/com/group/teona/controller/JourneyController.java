@@ -47,7 +47,7 @@ public class JourneyController {
 	public ResponseEntity getJourneys (@RequestParam String CityDeparture, @RequestParam String CityArrival, 
 			@RequestParam LocalDate dateDepart ) {
 		
-		System.out.println(CityDeparture);
+		
 		return ResponseEntity.ok(journeyService.getJourney(CityDeparture, 
 														   CityArrival,
 														   dateDepart));

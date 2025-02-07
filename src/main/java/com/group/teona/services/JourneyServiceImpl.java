@@ -85,14 +85,15 @@ public class JourneyServiceImpl implements JourneyService {
 		List <String> cities = new ArrayList<>();
 		cities.add(CityDeparture);
 		cities.add(CityArrival);
-		System.out.println(CityDeparture);
+		System.out.println("cityArrival : " + CityArrival);
 		
 		
 		LocalDateTime startOfDay = dateDepart.atStartOfDay();
 		LocalDateTime startOfNextDay = dateDepart.plusDays(1).atStartOfDay();
+		/*
 		System.out.println(startOfDay);	
 		System.out.println(startOfNextDay);	
-
+		*/
 		
 		List <Journey> journeys = journeyRepository.findJourneysByAttributes(cities, startOfDay, startOfNextDay);
 		
@@ -105,7 +106,9 @@ public class JourneyServiceImpl implements JourneyService {
 			
 			// Ajoute les stations du trajet qui contiennent les villes entrées
 			for (Station station : journey.getStations()) {
-				if(station.getCity().getName().equals(CityDeparture) || station.getCity().getName().equals(CityArrival) ) {
+				
+				if(station.getCity().getName().equals(CityDeparture) || station.getCity().getName().equals(CityArrival)) {
+					System.out.println("ajouté : " + station.getCity().getName());
 					getJourney.getStations().add(station);
 				}
 			}
@@ -136,6 +139,7 @@ public class JourneyServiceImpl implements JourneyService {
 						}
 			
 			getJourney.setStations(null);
+			getJourney.getGetStations().sort(Comparator.comparing(GetStation::getSchedules));
 			getJourneys.add(getJourney);
 			
 			

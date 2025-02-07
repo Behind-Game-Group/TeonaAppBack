@@ -31,7 +31,9 @@ public class GetJourney {
 	
     private List<Station> stations = new ArrayList<>(); 
     
-    private List<GetStation> getStations = new ArrayList<>(); 
+    private List<GetStation> getStations = new ArrayList<>();
+
+	
 
     
 

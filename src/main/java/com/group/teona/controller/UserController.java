@@ -65,7 +65,7 @@ public class UserController {
 
 		userService.signUp(user);
 
-		boolean emailSent = emailService.sendVerificationEmail(user.getEmail(), verificationCode);
+		boolean emailSent = emailService.sendVerificationEmail(user.getEmail(), user.getVerificationCode());
 		if (!emailSent) {
 			Map<String, String> response = new HashMap<>();
 			response.put("status", "error");

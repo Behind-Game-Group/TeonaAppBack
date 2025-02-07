@@ -74,6 +74,7 @@ public class User  implements UserDetails{
 		
 		
 		@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+		@JsonManagedReference
 		private Wallet wallet;
 		
 		

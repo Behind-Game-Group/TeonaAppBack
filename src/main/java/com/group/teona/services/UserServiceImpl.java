@@ -53,10 +53,12 @@ public class UserServiceImpl implements UserService{
 		        roles.add(EnumRole.USER); 
 		        user.setRole(roles);
 			   
-          userRepository.save(user);
+          return userRepository.save(user);
 
 
-	       return  user;}  
+	       
+	       
+	          }  
 	    	  
 	         
 	    }

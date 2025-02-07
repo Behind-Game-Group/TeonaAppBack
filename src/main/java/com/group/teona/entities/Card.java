@@ -49,6 +49,7 @@ public class Card {
 	
 	@ManyToOne
 	@JoinColumn(name = "wallet_id", nullable = true)
+	@JsonIgnore
 	private Wallet wallet;
 	
 	@ManyToOne
